@@ -68,6 +68,7 @@ Bridge permission is not user approval. Live publishing and other materially con
 | [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, defaults, decision model, quality requirements, and completion criteria |
 | [`SKILL.md`](./SKILL.md) | Compact runtime control plane |
 | [`references/`](./references/) | Shallow conditional guidance loaded only when useful |
+| [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release and `skill.zip` asset |
 | [Issue #1](https://github.com/ach1992/wp-native-builder/issues/1) | v0.1 program/outcome |
 | [Issue #4](https://github.com/ach1992/wp-native-builder/issues/4) | Packaging and first-release status |
 | [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge |
@@ -86,4 +87,4 @@ This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
 
 ## Current state
 
-The v0.1 Skill source is implemented, evaluated against the representative workflow set, structurally validated, and licensed under MIT. A validated `skill.zip` release candidate is ready for the approved public v0.1 release; connected-mode runtime validation remains dependent on the companion bridge implementation.
+`v0.1` is publicly released with the validated `skill.zip` artifact and MIT License. Manual mode is independently usable; connected-mode runtime validation remains dependent on the companion bridge implementation.
