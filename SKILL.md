@@ -54,6 +54,8 @@ Treat these as defaults, never as requirements that override an existing site's 
 
 Choose the output that is easiest to execute and maintain:
 
+- For modifications, inspect the current implementation first when it is available. If it is unavailable, ask only for the exact page/section state needed to make the targeted change safely.
+- For review requests, return prioritized, implementation-aware findings and concrete next actions instead of a generic checklist.
 - For native Gutenberg work, provide the exact block hierarchy plus the important settings/content needed to reproduce it.
 - For Astra/plugin work, provide the exact relevant configuration path and values without restating unrelated settings.
 - For Custom HTML sections, return logical sections separately so each can normally be pasted into its own Gutenberg Custom HTML block.
