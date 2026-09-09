@@ -80,6 +80,10 @@ For a release, stage those distributable paths under a directory named `wp-nativ
 
 The project intentionally keeps `SKILL.md` high-signal and uses only shallow references that materially improve model decisions.
 
+## License
+
+This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
+
 ## Current state
 
-The v0.1 Skill source is implemented, evaluated against the representative workflow set, and structurally validated. A validated `skill.zip` release candidate is ready. The first public release remains gated on the owner-selected repository license; connected-mode runtime validation remains dependent on the companion bridge implementation.
+The v0.1 Skill source is implemented, evaluated against the representative workflow set, structurally validated, and licensed under MIT. A validated `skill.zip` release candidate is ready for the approved public v0.1 release; connected-mode runtime validation remains dependent on the companion bridge implementation.
