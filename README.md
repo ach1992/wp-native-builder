@@ -74,7 +74,9 @@ Bridge permission is not user approval. Live publishing and other materially con
 
 ## Release model
 
-The repository root is the source Skill directory. Release artifacts are generated from this source using the standard ChatGPT Skill validation/package flow and are published as `skill.zip`; generated ZIP files are not committed to the source tree.
+The distributable Skill contains only `SKILL.md`, `agents/`, and `references/`. Repository-only project documentation such as this README and `MASTER-SPEC.md` is not bundled into `skill.zip`.
+
+For a release, stage those distributable paths under a directory named `wp-native-builder`, run the standard ChatGPT Skill validation/package flow on that directory, and publish the resulting artifact as `skill.zip`. Generated ZIP files are not committed to the source tree.
 
 The project intentionally keeps `SKILL.md` high-signal and uses only shallow references that materially improve model decisions.
 
