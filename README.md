@@ -56,4 +56,4 @@ The project intentionally avoids a large instruction corpus. `SKILL.md` should r
 
 ## Current state
 
-Project specification and implementation backlog are established. The installable Skill has not been built yet.
+The first compact Skill core is implemented and structurally validated. Representative workflow evaluation and refinement are tracked in Issue #3; packaging, release documentation, license resolution, and the first public release remain tracked in Issue #4.
