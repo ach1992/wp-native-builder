@@ -27,33 +27,57 @@ Custom HTML is supported but is not the default answer. When it is appropriate, 
 - Gravity Forms
 - Astra-native header/footer/global mechanisms where appropriate
 
-## Connected mode
+These are defaults, not requirements. Explicit project instructions and verified site state take precedence.
 
-The companion [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) project provides a free self-hosted WordPress connection so the Skill can inspect and perform supported WordPress operations instead of requiring manual admin work.
+## Install in ChatGPT
 
-Live publishing remains behind explicit user approval even when the bridge technically exposes the operation.
+On a ChatGPT workspace where Skills and Skill uploads are available:
+
+1. Download the release asset named `skill.zip`.
+2. In ChatGPT, open **Plugins -> Skills**.
+3. Select **Create -> Upload from your computer** and choose `skill.zip`.
+4. Complete ChatGPT's scan/install flow.
+
+After installation, ChatGPT can invoke the Skill automatically for relevant WordPress work, or you can select it explicitly with `@WP Native Builder`.
+
+Current OpenAI installation guidance: [Skills in ChatGPT](https://help.openai.com/en/articles/20001066).
+
+## Use
+
+Ask naturally for WordPress design or implementation work, for example:
+
+- `Design a Persian RTL landing page using my normal Astra/Gutenberg setup.`
+- `Build this page with native Gutenberg blocks where possible.`
+- `Return the custom sections block-by-block for Gutenberg.`
+- `Review this page and prioritize the changes I should make.`
+
+The Skill asks only for material context that is missing and cannot be discovered from a connected site.
+
+## Manual and connected modes
+
+**Manual mode requires no bridge.** The Skill can provide exact Gutenberg block structures, Astra/plugin configuration, and complete scoped Custom HTML/CSS/JS sections when custom code is justified.
+
+For connected work, use the companion [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) project. A working bridge connection lets the Skill inspect current site state and use the abilities actually exposed by that site. See the companion repository for its current implementation and setup status.
+
+Bridge permission is not user approval. Live publishing and other materially consequential/global/destructive site actions still require explicit current approval immediately before the action.
 
 ## Project map
 
 | Source | Purpose |
 |---|---|
 | [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, defaults, decision model, quality requirements, and completion criteria |
+| [`SKILL.md`](./SKILL.md) | Compact runtime control plane |
+| [`references/`](./references/) | Shallow conditional guidance loaded only when useful |
 | [Issue #1](https://github.com/ach1992/wp-native-builder/issues/1) | v0.1 program/outcome |
-| [Issue #2](https://github.com/ach1992/wp-native-builder/issues/2) | Implement compact Skill core |
-| [Issue #3](https://github.com/ach1992/wp-native-builder/issues/3) | Evaluate real workflows and remove model friction |
-| [Issue #4](https://github.com/ach1992/wp-native-builder/issues/4) | Package, document, and release v0.1 |
-| [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Companion self-hosted WordPress MCP/Abilities bridge |
+| [Issue #4](https://github.com/ach1992/wp-native-builder/issues/4) | Packaging and first-release status |
+| [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge |
 
-## Development path
+## Release model
 
-```text
-#2 Skill core
-  -> #3 representative evaluation + refinement
-  -> #4 validated skill.zip + documentation + release
-```
+The repository root is the source Skill directory. Release artifacts are generated from this source using the standard ChatGPT Skill validation/package flow and are published as `skill.zip`; generated ZIP files are not committed to the source tree.
 
-The project intentionally avoids a large instruction corpus. `SKILL.md` should remain a high-signal control plane, with shallow references added only when they materially improve AI decision quality.
+The project intentionally keeps `SKILL.md` high-signal and uses only shallow references that materially improve model decisions.
 
 ## Current state
 
-The compact Skill core is implemented, structurally validated, and refined against the representative workflow set in Issue #3. Packaging, release documentation, license resolution, and the first public release remain tracked in Issue #4; live bridge end-to-end validation remains dependent on the companion bridge implementation.
+The v0.1 Skill source is implemented, evaluated against the representative workflow set, and structurally validated. A validated `skill.zip` release candidate is ready. The first public release remains gated on the owner-selected repository license; connected-mode runtime validation remains dependent on the companion bridge implementation.
