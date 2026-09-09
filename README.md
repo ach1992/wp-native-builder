@@ -56,4 +56,4 @@ The project intentionally avoids a large instruction corpus. `SKILL.md` should r
 
 ## Current state
 
-The first compact Skill core is implemented and structurally validated. Representative workflow evaluation and refinement are tracked in Issue #3; packaging, release documentation, license resolution, and the first public release remain tracked in Issue #4.
+The compact Skill core is implemented, structurally validated, and refined against the representative workflow set in Issue #3. Packaging, release documentation, license resolution, and the first public release remain tracked in Issue #4; live bridge end-to-end validation remains dependent on the companion bridge implementation.
