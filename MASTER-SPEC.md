@@ -305,3 +305,134 @@ A usable/current revision is successful when:
 Delivery target for source refinements: a validated `skill.zip` generated from the repository's distributable Skill paths, with the repository remaining source of truth for future revisions.
 
 Public version/tag/release publication is a separate release action. The implementation should move quickly: reconcile requirements, make the smallest correct stack-adaptive change, evaluate representative behavior, package it, and iterate from real usage rather than pre-building a compatibility framework.
+
+## 16. Persistent Workspace and end-to-end site-project lifecycle
+
+Post-v0.1 development expands the accepted product outcome from strong per-task WordPress assistance to **lightweight end-to-end site-project continuity** while preserving the compact Skill architecture.
+
+When a connected WordPress runtime exposes the accepted Workspace capability, the Skill should be able to continue the same site project across chats without requiring the previous conversation. WordPress-hosted Workspace state stores only durable project intent, accepted decisions, unresolved progress, and lightweight tasks/documents needed for future continuation. It must not become a chat transcript, hidden-reasoning archive, duplicate CMS, secret store, or heavyweight project-management system.
+
+Detailed accepted behavior is defined in [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](./docs/PROJECT-WORKSPACE-ARCHITECTURE.md). That document owns the detailed retention, recovery, task/document, source-of-truth, concurrency, visual-review, launch/maintenance, and companion-Bridge contract. This section records the durable project-level requirements.
+
+### 16.1 Source-of-truth and recovery
+
+- One persistent Workspace per WordPress site is the initial product model.
+- Current explicit user direction remains authoritative for the requested outcome/change.
+- Workspace memory owns durable project intent/decisions/progress; current live WordPress state owns what actually exists on the site.
+- A fresh chat should recover progressively: request a compact resume/orientation packet, then load only the documents/tasks relevant to the current decision.
+- Do not dump the entire Workspace into context merely because it is available.
+- If Workspace state conflicts with live WordPress, re-read/reconcile the live target before mutation and update durable project state when appropriate.
+- Manual mode must remain useful when persistent Workspace capabilities are unavailable and must not pretend persistence occurred.
+
+### 16.2 Retention and lightweight project artifacts
+
+Persist a fact/task/document only when a future session materially needs it and it is not better recoverable from a stronger source such as current WordPress state. Useful durable artifacts can include a project brief, site profile, sitemap, design system, content model, lasting decisions, unresolved QA findings, and active tasks when the project actually needs them.
+
+Do not persist full chats, hidden chain-of-thought, routine worklogs, endless checkpoint/handoff documents, every micro-edit, duplicated live page content, credentials/secrets, or unnecessary customer/order/payment/financial data.
+
+Tasks must remain site-builder-oriented rather than software-PM-heavy. The expected compact model separates:
+
+- progress: `todo | in_progress | blocked | done`;
+- review: `not_required | pending | changes_requested | approved`;
+- delivery: `not_applicable | draft_preview | live`.
+
+Add only concise goal/acceptance/dependency/blocker/target-reference/notes fields when they materially improve continuation. Small one-off work that can be completed and verified immediately should not create permanent project artifacts by ritual.
+
+### 16.3 Site-project progression and visual review
+
+For substantial projects, the Skill should be capable of progressing through a proportional loop such as:
+
+```text
+RESUME / DISCOVER
+  -> UNDERSTAND
+  -> PLAN ENOUGH TO ACT
+  -> BUILD
+  -> SELF-VERIFY
+  -> USER VISUAL REVIEW WHEN MATERIAL
+  -> REVISE / APPROVE
+  -> PUBLISH WHEN AUTHORIZED
+  -> VERIFY LIVE
+  -> UPDATE WORKSPACE
+  -> NEXT USEFUL TASK
+```
+
+This is a conceptual control loop, not mandatory ceremony. Skip phases that do not apply.
+
+For material visual work, prefer preview/render plus AI visual/technical self-review and user review before publication when that matches the requested workflow. User feedback should drive revision without reopening already-settled project questions unnecessarily.
+
+If the user established a condition such as “show me first and publish after I approve,” then a clear approval of the current shown preview satisfies that condition while target/scope/material effect remain unchanged; do not ask for duplicate confirmation. Generic positive feedback must not be silently converted into publication authorization when no prior condition or exact publish instruction makes that intent clear.
+
+### 16.4 Complete-site outcome
+
+When the user asks for a complete site, page/task completion alone is not sufficient. Before declaring the requested site outcome complete, synthesize and address only the launch-relevant checks that materially apply, which may include navigation/content completeness, key visual surfaces, responsive/RTL behavior, accessibility, forms/interactions, broken links/assets, performance-impacting implementation, relevant site-building SEO/indexing configuration, publication, and live verification.
+
+Do not impose a fixed giant launch checklist. Adapt completion to the actual site and requested scope. After launch, keep normal resume state compact by prioritizing current durable context and unresolved/relevant tasks over historical completed work.
+
+### 16.5 Companion Bridge boundary
+
+This repository does not own WordPress Workspace persistence implementation. The companion `wp-native-builder-bridge` project is expected to provide a small isolated typed Workspace surface when its own Master reconciles and accepts the contract. The initial logical capability set is:
+
+- `workspace-resume` — compact project orientation;
+- `workspace-document` — list/get/create/update/archive Markdown-oriented durable documents;
+- `workspace-task` — list/get/create/update/transition lightweight tasks.
+
+The Bridge implementation should keep Workspace objects private/internal, separate from normal Posts/Pages and generic content/block operations, version/revision-aware for stale-write protection, capability-checked, and free of public front-end exposure. Its eventual WordPress admin UX should present a recognizable top-level **WP Native Builder** area with Dashboard, Documents, Tasks, Activity, and Settings; initial Workspace management may prioritize View/Export/Clear over a full manual editor.
+
+These are logical Skill-side requirements, not a claim that the current Bridge already implements them. The Bridge repository remains independently authoritative for its concrete storage/API/UI design after reconciliation.
+
+### 16.6 Skill implementation shape
+
+Keep `SKILL.md` compact. Implement the detailed runtime behavior through shallow conditional references when the work reaches implementation, expected to include:
+
+```text
+references/
+├── site-profile.md
+├── implementation-decisions.md
+├── design-conventions.md
+├── workspace-memory.md
+└── project-workflow.md
+```
+
+`workspace-memory.md` should own retention/recovery/source-of-truth/concurrency rules; `project-workflow.md` should own lightweight task progression, visual review, approval/publish flow, launch completion, and maintenance behavior. Do not copy `github-project-orchestrator` wholesale into this Skill.
+
+### 16.7 Additional evaluation requirements
+
+In addition to section 12, implementation must demonstrate:
+
+1. fresh-chat recovery without prior chat history when the connected Workspace exists;
+2. compact resume plus progressive loading with many stored documents/tasks;
+3. broad new-site requests create only useful initial context/tasks and move into real work without planning paralysis;
+4. trivial one-off changes avoid unnecessary persistent artifacts;
+5. stale Workspace/live-site contradictions are reconciled before write;
+6. concurrent/stale Workspace updates do not silently overwrite newer state;
+7. substantial visual work supports preview -> AI self-review -> user review -> revision/approval -> publish -> live verification when applicable;
+8. clear prior publish-after-approval conditions do not cause duplicate confirmation, while casual positive feedback does not imply unrelated publish authority;
+9. existing design/stack/questioning/WooCommerce/security behavior remains intact;
+10. complete-site work receives proportional launch verification rather than completion being inferred only from page-task status;
+11. no secrets, hidden reasoning, unnecessary sensitive data, or duplicate live-site content are persisted as project memory;
+12. manual mode remains useful without false persistence claims;
+13. the Skill stays compact and progressively loaded rather than becoming a general project orchestrator.
+
+### 16.8 Additional non-goals
+
+- Recreating GitHub Issues/Projects/PR/Worker orchestration inside WordPress.
+- Treating every user request as a persistent task.
+- Creating a session/checkpoint archive or storing chain-of-thought.
+- Using Workspace memory as authority over current live WordPress state.
+- Building vector-memory/RAG infrastructure for the initial implementation.
+- Requiring an external hosted memory/database service.
+- Forcing user visual approval for every tiny already-authorized reversible change.
+- Implementing the companion Bridge's storage/admin UI in this repository.
+
+### 16.9 Extended success criteria
+
+The post-v0.1 Workspace/project-lifecycle program is successful when, in addition to the existing criteria:
+
+- a fresh connected chat can identify the project, active/review-blocked work, relevant durable decisions, and next useful action without the previous chat;
+- persistent context materially reduces repeated briefing without creating context bloat;
+- the Skill can manage only the documentation/tasks needed to carry a substantial site through multiple sessions;
+- live WordPress remains protected from stale-memory overwrite;
+- substantial design work supports a useful owner review loop before publication when requested/appropriate;
+- the Skill can progress a complete-site request through proportional launch/live verification and later maintenance;
+- the companion Workspace contract can be used when available while absence of that contract degrades continuity rather than core Skill usefulness;
+- public release/versioning remains a separate explicit owner-authorized action.
