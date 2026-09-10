@@ -320,6 +320,7 @@ Detailed accepted behavior is defined in [`docs/PROJECT-WORKSPACE-ARCHITECTURE.m
 - One persistent Workspace per WordPress site is the initial product model.
 - Current explicit user direction remains authoritative for the requested outcome/change.
 - Workspace memory owns durable project intent/decisions/progress; current live WordPress state owns what actually exists on the site.
+- Workspace current state, fresh-chat recovery, and stale-write protection must not depend on WordPress Revisions. Each Workspace Document/Task must expose a Workspace-owned current-state identity independent of WordPress revision IDs, such as `version + state_hash`, for optimistic concurrency.
 - A fresh chat should recover progressively: request a compact resume/orientation packet, then load only the documents/tasks relevant to the current decision.
 - Do not dump the entire Workspace into context merely because it is available.
 - If Workspace state conflicts with live WordPress, re-read/reconcile the live target before mutation and update durable project state when appropriate.
@@ -377,7 +378,7 @@ This repository does not own WordPress Workspace persistence implementation. The
 - `workspace-document` — list/get/create/update/archive Markdown-oriented durable documents;
 - `workspace-task` — list/get/create/update/transition lightweight tasks.
 
-The Bridge implementation should keep Workspace objects private/internal, separate from normal Posts/Pages and generic content/block operations, version/revision-aware for stale-write protection, capability-checked, and free of public front-end exposure. Its eventual WordPress admin UX should present a recognizable top-level **WP Native Builder** area with Dashboard, Documents, Tasks, Activity, and Settings; initial Workspace management may prioritize View/Export/Clear over a full manual editor.
+The Bridge implementation should keep Workspace objects private/internal, separate from normal Posts/Pages and generic content/block operations, capability-checked, free of public front-end exposure, and protected against stale writes by a Workspace-owned current-state identity independent of WordPress revision IDs. WordPress Revisions may remain optional secondary history, but they must not be required for current Workspace state, resume/continuity, or concurrency. If durable Workspace rollback/history must survive revision-cleaner plugins, the Bridge may use bounded private snapshot/version records with explicit retention; disaster recovery for deletion of Workspace/database state remains the normal site/database backup boundary.
 
 These are logical Skill-side requirements, not a claim that the current Bridge already implements them. The Bridge repository remains independently authoritative for its concrete storage/API/UI design after reconciliation.
 
@@ -404,7 +405,7 @@ In addition to section 12, implementation must demonstrate:
 3. broad new-site requests create only useful initial context/tasks and move into real work without planning paralysis;
 4. trivial one-off changes avoid unnecessary persistent artifacts;
 5. stale Workspace/live-site contradictions are reconciled before write;
-6. concurrent/stale Workspace updates do not silently overwrite newer state;
+6. concurrent/stale Workspace updates do not silently overwrite newer state and remain protected when WordPress Revisions are disabled, limited, or pruned;
 7. substantial visual work supports preview -> AI self-review -> user review -> revision/approval -> publish -> live verification when applicable;
 8. clear prior publish-after-approval conditions do not cause duplicate confirmation, while casual positive feedback does not imply unrelated publish authority;
 9. existing design/stack/questioning/WooCommerce/security behavior remains intact;
@@ -431,6 +432,7 @@ The post-v0.1 Workspace/project-lifecycle program is successful when, in additio
 - a fresh connected chat can identify the project, active/review-blocked work, relevant durable decisions, and next useful action without the previous chat;
 - persistent context materially reduces repeated briefing without creating context bloat;
 - the Skill can manage only the documentation/tasks needed to carry a substantial site through multiple sessions;
+- Workspace resume/current state and optimistic concurrency remain functional when WordPress Revisions are disabled or pruned;
 - live WordPress remains protected from stale-memory overwrite;
 - substantial design work supports a useful owner review loop before publication when requested/appropriate;
 - the Skill can progress a complete-site request through proportional launch/live verification and later maintenance;
