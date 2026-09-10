@@ -44,8 +44,15 @@ Do not persist:
 
 ## Safe Workspace writes
 
-Keep Workspace writes as narrow as live-site writes, but do not use WordPress Revision IDs as the authority for Workspace continuity or optimistic concurrency. For an overwrite-sensitive Workspace Document/Task update, require a capability that exposes a current **Workspace-owned identity** (for example `version + state_hash`) and accepts that expected identity with the update. If that guard is unavailable, do not perform a blind connected overwrite; treat the write path as a capability gap while continuing safe reads and useful manual/non-overwrite work. Treat an identity mismatch as a stale/conflict result. Re-read current Workspace state, reconcile newer valid work, and only then retry.
+Keep Workspace writes as narrow as live-site writes, and never use WordPress Revision IDs as the authority for Workspace continuity or optimistic concurrency. For an overwrite-sensitive Workspace Document/Task update:
+
+1. Read the current Workspace object and its current **Workspace-owned identity** (for example `version + state_hash`).
+2. If the capability does not expose a current Workspace-owned identity and accept that expected identity with the update, do not perform a blind connected overwrite; treat the write path as a capability gap while continuing safe reads and useful manual/non-overwrite work.
+3. Submit the update with the expected Workspace identity.
+4. If the update is accepted, verify the resulting current state when practical.
+5. If the identity is stale, mismatched, or conflicted, do not overwrite. Re-read current primary Workspace state, reconcile the intended update with newer valid work, and only then retry.
+6. If the write outcome is ambiguous, re-read current state before any retry; never retry blindly in a way that can duplicate or erase newer context.
 
 `workspace-resume`, current Workspace state, and stale-write protection must remain usable when WordPress Revisions are disabled, limited, or pruned. WordPress Revisions may be useful optional secondary history for ordinary WordPress content or for Workspace inspection when available, but they are not the Workspace's current-state or concurrency dependency. Any Bridge-managed durable snapshot/history mechanism is an implementation detail; use it only if the connected runtime actually exposes relevant behavior.
 
-If a Workspace write outcome is ambiguous, re-read first; never retry blindly in a way that can duplicate or erase newer context. Update durable context when a meaningful project decision, task state, blocker, review state, or delivery fact changes and future continuation benefits. Do not update memory merely to record that another conversational step occurred.
+Update durable context when a meaningful project decision, task state, blocker, review state, or delivery fact changes and future continuation benefits. Do not update memory merely to record that another conversational step occurred.
