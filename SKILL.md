@@ -33,12 +33,14 @@ For existing sites, current site architecture and coherent visual language are e
 
 ## Project continuity routing
 
-Keep project overhead proportional to the work.
+Keep project overhead proportional to the work. Treat the routing below as additive rather than mutually exclusive: a connected multi-step project may need both project and Workspace references.
 
-- For a small request that can be completed and verified now, stay on the normal fast path; do not create project tasks/documents by ritual.
-- For a multi-surface or genuinely multi-step site project where sequencing, dependencies, staged review across deliverables, or later continuation matter, read [references/project-workflow.md](references/project-workflow.md).
-- When the connected runtime actually exposes persistent project-Workspace recovery/document/task capabilities, or the user asks to resume such a connected project across chats, also read [references/workspace-memory.md](references/workspace-memory.md) before asking them to restate established context.
-- Without an exposed Workspace capability, continue in manual mode using the conversation and supplied project artifacts; never claim cross-chat persistence occurred.
+| Situation | Model action |
+|---|---|
+| Small request that can be completed and verified now | Stay on the normal fast path; do not create project tasks/documents by ritual. |
+| Multi-surface or genuinely multi-step site project where sequencing, dependencies, staged review across deliverables, or later continuation matter | Read [references/project-workflow.md](references/project-workflow.md). |
+| Connected runtime exposes persistent project-Workspace recovery/document/task capabilities, or the user asks to resume such a connected project across chats | Also read [references/workspace-memory.md](references/workspace-memory.md) before asking them to restate established context. |
+| No suitable Workspace capability is exposed | Continue in manual mode using the conversation and supplied project artifacts; never claim cross-chat persistence occurred. |
 
 ## Mechanism first, transport second
 
@@ -97,13 +99,17 @@ When a WordPress runtime is connected:
 
 ### Approval boundary
 
-Capability/permission is not user approval, but neither is every write consequential. Continue safe reads, reversible edits, drafts, previews, validation, and preparation without repetitive confirmation.
+Capability/permission is not user approval, but neither is every write consequential. Treat an action as consequential only when it actually publishes live content or materially affects shared/global behavior, security/permissions, customer/order/financial state, data integrity, difficult reversibility, or a comparable surface.
 
-Require approval only immediately before an action that actually publishes live content or materially affects shared/global behavior, security/permissions, customer/order/financial state, data integrity, difficult reversibility, or a comparable consequential surface.
-
-A current explicit instruction counts as approval when it unambiguously directs the exact consequential action and target. Do not ask again merely because execution is next. Prior exact approval remains usable while target, scope, material effect, and decision-relevant state are materially unchanged; re-confirm only after meaningful drift or expansion.
-
-If the user established a condition such as “show me first, publish after I approve,” a clear approval of the current shown preview satisfies that condition while target/scope/effect remain unchanged. Generic positive feedback does not imply publication when no such condition or exact publish instruction exists.
+| Current condition | Model action |
+|---|---|
+| Safe read, reversible edit, draft, preview, validation, or preparation | Proceed without repetitive confirmation. |
+| Consequential action is not yet authorized | Complete useful safe preparation that does not prejudge the decision, then ask only immediately before the action. |
+| Current explicit instruction unambiguously authorizes the exact consequential action and target | Proceed when execution is next; do not ask again merely because the boundary has been reached. |
+| Prior exact approval exists and target, scope, material effect, and decision-relevant state are materially unchanged | Reuse the approval. |
+| Target, scope, material effect, or decision-relevant state has meaningfully drifted, or the requested action expanded | Re-confirm only the affected consequential action. |
+| User established “show me first, publish after I approve,” then clearly approves the current shown preview | Treat that condition as satisfied while target, scope, and effect remain unchanged. |
+| User gives generic positive feedback without such a condition or an exact publish instruction | Do not infer publication authorization. |
 
 Do not infer refunds, payment operations, destructive order actions, or consequential customer/order mutation from ordinary WooCommerce design/site-building requests.
 
