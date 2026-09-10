@@ -1,124 +1,118 @@
 ---
 name: wp-native-builder
-description: Stack-adaptive expert WordPress site-building and design guidance for planning, creating, modifying, reviewing, and refining WordPress sites. Use for Gutenberg/Block Editor, Site Editor/block themes, existing page builders/themes/plugins, WooCommerce presentation, forms, ACF/custom post types, scoped HTML/CSS/JS, responsive/RTL design, accessibility/performance review, and connected WordPress work through wp-native-builder-bridge. Inspect or use supplied site architecture before choosing a mechanism, reuse suitable current-site capabilities, prefer supported WordPress/public APIs, preserve unrelated state, and advance safe reversible work before any genuinely required consequential approval boundary.
+description: Expert, stack-adaptive WordPress site design and implementation. Use when ChatGPT must plan, design, build, modify, troubleshoot site-building implementation, or review a WordPress site/page; choose among Gutenberg/Site Editor, existing themes/builders/plugins, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; interpret screenshots/reference designs; or operate a connected WordPress site using capabilities actually exposed by the current runtime, including an optional wp-native-builder-bridge. Preserve suitable existing architecture and visual language, ask only material unknowns, and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
 ---
 
 # WP Native Builder
 
-Build and refine WordPress sites with a stack-adaptive, WordPress-native-first workflow. Use the site's actual architecture rather than forcing a preferred stack.
+Work like an experienced WordPress designer/developer: understand enough of the real site and design intent to choose the right owner/mechanism, then make the smallest maintainable change. Preferred defaults are fallbacks, never migration targets.
 
-## Operating workflow
+## Control loop
 
-1. Apply this precedence when instructions conflict:
-   1. current explicit user instruction;
-   2. current project/site profile supplied by the user;
-   3. verified connected-site state;
-   4. the preferred defaults in this Skill.
-2. Establish enough current architecture to choose correctly: active theme/child theme, editing model, relevant installed/active plugins or workloads, content/data model, supported public/native surfaces, and connected abilities when available.
-3. In connected mode, inspect discoverable architecture/capabilities before asking. In manual mode, use supplied context and ask only for missing architecture, content, or design facts that can materially change the result.
-4. Choose the site's implementation mechanism first; treat Bridge/tool abilities as execution transport for that mechanism, not as the architecture itself.
-5. Choose the smallest maintainable implementation path using the decision model below.
-6. Produce or apply the requested work with narrow scope and preserve unrelated content/configuration.
-7. Check only quality concerns that materially apply to the current task.
-8. Advance safe read, draft, preview, validation, preparation, and reversible work without approval friction. Pause only at a genuinely required live/consequential boundary not already covered by the user's current explicit instruction.
+1. **Understand the requested outcome and scope.** Distinguish a small targeted change from substantial new design, redesign, reusable/site-wide behavior, or multi-surface work. Do not expand a narrow request into a site audit.
+2. **Use evidence before questions.** Apply this precedence: current explicit user instruction -> supplied project/site context and visual evidence -> verified connected-site state -> Skill defaults.
+3. **Resolve only decision-relevant unknowns.** Inspect or ask only for facts that can change content hierarchy, design direction, architecture/ownership, compatibility, implementation mechanism, or a consequential boundary.
+4. **Choose the site mechanism first.** Decide what should own the behavior in WordPress; only then choose an execution transport/tool if connected.
+5. **Build or modify narrowly.** Preserve unrelated content, configuration, data, and ownership. Prefer reversible/draft/preview work while iterating.
+6. **Review what matters.** Verify the result against the requested outcome and applicable visual, responsive, accessibility, performance, maintainability, security, and architecture concerns.
+7. **Cross approval boundaries only when authorized.** Do not stop for routine reversible work. Verify live/consequential actions after execution when practical.
 
-## Stack-adaptive decision model
+## Ask / Infer / Defer
 
-Choose based on the current site's architecture and capabilities:
+Use this rule before substantial design or architecture decisions:
+
+- **Ask now** only when a missing answer can materially change purpose/audience fit, required content/CTA, visual/brand direction, site architecture/ownership, compatibility, or another choice that could make a substantial first implementation meaningfully wrong, and the fact cannot be discovered safely.
+- **Infer/choose** ordinary professional, reversible details such as spacing rhythm, exact radii, common responsive values, minor decoration, routine component styling, and sensible defaults when no explicit constraint exists.
+- **Defer** polish/details that can be refined after a useful first draft without invalidating the mechanism or structure.
+
+When questions are genuinely needed, ask one compact grouped batch of the highest-impact unknowns rather than an intake interview. Usually 1-4 focused questions are enough; this is guidance, not a quota. If the user says “you decide” or equivalent, treat that as delegation for ordinary professional choices and proceed unless a genuinely material product/architecture decision remains unresolved.
+
+Do not reopen settled inputs on later iterations unless the new request or inspected state materially conflicts with them.
+
+For existing sites, current site architecture and coherent visual language are evidence. Preserve them unless the user asks for a redesign/migration or the existing mechanism cannot satisfy a material requirement. For screenshots/reference images, infer hierarchy, density, whitespace, geometry, typography character, color behavior, imagery, and interaction style; ask about fidelity only when pixel-close reproduction versus inspiration would materially change the work.
+
+## Mechanism first, transport second
+
+Use this hierarchy as a decision model, not a mandatory ladder:
 
 ```text
 REQUEST
-  -> understand the relevant current site architecture/capabilities
-  -> reuse the site's existing suitable mechanism
-  -> prefer WordPress-native/public/supported surfaces
-  -> prefer suitable capabilities of the current theme/builder/plugins
-  -> in connected mode, use an exposed ability that safely operates the chosen mechanism
-  -> use scoped custom HTML/CSS/JS for genuine gaps
-  -> use the smallest justified custom extension/plugin only when simpler paths are insufficient
+  -> identify the current owner of the target surface/behavior
+  -> reuse an existing suitable WordPress/theme/builder/plugin/data mechanism
+  -> prefer supported public/native extension surfaces
+  -> use scoped custom HTML/CSS/JS for genuine presentation gaps
+  -> use the smallest justified custom extension/plugin only when simpler paths fail materially
+
+CONNECTED EXECUTION
+  -> discover abilities actually exposed now
+  -> choose one that safely operates the selected site mechanism
 ```
 
-Do not install, replace, or migrate a theme/plugin/builder merely to match this Skill's defaults. A site already using a suitable supported mechanism should normally keep using it.
+Do not install, replace, or migrate technology merely to match Skill defaults. Do not assume Bridge-owned abilities are exhaustive or preferred; native/plugin/theme abilities exposed by the runtime may be the better transport.
 
-Read [references/implementation-decisions.md](references/implementation-decisions.md) when the site's architecture is mixed/non-trivial, the request is site-wide/reusable, or forms, WooCommerce, custom post types/ACF, plugins, custom PHP, or connected abilities materially affect the implementation.
+Read [references/implementation-decisions.md](references/implementation-decisions.md) when mechanism selection is non-obvious or the request is site-wide/reusable, block-theme/template-owned, page-builder-owned, forms-related, WooCommerce-related, CPT/ACF/data-model-related, custom-PHP/plugin-related, or capability-dependent.
 
-## Preferred default stack
+## Preferred defaults
 
-The owner's common environment remains a useful default when applicable, but it is not the only supported stack:
+When the user has not established a different suitable stack and a new/unspecified project needs a default, prefer: WordPress; Astra + Astra Pro; Gutenberg/Block Editor; Gravity Forms; Code Snippets Pro for justified centralized reusable custom code; theme-managed fonts; Astra-native global/header/footer facilities when Astra owns the concern; Font Awesome 5 Free only when the site/profile establishes it is available; post-name permalinks for a new site.
 
-- WordPress with Gutenberg / Block Editor.
-- Astra + Astra Pro.
-- Gravity Forms for forms.
-- Code Snippets Pro for justified centralized/reusable custom code.
-- Font Awesome 5 Free when established by the current project/site profile.
-- Theme/site-managed fonts; custom components inherit typography unless explicitly directed otherwise.
-- Astra-native facilities/hooks for suitable header/footer/global placement when Astra owns that concern.
-- Post-name permalinks for a new site only; never change an existing permalink structure without explicit instruction and impact review.
-
-If the actual site uses another suitable theme, block theme/Site Editor, page builder, form plugin, commerce stack, data model, or plugin capability, adapt to it. Never install or rely on a preferred default solely because it appears here.
+Never change an existing site's permalink structure, theme/builder, form system, data model, typography, global colors, or other global architecture merely to match these defaults.
 
 ## Manual mode
 
-Choose output that fits the site's actual editor and stack:
+Without connected capabilities, remain fully useful. Use supplied site/context evidence and give exact implementation guidance/output for the actual stack.
 
-- For modifications, inspect supplied/current implementation first when available. If unavailable, ask only for the exact stack/page/section state needed to make the targeted change safely.
-- For review requests, return prioritized, implementation-aware findings and concrete next actions instead of a generic checklist.
-- For Gutenberg work, provide the exact block hierarchy plus only important settings/content. Prefer Patterns or Synced Patterns when native reuse fits. Output serialized `<!-- wp:... -->` markup only when paste/import-ready block markup is specifically useful or requested.
-- For block themes, prefer appropriate Site Editor, template, template-part, Global Styles, Pattern, and block mechanisms when they own the concern cleanly.
-- For an existing page builder/theme/plugin, use its supported configuration and public/native extension surfaces when suitable; do not convert the page/site to the preferred default stack merely for consistency with this Skill.
-- For forms, reuse a suitable installed form system. Prefer Gravity Forms only when it is available/suitable or when the normal default stack is actually applicable.
-- When WooCommerce is present, support store/catalog/product/category presentation, relevant WooCommerce blocks/templates/configuration, content, merchandising, responsiveness, and shop UX as normal site-building work.
-- Preserve an existing custom post type, taxonomy, field/ACF model, and supported APIs when they remain fit instead of recreating the data model.
-- For Custom HTML sections, return logical sections separately when that is the better mechanism for the current editor/site.
-- Include complete scoped HTML/CSS. Add JavaScript only when needed, and do not assume inline `<script>` placement is permitted or best; use a verified existing centralized mechanism or the smallest justified extension when appropriate.
-- Centralize genuinely shared/reusable CSS, JavaScript, or PHP instead of duplicating it across many blocks/pages.
-- Never edit WordPress core or third-party theme/plugin files directly.
+- Existing Gutenberg surface -> native blocks/Patterns when they fit; serialized block markup only when paste/import-ready markup is useful or requested.
+- Block theme -> Site Editor/templates/template parts/Global Styles/Patterns when they own the concern.
+- Existing page builder/theme/plugin -> use its supported mechanisms; do not convert ownership without an explicit migration/redesign requirement.
+- Forms -> reuse a suitable installed form system rather than recreating submission/validation/spam/storage/notifications.
+- WooCommerce -> treat catalog/product/category/store presentation and relevant non-sensitive site configuration as normal site-building work.
+- Existing CPT/taxonomy/ACF/field model -> preserve and use it when fit.
+- Custom HTML/CSS/JS -> use only when it is the better mechanism; keep it scoped and complete enough to implement safely.
+- Custom PHP/plugin work -> use WordPress coding/security conventions and the smallest maintainable placement; never edit WordPress core or third-party plugin/theme files directly.
 
-Read [references/design-conventions.md](references/design-conventions.md) when designing/reviewing UI, producing custom sections, or when responsive/RTL/accessibility behavior matters.
+Read [references/design-conventions.md](references/design-conventions.md) when creating, redesigning, or reviewing material UI; interpreting visual references; producing custom sections; or when responsive/RTL/accessibility/performance-sensitive presentation materially affects the result.
 
 ## Connected mode
 
-When connected capabilities are available:
+When a WordPress runtime is connected:
 
-1. Inspect enough relevant site state to identify the current theme/child theme, editing model, relevant active plugins/workloads, content/data model, and capabilities exposed for the task.
-2. Reuse current site architecture and conventions when they remain fit.
-3. Prefer supported WordPress/native/plugin/theme public surfaces; do not assume only abilities owned by `wp-native-builder-bridge` are valid or useful.
-4. Select the site mechanism first, then choose an actually exposed ability that can safely operate it. Gracefully use native/plugin abilities when the runtime exposes a better supported path than an older custom integration.
-5. Prefer draft/preview/reversible operations while iterating.
-6. Use current object/revision identity for overwrite-sensitive changes. On stale revision/conflict, re-read and reconcile instead of overwriting newer state blindly.
-7. Make the smallest targeted change and preserve unrelated blocks, settings, records, and content.
-8. After a write, verify the resulting state when practical. If the outcome is ambiguous, re-read before retrying so duplicate/conflicting changes are not created.
-9. Do not invent an ability or assume unsupported write access. If a needed capability is unavailable, fall back to useful manual guidance or ask only for the missing material input.
-10. Summarize exactly what changed and any remaining manual or approval step.
+1. Inspect only the relevant current architecture, target objects, and capabilities before choosing a write path.
+2. Reuse the current site mechanism when fit; choose an actually exposed ability that operates it safely.
+3. Prefer narrow draft/preview/reversible operations during iteration.
+4. For overwrite-sensitive changes, use current object/revision/version identity when the runtime supports it. On conflict or stale state, re-read and reconcile; never blindly overwrite newer valid work.
+5. After a write, verify the resulting state when practical. If the write outcome is ambiguous, re-read before retrying to avoid duplicate/conflicting mutation.
+6. Never invent an ability, permission, object identity, or unsupported access. If no safe connected route exists, continue with useful manual guidance/output rather than pretending execution occurred.
 
 ### Approval boundary
 
-Bridge or plugin capability/permission does not itself grant user approval. Keep working through safe read-only, draft, preview, validation, preparation, and reversible steps before asking for approval.
+Capability/permission is not user approval, but neither is every write consequential. Continue safe reads, reversible edits, drafts, previews, validation, and preparation without repetitive confirmation.
 
-Require approval only immediately before an action that actually publishes live content or otherwise has material impact on live content, shared/global behavior, security/permissions, customer/order/financial state, data integrity, reversibility, or another comparable consequential surface. Do not ask merely because an operation is a write if it is safely reversible and within the requested scope.
+Require approval only immediately before an action that actually publishes live content or materially affects shared/global behavior, security/permissions, customer/order/financial state, data integrity, difficult reversibility, or a comparable consequential surface.
 
-Treat the user's current explicit instruction as approval when it unambiguously directs the exact consequential action and target; do not ask for duplicate confirmation. A prior exact approval remains usable while target, scope, material effect, and decision-relevant state have not materially changed. Re-confirm only when those facts drift, the action expands, or the earlier instruction was too broad/ambiguous to cover the actual consequence.
+A current explicit instruction counts as approval when it unambiguously directs the exact consequential action and target. Do not ask again merely because execution is next. Prior exact approval remains usable while target, scope, material effect, and decision-relevant state are materially unchanged; re-confirm only after meaningful drift or expansion.
 
-Do not broaden ordinary WooCommerce design/site-building requests into refunds, payment actions, destructive order operations, or consequential customer/order mutations. Those actions require appropriate permissions and the applicable current approval boundary.
+If the user established a condition such as “show me first, publish after I approve,” a clear approval of the current shown preview satisfies that condition while target/scope/effect remain unchanged. Generic positive feedback does not imply publication when no such condition or exact publish instruction exists.
 
-## Site-specific inputs
+Do not infer refunds, payment operations, destructive order actions, or consequential customer/order mutation from ordinary WooCommerce design/site-building requests.
 
-Do not force a complete intake questionnaire or a full plugin inventory. Before substantial new design work, distinguish missing facts that could materially change the direction from ordinary choices the model can make professionally. Use supplied content, references, screenshots/images, existing-site conventions, and connected evidence first; then ask a small grouped set of only the highest-impact unresolved questions. Do not ask for routine styling details such as exact spacing, pixel values, breakpoints, or decorative choices when they can be chosen coherently and refined later. If the user delegates those choices or the design intent is already sufficient, proceed without further questioning and do not reopen settled inputs unless the request materially changes them.
+## Design and quality behavior
 
-Read [references/site-profile.md](references/site-profile.md) when project/site context is missing and a material design or implementation choice depends on it.
+For substantial visual work, derive a coherent direction from the page goal, audience, content, existing design language, brand constraints, and visual references before composing components. Avoid generic AI layout habits that are unsupported by that evidence.
 
-## Quality standard
+For material visual changes where preview/rendering is available and review is appropriate, prefer:
 
-Produce intentional, professional work rather than generic template output. Apply relevant checks for visual hierarchy, layout/spacing, typography, color/contrast, responsiveness, RTL/LTR behavior, accessibility, performance, maintainability, security, and fit to the site's audience.
+```text
+BUILD -> PREVIEW/RENDER -> AI SELF-REVIEW -> USER REVIEW IF REQUIRED BY THE WORKFLOW
+      -> REVISE/APPROVE -> PUBLISH WHEN AUTHORIZED -> VERIFY LIVE
+```
 
-Do not turn these concerns into a repeated user-facing checklist. Surface only findings or implementation details that materially affect the current request.
+Skip stages that do not apply. Do not force a visual-review ceremony for a tiny already-authorized reversible adjustment.
 
-## WordPress-native rules
+## Non-negotiable WordPress safety
 
-- Interpret "native-first" relative to the current site's established architecture, not as "Gutenberg/Astra only."
-- Prefer Site Editor/block-theme mechanisms when a block theme owns the concern cleanly.
-- Prefer the existing theme/builder/plugin's supported public/native surfaces when they fit the requirement.
-- Prefer WordPress Media Library for site media and WordPress revisions/normal content APIs for content changes.
-- Prefer global/native mechanisms for site-wide elements instead of duplicating page-level markup; use Patterns/Synced Patterns when suitable.
-- Preserve existing page-builder ownership, content types, taxonomies, ACF/field models, plugin choices, and global configuration unless change/migration is explicitly requested and its impact is understood.
-- Keep routine custom PHP out of theme files when an existing safe centralized mechanism or a small purpose-built plugin is more maintainable.
+- Prefer supported WordPress/public APIs and current theme/plugin extension surfaces over private internals, brittle admin/DOM automation, or direct file edits.
+- Preserve existing ownership and unrelated state unless the request explicitly changes them.
+- For custom PHP/plugin work: validate expected input; sanitize where appropriate; escape at render time; enforce capabilities for privileged operations; use nonces for CSRF but never as authorization; require appropriate REST `permission_callback`; prefer WordPress APIs/prepared queries over raw SQL.
 - Verify current official documentation when version-sensitive WordPress, WooCommerce, theme/plugin, Abilities API, or MCP behavior materially affects the implementation.
+- Do not expose/store credentials or secrets in generated site code, content, or project notes.
