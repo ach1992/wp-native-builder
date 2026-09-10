@@ -80,19 +80,33 @@ Bridge/plugin permission is not user approval, but safe reversible work does not
 
 WooCommerce design/content/presentation is normal supported site-building work when present. Refunds, payment operations, destructive order actions, and consequential customer/order mutations are not silently inferred from ordinary design requests and remain permission/approval-sensitive when applicable.
 
+## Accepted persistent Workspace direction
+
+Post-v0.1 development now has an accepted architecture for **cross-chat site-project continuity** and a lightweight end-to-end site workflow. This is a development target, not a claim about the currently released `v0.1` package.
+
+When the companion WordPress runtime later exposes the accepted Workspace contract, WP Native Builder should be able to recover a compact project orientation from WordPress, load only relevant durable documents/tasks, verify current live site state, and continue the next useful action without requiring the previous chat history.
+
+The Workspace is intentionally not a chat log or second CMS. It is for durable project intent, accepted decisions, unresolved progress, and only the tasks/documents that materially improve continuation. Live WordPress remains authoritative for current site content/configuration.
+
+For material visual work, the accepted workflow supports draft/preview -> AI self-review -> user visual review -> revision/approval -> publication -> live verification when appropriate. Small one-off edits remain lightweight and should not create unnecessary project-management ceremony.
+
+See [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](./docs/PROJECT-WORKSPACE-ARCHITECTURE.md) for the complete accepted architecture and [Issue #13](https://github.com/ach1992/wp-native-builder/issues/13) for the active post-v0.1 program.
+
 ## Project map
 
 | Source | Purpose |
 |---|---|
-| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, stack-adaptive architecture, defaults, decision/approval behavior, and evaluation requirements |
-| [`SKILL.md`](./SKILL.md) | Compact runtime control plane |
-| [`references/`](./references/) | Shallow conditional guidance loaded only when useful |
+| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, stack-adaptive architecture, defaults, decision/approval behavior, and durable Workspace/project-lifecycle requirements |
+| [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](./docs/PROJECT-WORKSPACE-ARCHITECTURE.md) | Detailed accepted architecture for persistent Workspace memory, recovery, lightweight tasks/documents, visual review, launch flow, and the logical companion-Bridge contract |
+| [`SKILL.md`](./SKILL.md) | Compact runtime control plane for behavior already implemented in current source |
+| [`references/`](./references/) | Shallow conditional runtime guidance loaded only when useful |
+| [Post-v0.1 Workspace program #13](https://github.com/ach1992/wp-native-builder/issues/13) | Current durable work/dependency/evaluation plan for implementing the accepted Workspace and full-site workflow |
 | [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release |
-| [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge |
+| [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge; its concrete Workspace implementation remains owned by that repository |
 
 ## Release model
 
-The distributable Skill contains only `SKILL.md`, `agents/`, and `references/`. Repository-only project documentation such as this README and `MASTER-SPEC.md` is not bundled into `skill.zip`.
+The distributable Skill contains only `SKILL.md`, `agents/`, and `references/`. Repository-only project documentation such as this README, `MASTER-SPEC.md`, and `docs/` architecture files is not bundled into `skill.zip` unless a future accepted runtime design explicitly moves needed guidance into `references/`.
 
 For a package/release, stage distributable paths under a directory named `wp-native-builder`, run the standard ChatGPT Skill validation/package flow, and use the resulting file named exactly `skill.zip`. Generated ZIP files are not committed to the source tree.
 
@@ -102,4 +116,6 @@ This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
 
 ## Current state
 
-`v0.1` remains the latest public release. Current source includes post-v0.1 refinements for lower-friction approval behavior, native reuse, connected-write safety, custom-code hardening, and a general stack-adaptive architecture. Manual mode remains independently useful; connected-mode behavior depends on the capabilities actually exposed by the companion/current WordPress runtime.
+`v0.1` remains the latest public release. Current source already includes post-v0.1 refinements for lower-friction approval behavior, native reuse, connected-write safety, custom-code hardening, stack-adaptive architecture, and stronger design-intent/question behavior.
+
+The persistent Workspace, cross-chat recovery, lightweight project-task/document workflow, visual owner-review lifecycle, and complete-site continuation model are now **accepted and documented development requirements** under Issue #13, but are not yet claimed as implemented runtime functionality. Connected end-to-end Workspace validation additionally depends on the companion `wp-native-builder-bridge` later implementing the accepted Workspace capability contract in its own repository.
