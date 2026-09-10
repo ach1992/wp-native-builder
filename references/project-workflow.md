@@ -52,3 +52,17 @@ Reuse accepted project direction, stack ownership, content model, and design dec
 When persistent Workspace capabilities are available, use `workspace-memory.md` for resume/retention/concurrency. Without them, continue the same implementation workflow within current conversation/project artifacts and make no persistence claim.
 
 For a complete-site request, do not infer overall project completion merely because individual build tasks are `done`; remaining launch-relevant site-building work may still need to be resolved before declaring the requested site outcome complete.
+
+## Finish and launch proportionally
+
+When the requested outcome is a complete or launch-ready site, synthesize remaining launch/QA work from the actual site and unresolved requirements rather than creating a fixed launch checklist by ritual. Inspect only applicable concerns such as navigation/content completeness, responsive/RTL behavior, accessibility, forms and submission paths, broken/missing links or media, performance introduced by the build, and important SEO/indexing-facing presentation/configuration that can prevent the intended site experience.
+
+Do not mark the overall site outcome complete while a material launch-relevant defect remains merely because page/feature tasks are `done`. Conversely, do not block launch on generic checks that do not apply to the site's stack, content, audience, or requested scope.
+
+Keep external business operations, fulfillment, payments, refunds, destructive order/customer actions, and unrelated operational readiness outside ordinary site-building launch QA unless the user explicitly requests that separate work.
+
+After an authorized launch/publish step, verify the intended live surfaces when practical before treating delivery as `live` and close or update only the project state that materially changed.
+
+After verified launch, when persistent Workspace capabilities exist, keep the default active resume focused on durable project/site context, still-relevant accepted architecture/design decisions, and unresolved or currently relevant work. Completed tasks and older decisions may remain recoverable when useful, but do not keep them prominent in the default packet or turn the Workspace into a session archive.
+
+For later maintenance, reuse durable approved context without reopening settled intake, while re-reading live WordPress state when the current target matters. A current explicit redesign, rebrand, architecture change, or new requirement overrides conflicting stored conventions; update retained context when the new direction becomes durable.
