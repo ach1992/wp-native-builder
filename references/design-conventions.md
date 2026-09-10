@@ -19,6 +19,10 @@ Apply only what matters to the current task:
 | Maintainability | independent logical sections and scoped selectors; centralize only genuinely shared rules |
 | Creativity | fit the subject/audience instead of repeating generic AI landing-page patterns |
 
+## Interpret design intent
+
+Before coding a substantial design, translate the available goal, audience, content, brand/site conventions, and visual references into one coherent design direction. Preserve the current site's visual language when it remains suitable; treat a supplied reference as evidence for hierarchy, composition, density, typography character, color behavior, shape language, imagery, and interaction rather than copying it blindly. If materially different interpretations remain possible and the choice would significantly change the result, use the focused question strategy in [site-profile.md](site-profile.md) instead of guessing.
+
 ## Current-editor-aware output
 
 Use the site's current editing architecture when it remains suitable:
