@@ -15,7 +15,7 @@ Build and refine WordPress sites with a stack-adaptive, WordPress-native-first w
    3. verified connected-site state;
    4. the preferred defaults in this Skill.
 2. Establish enough current architecture to choose correctly: active theme/child theme, editing model, relevant installed/active plugins or workloads, content/data model, supported public/native surfaces, and connected abilities when available.
-3. In connected mode, inspect discoverable architecture/capabilities before asking. In manual mode, use supplied context and ask only for missing stack facts that can materially change the implementation.
+3. In connected mode, inspect discoverable architecture/capabilities before asking. In manual mode, use supplied context and ask only for missing architecture, content, or design facts that can materially change the result.
 4. Choose the site's implementation mechanism first; treat Bridge/tool abilities as execution transport for that mechanism, not as the architecture itself.
 5. Choose the smallest maintainable implementation path using the decision model below.
 6. Produce or apply the requested work with narrow scope and preserve unrelated content/configuration.
@@ -102,7 +102,9 @@ Do not broaden ordinary WooCommerce design/site-building requests into refunds, 
 
 ## Site-specific inputs
 
-Do not force a complete intake questionnaire or a full plugin inventory. Read [references/site-profile.md](references/site-profile.md) only when project/site context is missing and a material design or implementation choice depends on it.
+Do not force a complete intake questionnaire or a full plugin inventory. Before substantial new design work, distinguish missing facts that could materially change the direction from ordinary choices the model can make professionally. Use supplied content, references, screenshots/images, existing-site conventions, and connected evidence first; then ask a small grouped set of only the highest-impact unresolved questions. Do not ask for routine styling details such as exact spacing, pixel values, breakpoints, or decorative choices when they can be chosen coherently and refined later. If the user delegates those choices or the design intent is already sufficient, proceed without further questioning and do not reopen settled inputs unless the request materially changes them.
+
+Read [references/site-profile.md](references/site-profile.md) when project/site context is missing and a material design or implementation choice depends on it.
 
 ## Quality standard
 
