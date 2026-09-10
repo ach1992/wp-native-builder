@@ -34,8 +34,8 @@ When Custom HTML is the better path:
 - inherit theme typography by default;
 - avoid global element selectors and unnecessary `!important`;
 - use native HTML behavior before JavaScript;
-- include JavaScript only for behavior that cannot be achieved cleanly otherwise;
-- use only Font Awesome 5 Free icons when relying on the default globally available icon set;
+- include JavaScript only for behavior that cannot be achieved cleanly otherwise; do not assume inline `<script>` in a Custom HTML block is supported or appropriate;
+- use Font Awesome 5 Free icons only when the current site/profile establishes that the icon set is already available; otherwise prefer existing site icons or dependency-free/native alternatives;
 - include intentional mobile/tablet behavior rather than only shrinking desktop values;
 - for RTL sites, verify alignment, direction-sensitive spacing, icon/arrow meaning, and interaction order;
 - provide visible keyboard focus and avoid hover-only access to essential behavior;

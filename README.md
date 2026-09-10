@@ -7,7 +7,7 @@ The Skill is designed around a typical Astra Pro + Gutenberg workflow while rema
 ## Core approach
 
 ```text
-WordPress Core / Gutenberg
+WordPress Core / Gutenberg, including Patterns / Synced Patterns when they fit
   -> Astra / Astra Pro
   -> suitable already-installed plugin
   -> scoped custom HTML/CSS/JS
@@ -22,12 +22,12 @@ Custom HTML is supported but is not the default answer. When it is appropriate, 
 - Astra + Astra Pro
 - Gutenberg / Block Editor
 - Code Snippets Pro for justified centralized custom code
-- Font Awesome 5 Free already available globally
+- Font Awesome 5 Free in the normal stack when established by the project/site profile
 - theme-managed fonts
 - Gravity Forms
 - Astra-native header/footer/global mechanisms where appropriate
 
-These are defaults, not requirements. Explicit project instructions and verified site state take precedence.
+These are preferred defaults, not requirements. Explicit project instructions and verified site state take precedence. On an unrelated or unknown site, the Skill does not install or rely on optional stack components merely because they appear in the defaults.
 
 ## Install in ChatGPT
 
@@ -48,6 +48,7 @@ Ask naturally for WordPress design or implementation work, for example:
 
 - `Design a Persian RTL landing page using my normal Astra/Gutenberg setup.`
 - `Build this page with native Gutenberg blocks where possible.`
+- `Reuse this CTA across the site and keep every instance synchronized.`
 - `Return the custom sections block-by-block for Gutenberg.`
 - `Review this page and prioritize the changes I should make.`
 
@@ -55,17 +56,17 @@ The Skill asks only for material context that is missing and cannot be discovere
 
 ## Manual and connected modes
 
-**Manual mode requires no bridge.** The Skill can provide exact Gutenberg block structures, Astra/plugin configuration, and complete scoped Custom HTML/CSS/JS sections when custom code is justified.
+**Manual mode requires no bridge.** The Skill can provide exact Gutenberg block structures, native Pattern/Synced Pattern choices, Astra/plugin configuration, and complete scoped Custom HTML/CSS/JS sections when custom code is justified.
 
 For connected work, use the companion [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) project. A working bridge connection lets the Skill inspect current site state and use the abilities actually exposed by that site. See the companion repository for its current implementation and setup status.
 
-Bridge permission is not user approval. Live publishing and other materially consequential/global/destructive site actions still require explicit current approval immediately before the action.
+Bridge permission is not user approval, but ordinary safe reversible writes do not require repeated confirmation. The Skill advances read/draft/preview/reversible work first and asks only at an actual consequential boundary. A current explicit instruction to perform the exact consequential action and target counts as approval, so it is not reconfirmed unless the target, scope, effect, or relevant state materially changes.
 
 ## Project map
 
 | Source | Purpose |
 |---|---|
-| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, defaults, decision model, quality requirements, and completion criteria |
+| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, defaults, decision model, quality requirements, and approval semantics |
 | [`SKILL.md`](./SKILL.md) | Compact runtime control plane |
 | [`references/`](./references/) | Shallow conditional guidance loaded only when useful |
 | [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release and `skill.zip` asset |
@@ -87,4 +88,4 @@ This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
 
 ## Current state
 
-`v0.1` is publicly released with the validated `skill.zip` artifact and MIT License. Manual mode is independently usable; connected-mode runtime validation remains dependent on the companion bridge implementation.
+`v0.1` remains the latest public release with its validated `skill.zip` artifact and MIT License. The current source includes post-v0.1 runtime refinements for native reuse, connected-write safety, custom-code hardening, stack portability, and lower-friction approval behavior. Manual mode remains independently usable; connected-mode runtime validation remains dependent on the companion bridge implementation.

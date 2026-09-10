@@ -27,8 +27,10 @@ These are defaults, not hard requirements. Current explicit instructions or the 
 | Forms | Gravity Forms |
 | Header/footer/global insertion | Prefer Astra-native facilities/hooks when appropriate |
 | New-site permalinks | Post name |
-| Page construction | Native blocks first; Custom HTML blocks when they are the better implementation |
+| Page construction | Native blocks and Patterns first; Custom HTML blocks when they are the better implementation |
 | Custom HTML output | Logical sections separated block-by-block |
+
+These defaults describe the preferred normal stack. On an unrelated or unknown site, do not install or rely on Astra/Astra Pro, Gravity Forms, Code Snippets Pro, or Font Awesome solely because they appear here; use the current site profile or verified site state. Conversely, do not repeatedly ask about a capability already established by the current project context/site profile.
 
 Do not enqueue another Font Awesome build or external font by default.
 
@@ -48,7 +50,7 @@ Never change an existing site's global configuration merely to make it match a S
 Choose the simplest maintainable implementation that achieves the requested result.
 
 ```text
-Can WordPress Core/Gutenberg do it cleanly?
+Can WordPress Core/Gutenberg do it cleanly, including Patterns/Synced Patterns when they fit?
   -> yes: use Core/Gutenberg
   -> no: can Astra/Astra Pro do it cleanly?
        -> yes: use Astra
@@ -114,7 +116,7 @@ Do not turn this table into a ritual checklist in user-facing answers. Apply onl
 
 ### Native blocks
 
-Prefer native Gutenberg structures when they remain easy to edit and accurately achieve the design. When manual execution is needed, provide the exact block hierarchy and the important settings to apply.
+Prefer native Gutenberg structures when they remain easy to edit and accurately achieve the design. Use unsynced Patterns for reusable structure whose instances should remain independently editable, and Synced Patterns when repeated content should update everywhere from one source. When manual execution is needed, provide the exact block hierarchy and the important settings to apply. Output serialized `<!-- wp:... -->` block markup only when paste/import-ready block markup is specifically useful or requested.
 
 ### Custom HTML
 
@@ -127,10 +129,11 @@ When Custom HTML is justified:
 - use semantic HTML;
 - keep JavaScript out unless it is truly needed;
 - prefer native HTML behavior before JavaScript;
+- do not assume inline `<script>` inside a Custom HTML block is supported or the best placement; use a verified existing centralized mechanism or the smallest justified extension when appropriate;
 - centralize genuinely shared/reusable styles or scripts instead of duplicating them across many blocks;
 - avoid global selectors and unnecessary `!important`;
 - inherit site typography unless the project explicitly requires otherwise;
-- use only Font Awesome 5 Free icons when relying on the default globally available icon set;
+- use Font Awesome 5 Free only when the current project/site profile or verified site state establishes that it is already available;
 - include responsive and reduced-motion behavior when applicable.
 
 Self-contained is the default for one-off sections, not a requirement to duplicate common code everywhere.
@@ -139,10 +142,13 @@ Self-contained is the default for one-off sections, not a requirement to duplica
 
 - Use Gravity Forms for forms by default when available instead of hand-building forms.
 - Prefer Astra facilities for suitable header/footer/global placement work.
+- Prefer Patterns/Synced Patterns for reusable content when they fit the ownership and synchronization requirement.
 - Prefer WordPress Media Library for site media.
 - Prefer WordPress revisions and normal content APIs for content changes.
+- Preserve an existing page's current builder/ownership model; do not convert it to Gutenberg/Astra merely to match Skill preferences unless migration is explicitly requested.
 - Do not edit WordPress core, Astra, or third-party plugin files directly.
 - Do not place routine custom PHP in a theme's `functions.php` when Code Snippets Pro or a small purpose-built plugin is the safer maintainable location.
+- For custom PHP/plugin work, validate expected input, sanitize where appropriate, escape output at render time, enforce capabilities for privileged operations, use nonces for CSRF protection without treating them as authorization, require suitable REST `permission_callback` checks, and prefer WordPress APIs/prepared queries over raw SQL.
 - Do not change permalink structure on an existing site without explicit instruction and impact review.
 
 ## 10. Connected-site behavior
@@ -154,15 +160,20 @@ When connected:
 1. inspect relevant site state before proposing or applying a change;
 2. reuse the current stack and conventions where they remain fit;
 3. make narrow reversible edits instead of replacing unrelated content;
-4. use current revision/identity data for overwrite-sensitive updates;
+4. use current revision/identity data for overwrite-sensitive updates; on a stale revision/conflict, re-read and reconcile instead of overwriting newer state blindly;
 5. prefer draft/preview/reversible work while iterating;
-6. summarize the exact objects/sections changed and any remaining manual or approval step.
+6. after writes, verify resulting state when practical; if a write outcome is ambiguous, re-read before retrying to avoid duplicate/conflicting mutations;
+7. summarize the exact objects/sections changed and any remaining manual or approval step.
 
 ### Publishing and consequential changes
 
-The user requires explicit approval before publishing live changes.
+Bridge capability or permission does not itself grant user approval. The model should keep working through safe read-only, draft, preview, validation, preparation, and reversible steps before any approval request.
 
-Before live publishing or another materially consequential/global/destructive action, stop at the approval boundary and state the exact pending action and its material impact. Do not treat permission exposed by the bridge as user approval.
+Approval is required only immediately before an action that actually publishes live content or otherwise has material impact on live content, shared/global behavior, security/permissions, data integrity, reversibility, or another comparable consequential surface. Do not stop merely because an operation is a write when it is safely reversible and remains within the requested scope.
+
+A current explicit user instruction counts as approval when it unambiguously directs the exact consequential action and target. Do not ask for duplicate confirmation. A prior exact approval remains applicable while the target, scope, material effect, and decision-relevant state have not materially changed. Re-confirm only when those facts drift, the action expands, or the earlier instruction was too broad/ambiguous to cover the actual consequence.
+
+If approval is still genuinely required, defer the question until all useful safe independent work is complete and state only the exact pending action and material impact needed for the user to decide.
 
 ## 11. Skill implementation requirements
 
@@ -173,7 +184,7 @@ The Skill itself must remain small and high-signal.
 - Move detailed conventions/reference material into shallow `references/` files only when needed.
 - Avoid duplicated instructions and repeated generic web-design advice.
 - Prefer imperative, decision-oriented language.
-- Preserve model autonomy for ordinary reversible choices; do not force unnecessary questions or ceremony.
+- Preserve model autonomy for ordinary reversible choices; do not force unnecessary questions, confirmations, or ceremony.
 - Do not encode one site's colors, URLs, content, IDs, or brand values as global defaults.
 - Do not depend on WPVibe or another paid/SaaS WordPress bridge.
 - When current external API/plugin behavior matters, verify authoritative current documentation rather than relying on stale assumptions.
@@ -202,9 +213,11 @@ The Skill must handle at least these patterns well:
 3. "Here is the content; return the custom parts block-by-block for Gutenberg."
 4. "Connect to the site, inspect this page, and improve the section without changing unrelated blocks."
 5. "Build a contact/application form" -> prefer Gravity Forms when available.
-6. "Add a site-wide announcement/header/footer element" -> prefer the appropriate global/native mechanism.
-7. "Review this page" -> provide prioritized, implementation-aware design/UX/accessibility/performance findings.
-8. "Publish the changes" -> require explicit approval immediately before the live action.
+6. "Reuse this CTA across many pages and keep it synchronized" -> prefer a Synced Pattern when native reuse fits.
+7. "Add a site-wide announcement/header/footer element" -> prefer the appropriate global/native mechanism.
+8. "Review this page" -> provide prioritized, implementation-aware design/UX/accessibility/performance findings.
+9. "Prepare the changes" -> complete draft/preview/reversible work without asking for publish approval early.
+10. "Publish these prepared changes to this page now" -> treat the exact current instruction as publish approval and do not ask again unless target/scope/effect materially changed.
 
 ## 13. Non-goals
 
@@ -213,7 +226,7 @@ The Skill must handle at least these patterns well:
 - Forcing Custom HTML for every section.
 - Recreating functionality already provided cleanly by WordPress or installed plugins.
 - Depending on proprietary WordPress AI services.
-- Creating excessive process, output boilerplate, or repeated checklists that slow the model.
+- Creating excessive process, output boilerplate, repeated confirmations, or checklists that slow the model.
 
 ## 14. Success criteria
 
@@ -221,11 +234,11 @@ The project is complete for the first usable release when:
 
 - a valid packaged ChatGPT Skill exists and can be installed;
 - common Astra/Gutenberg design requests require materially less repeated briefing;
-- the Skill consistently chooses native vs Astra vs installed-plugin vs custom-code paths sensibly;
+- the Skill consistently chooses native vs Astra vs installed-plugin vs custom-code paths sensibly, including Patterns/Synced Patterns for native reuse when appropriate;
 - manual code output is clean, scoped, responsive, accessible, and block-by-block when custom blocks are appropriate;
 - connected mode can correctly use the bridge's supported abilities without embedding bridge implementation details in every prompt;
-- publish/live changes remain behind explicit user approval;
-- representative evaluation scenarios pass without unnecessary questions, excessive verbosity, or decision friction;
+- live/consequential actions remain behind explicit user approval when approval is actually needed, while exact current instructions are not redundantly reconfirmed;
+- representative evaluation scenarios pass without unnecessary questions, repeated approvals, excessive verbosity, or decision friction;
 - installation/use documentation is concise and reproducible.
 
 ## 15. Delivery
