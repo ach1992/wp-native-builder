@@ -1,39 +1,54 @@
 # WP Native Builder
 
-A compact ChatGPT Skill for professional WordPress site design and implementation with a WordPress-native-first workflow.
+A compact ChatGPT Skill for professional, stack-adaptive WordPress site design and implementation with a WordPress-native-first workflow.
 
-The Skill is designed around a typical Astra Pro + Gutenberg workflow while remaining project-aware: explicit site requirements and verified connected-site state override defaults.
+The owner's common Astra Pro + Gutenberg + Gravity Forms environment remains a preferred default, but **default stack does not mean only supported stack**. The Skill adapts to the actual site's theme, editor/builder, plugins, content/data model, WooCommerce workload, and capabilities when those are known or discoverable.
 
 ## Core approach
 
 ```text
-WordPress Core / Gutenberg, including Patterns / Synced Patterns when they fit
-  -> Astra / Astra Pro
-  -> suitable already-installed plugin
-  -> scoped custom HTML/CSS/JS
-  -> new plugin/custom extension only when justified
+REQUEST
+  -> understand the relevant current site architecture/capabilities
+  -> reuse the site's existing suitable mechanism
+  -> prefer WordPress-native/public/supported surfaces
+  -> prefer suitable current theme/builder/plugin capabilities
+  -> in connected mode, use an exposed ability that safely operates the chosen mechanism
+  -> use scoped custom HTML/CSS/JS for genuine gaps
+  -> add a custom extension/plugin only when justified
 ```
 
-Custom HTML is supported but is not the default answer. When it is appropriate, logical page sections are returned block-by-block with scoped, maintainable code.
+The Skill does not convert an Elementor/Kadence/block-theme/WooCommerce/ACF/etc. site toward Astra/Gutenberg/Gravity Forms merely because those are preferred defaults.
 
-## Default stack
+## Preferred default stack
 
 - WordPress
 - Astra + Astra Pro
 - Gutenberg / Block Editor
 - Code Snippets Pro for justified centralized custom code
-- Font Awesome 5 Free in the normal stack when established by the project/site profile
+- Font Awesome 5 Free when established by the current project/site profile
 - theme-managed fonts
 - Gravity Forms
-- Astra-native header/footer/global mechanisms where appropriate
+- Astra-native header/footer/global mechanisms when appropriate
 
-These are preferred defaults, not requirements. Explicit project instructions and verified site state take precedence. On an unrelated or unknown site, the Skill does not install or rely on optional stack components merely because they appear in the defaults.
+These are fallback/preferred defaults, not requirements. Explicit project instructions, supplied site architecture, and verified connected state take precedence.
+
+## Supported architecture model
+
+The core Skill stays general rather than bundling a large plugin/theme encyclopedia. It can adapt to, for example:
+
+- block themes / Site Editor;
+- other themes and existing page builders;
+- WooCommerce;
+- forms, ACF/custom post types, multilingual/SEO/performance plugins;
+- current/future WordPress, theme, and plugin public APIs/Abilities.
+
+Plugin/theme-specific references are added only if real repeated workflows prove they improve reliability enough to justify their context and maintenance cost.
 
 ## Install in ChatGPT
 
 On a ChatGPT workspace where Skills and Skill uploads are available:
 
-1. Download the release asset named `skill.zip`.
+1. Download a release asset named `skill.zip` or use a validated package generated from current source.
 2. In ChatGPT, open **Plugins -> Skills**.
 3. Select **Create -> Upload from your computer** and choose `skill.zip`.
 4. Complete ChatGPT's scan/install flow.
@@ -44,43 +59,42 @@ Current OpenAI installation guidance: [Skills in ChatGPT](https://help.openai.co
 
 ## Use
 
-Ask naturally for WordPress design or implementation work, for example:
+Ask naturally, for example:
 
 - `Design a Persian RTL landing page using my normal Astra/Gutenberg setup.`
-- `Build this page with native Gutenberg blocks where possible.`
-- `Reuse this CTA across the site and keep every instance synchronized.`
-- `Return the custom sections block-by-block for Gutenberg.`
+- `This site uses a block theme; improve the global header without rebuilding the architecture.`
+- `This WooCommerce + Kadence + ACF site needs a better product/category presentation.`
+- `This page is built with Elementor; improve the section without converting it to Gutenberg.`
+- `Reuse the site's existing form plugin for this application form.`
 - `Review this page and prioritize the changes I should make.`
 
-The Skill asks only for material context that is missing and cannot be discovered from a connected site.
+The Skill asks only for material context that is missing and cannot be discovered safely.
 
 ## Manual and connected modes
 
-**Manual mode requires no bridge.** The Skill can provide exact Gutenberg block structures, native Pattern/Synced Pattern choices, Astra/plugin configuration, and complete scoped Custom HTML/CSS/JS sections when custom code is justified.
+**Manual mode requires no bridge.** The Skill provides stack-aware instructions/output for the actual editor/theme/plugins supplied in context, with the preferred defaults used only when applicable.
 
-For connected work, use the companion [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) project. A working bridge connection lets the Skill inspect current site state and use the abilities actually exposed by that site. See the companion repository for its current implementation and setup status.
+For connected work, use the companion [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge). Connected mode inspects relevant architecture and uses capabilities actually exposed by the current runtime. It is not limited to custom Bridge-owned abilities: suitable native/plugin/theme Abilities may be preferred when they expose a better supported route.
 
-Bridge permission is not user approval, but ordinary safe reversible writes do not require repeated confirmation. The Skill advances read/draft/preview/reversible work first and asks only at an actual consequential boundary. A current explicit instruction to perform the exact consequential action and target counts as approval, so it is not reconfirmed unless the target, scope, effect, or relevant state materially changes.
+Bridge/plugin permission is not user approval, but safe reversible work does not require repeated confirmation. The Skill advances read/draft/preview/reversible work first and asks only at an actual consequential boundary. Exact current instructions for the same consequential action/target count as approval unless material state/scope/effect changes.
+
+WooCommerce design/content/presentation is normal supported site-building work when present. Refunds, payment operations, destructive order actions, and consequential customer/order mutations are not silently inferred from ordinary design requests and remain permission/approval-sensitive when applicable.
 
 ## Project map
 
 | Source | Purpose |
 |---|---|
-| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, defaults, decision model, quality requirements, and approval semantics |
+| [`MASTER-SPEC.md`](./MASTER-SPEC.md) | Canonical project intent, stack-adaptive architecture, defaults, decision/approval behavior, and evaluation requirements |
 | [`SKILL.md`](./SKILL.md) | Compact runtime control plane |
 | [`references/`](./references/) | Shallow conditional guidance loaded only when useful |
-| [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release and `skill.zip` asset |
-| [Issue #1](https://github.com/ach1992/wp-native-builder/issues/1) | v0.1 program/outcome |
-| [Issue #4](https://github.com/ach1992/wp-native-builder/issues/4) | Packaging and first-release status |
+| [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release |
 | [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge |
 
 ## Release model
 
 The distributable Skill contains only `SKILL.md`, `agents/`, and `references/`. Repository-only project documentation such as this README and `MASTER-SPEC.md` is not bundled into `skill.zip`.
 
-For a release, stage those distributable paths under a directory named `wp-native-builder`, run the standard ChatGPT Skill validation/package flow on that directory, and publish the resulting artifact as `skill.zip`. Generated ZIP files are not committed to the source tree.
-
-The project intentionally keeps `SKILL.md` high-signal and uses only shallow references that materially improve model decisions.
+For a package/release, stage distributable paths under a directory named `wp-native-builder`, run the standard ChatGPT Skill validation/package flow, and use the resulting file named exactly `skill.zip`. Generated ZIP files are not committed to the source tree.
 
 ## License
 
@@ -88,4 +102,4 @@ This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
 
 ## Current state
 
-`v0.1` remains the latest public release with its validated `skill.zip` artifact and MIT License. The current source includes post-v0.1 runtime refinements for native reuse, connected-write safety, custom-code hardening, stack portability, and lower-friction approval behavior. Manual mode remains independently usable; connected-mode runtime validation remains dependent on the companion bridge implementation.
+`v0.1` remains the latest public release. Current source includes post-v0.1 refinements for lower-friction approval behavior, native reuse, connected-write safety, custom-code hardening, and a general stack-adaptive architecture. Manual mode remains independently useful; connected-mode behavior depends on the capabilities actually exposed by the companion/current WordPress runtime.
