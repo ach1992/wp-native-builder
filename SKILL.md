@@ -103,7 +103,7 @@ Capability/permission is not user approval, but neither is every write consequen
 
 | Current condition | Model action |
 |---|---|
-| Safe read, reversible edit, draft, preview, validation, or preparation | Proceed without repetitive confirmation. |
+| Safe read, non-consequential reversible edit, draft, preview, validation, or preparation | Proceed without repetitive confirmation. |
 | Consequential action is not yet authorized | Complete useful safe preparation that does not prejudge the decision, then ask only immediately before the action. |
 | Current explicit instruction unambiguously authorizes the exact consequential action and target | Proceed when execution is next; do not ask again merely because the boundary has been reached. |
 | Prior exact approval exists and target, scope, material effect, and decision-relevant state are materially unchanged | Reuse the approval. |
