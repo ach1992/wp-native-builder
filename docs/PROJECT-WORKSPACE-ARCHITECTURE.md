@@ -1,6 +1,6 @@
 # WP Native Builder — Persistent Workspace and Site Project Lifecycle
 
-Status: Accepted architecture; implementation tracked separately
+Status: Accepted architecture; Skill-side runtime integrated; connected Bridge implementation/E2E tracked separately
 Repository: `ach1992/wp-native-builder`
 Companion: `ach1992/wp-native-builder-bridge`
 Parent program: https://github.com/ach1992/wp-native-builder/issues/13
@@ -25,6 +25,7 @@ This document owns the detailed Skill-side architecture for Workspace continuity
 8. **No false persistence.** If the connected Workspace capability is absent, the Skill must remain useful but must not imply that cross-chat state has been saved.
 9. **No unnecessary infrastructure.** The initial architecture requires no vector database, embeddings service, external project database, or hosted memory service.
 10. **Companion responsibilities stay separated.** This repository defines Skill behavior and the expected Workspace contract; the companion Bridge owns WordPress storage, abilities, isolation, permissions, and admin UI implementation.
+11. **Workspace correctness is revision-independent.** Current Workspace state, fresh-chat recovery, and stale-write protection must not depend on WordPress Revisions; Workspace Documents/Tasks use a Workspace-owned current-state identity such as `version + state_hash`.
 
 ## 3. Site-project operating loop
 
@@ -109,7 +110,7 @@ Create or update these only when the project actually needs them:
 - credentials, application passwords, tokens, auth headers, salts, private keys, or other secrets;
 - unnecessary customer/order/payment/financial or similarly sensitive payloads.
 
-Do not create `session-1`, `checkpoint-2`, `handoff-3`, or equivalent ever-growing archives. Update the current useful document/task instead; the Bridge may use WordPress revisions/version history for recovery/audit where appropriate.
+Do not create `session-1`, `checkpoint-2`, `handoff-3`, or equivalent ever-growing archives. Update the current useful document/task instead. Workspace correctness does not rely on WordPress Revisions; revisions may remain optional secondary history when available, while any stronger durable Workspace history is owned by the Bridge's bounded private snapshot/version mechanism and retention policy.
 
 ## 6. Workspace Documents
 
@@ -229,6 +230,8 @@ Recent durable decision: homepage hero direction approved
 
 The model then reads only what it needs, for example `T12` and `design-system`, rather than every document and completed task.
 
+`workspace-resume` must derive from current primary Workspace object state and remain functional when WordPress Revisions are disabled, limited, or pruned.
+
 ### New project / empty Workspace
 
 If no durable Workspace exists, do not manufacture a large project structure immediately. Discover the site/request and create only the first useful documents/tasks once enough intent is known.
@@ -261,16 +264,22 @@ Never use stale Workspace state to authorize blind replacement of newer live con
 
 ## 10. Concurrency and stale writes
 
-Multiple chats or humans may work on the same site. Workspace and live-object mutation should therefore use version/revision identity where the connected runtime provides it.
+Multiple chats or humans may work on the same site. Keep Workspace-object concurrency distinct from ordinary live WordPress content history.
 
-Expected behavior:
+For a Workspace Document/Task, the current state lives in the primary Workspace object and overwrite protection must use a Workspace-owned identity independent of WordPress Revision IDs. A suitable contract can expose a monotonic `version` plus deterministic `state_hash`, or an equivalently strong typed identity. The exact representation is Bridge-owned; the Skill must use only the identity actually exposed by the current runtime.
 
-1. read current document/task/live-object identity before an overwrite-sensitive change;
-2. submit the expected identity with the change when supported;
-3. if stale/conflicted, do not overwrite;
-4. re-read current state;
+Expected Workspace behavior:
+
+1. read the current Workspace Document/Task and its current identity before an overwrite-sensitive change;
+2. submit the expected Workspace identity with the change when supported;
+3. if the identity is stale/conflicted, do not overwrite;
+4. re-read current primary Workspace state;
 5. reconcile the intended update with newer valid work;
 6. retry only after the conflict is understood.
+
+This flow must continue to work when WordPress Revisions are disabled, limited, or removed by cleanup tooling. WordPress Revisions may be retained as optional secondary history, but they are not authority for current Workspace state, fresh-chat recovery, or stale-write detection.
+
+For ordinary live WordPress content such as Posts/Pages, use the current object/revision/version identity appropriate to the actual WordPress mechanism; this Workspace rule does not remove the usefulness of normal WordPress revisions for live-content history/rollback.
 
 The Skill must not invent a successful state when a Workspace write outcome is ambiguous. Re-read before any retry that could duplicate or destroy newer information.
 
@@ -335,7 +344,7 @@ When the user asked for a complete site, the Skill should synthesize only the re
 
 Do not create a universal launch checklist by ritual. Adapt to the site and accepted scope.
 
-After launch, keep the active Workspace compact. Completed historical tasks should not dominate normal resume results, although the Bridge may retain them/revisions for inspection. Preserve durable approved project context and unresolved work so future maintenance can resume cleanly.
+After launch, keep the active Workspace compact. Completed historical tasks should not dominate normal resume results. They may remain recoverable through current Workspace objects and bounded Bridge-managed history when useful; WordPress Revisions, if present, are optional secondary history rather than a continuity dependency. Preserve durable approved project context and unresolved work so future maintenance can resume cleanly.
 
 ## 13. Security and privacy boundaries
 
@@ -379,11 +388,16 @@ Expected properties:
 - no public front-end permalink/query/search/feed exposure;
 - no accidental inclusion in normal content/navigation editing;
 - capability/permission checks consistent with the Bridge security model;
-- revision/version identity suitable for stale-write detection;
+- current state stored in each primary Workspace Document/Task object rather than reconstructed from WordPress Revisions;
+- a Bridge-owned overwrite identity independent of WordPress Revision IDs, such as `version + state_hash`, exposed strongly enough for optimistic concurrency;
+- `workspace-resume`, current Workspace state, and stale-write rejection remain functional with WordPress Revisions disabled or pruned;
+- WordPress Revisions, if retained, are optional secondary history only;
+- if durable history/rollback must survive revision-cleaner plugins, bounded Bridge-managed private snapshot/version records may be used, must not be ordinary `post_type=revision` records, and must have explicit retention;
 - Markdown-oriented document content plus structured task metadata;
 - deactivation does not silently destroy project memory;
 - uninstall deletion is explicit/opt-in rather than surprising;
-- export and explicit clear/delete controls are available to the administrator.
+- export and explicit clear/delete controls are available to the administrator;
+- deletion of the Workspace/database itself, host rollback, or similar disaster recovery remains outside software-level continuity guarantees and relies on normal site/database backups.
 
 ### Admin UX expectation
 
@@ -424,18 +438,17 @@ The Skill should:
 
 The implementation should add detailed guidance through shallow Skill references, not by turning `SKILL.md` into a large orchestrator.
 
-Expected future Skill reference shape:
+Current integrated Skill reference shape:
 
 ```text
 references/
-├── site-profile.md
-├── implementation-decisions.md
 ├── design-conventions.md
-├── workspace-memory.md
-└── project-workflow.md
+├── implementation-decisions.md
+├── project-workflow.md
+└── workspace-memory.md
 ```
 
-These two new references are implementation targets, not proof that the current released Skill already contains this functionality.
+Evidence-first scoping and Ask / Infer / Defer live directly in `SKILL.md`; no separate `site-profile.md` runtime hop is required. Workspace/project references are integrated in current source, while connected Workspace execution remains dependent on the companion Bridge exposing the accepted capabilities.
 
 ## 16. Manual versus connected capability
 
@@ -469,7 +482,7 @@ Implementation must be tested against at least these scenarios:
 3. Broad new-site request generates only useful initial docs/tasks and begins work without planning paralysis.
 4. Small one-off visual/content modification completes without unnecessary persistent task/document creation.
 5. Workspace notes conflict with live WordPress state; live state is re-read and reconciled.
-6. Concurrent/stale Workspace write does not overwrite newer valid state.
+6. Concurrent/stale Workspace write does not overwrite newer valid state, including when WordPress Revisions are disabled, limited, or pruned.
 7. Substantial design follows preview -> AI self-review -> user review -> revision/approval -> publish -> live verification when appropriate.
 8. Prior “publish after my approval” instruction plus clear approval of the current preview does not trigger duplicate confirmation.
 9. Generic positive feedback does not imply unrelated publish authorization.
@@ -480,6 +493,7 @@ Implementation must be tested against at least these scenarios:
 14. Manual mode remains useful with no Workspace capability and makes no false persistence claim.
 15. Complete-site flow performs proportional launch verification rather than declaring success solely from page-task completion.
 16. Added Skill guidance remains compact/progressively loaded and does not recreate `github-project-orchestrator` inside the WordPress Skill.
+17. WordPress Revisions remain available for ordinary live-content history/rollback where appropriate; Workspace revision independence does not cause the Skill to discard normal Posts/Pages revision behavior.
 
 ## 18. Non-goals
 
