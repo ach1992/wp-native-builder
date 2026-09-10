@@ -20,7 +20,7 @@ Do not inventory unrelated plugins or rebuild a site profile for a narrow change
 
 | Situation | Prefer |
 |---|---|
-| Gutenberg-owned page content | Core blocks; Pattern when reusable structure helps |
+| Gutenberg-owned page content | Core blocks; Pattern/Synced Pattern according to reuse semantics |
 | Block-theme global/template concern | Site Editor, templates/template parts, Global Styles, Patterns, supported block mechanisms |
 | Existing page-builder-owned surface | Current builder's supported mechanism unless migration is explicit |
 | Theme-owned presentation/layout | Current theme facility when it cleanly owns the concern |
@@ -28,6 +28,7 @@ Do not inventory unrelated plugins or rebuild a site profile for a narrow change
 | Forms | Suitable installed form plugin; Gravity Forms only as applicable/default |
 | WooCommerce presentation | WooCommerce-supported blocks/templates/settings plus current theme/builder integration |
 | Existing CPT/taxonomy/ACF model | Preserve and use the established model/APIs when fit |
+| Site media/content changes | WordPress Media Library plus normal content/revision APIs |
 | One-off presentation gap | Scoped HTML/CSS and only needed JS |
 | Shared reusable behavior | Smallest maintainable existing centralized mechanism |
 | New lifecycle/settings/data/API behavior | Small purpose-built plugin/extension only when simpler supported options fail materially |

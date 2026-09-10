@@ -63,6 +63,7 @@ Never change an existing site's permalink structure, theme/builder, form system,
 Without connected capabilities, remain fully useful. Use supplied site/context evidence and give exact implementation guidance/output for the actual stack.
 
 - Existing Gutenberg surface -> native blocks/Patterns when they fit; serialized block markup only when paste/import-ready markup is useful or requested.
+- Review-only request -> prioritize architecture-aware findings and concrete next actions; do not return a generic audit checklist.
 - Block theme -> Site Editor/templates/template parts/Global Styles/Patterns when they own the concern.
 - Existing page builder/theme/plugin -> use its supported mechanisms; do not convert ownership without an explicit migration/redesign requirement.
 - Forms -> reuse a suitable installed form system rather than recreating submission/validation/spam/storage/notifications.
