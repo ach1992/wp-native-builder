@@ -52,6 +52,10 @@ Before moving to a more custom or replacement mechanism, confirm the existing si
 
 Do not replace a working stack merely to match Skill defaults. Do not install a second plugin for capability already provided cleanly by WordPress or a suitable current theme/plugin.
 
+## Forms
+
+When a suitable form plugin is already available, use it instead of hand-coding submission handling, validation, spam protection, storage, or notifications. Custom markup may style or frame the form, but should not recreate the form engine without a justified requirement.
+
 ## WooCommerce scope
 
 When WooCommerce is present, treat product/catalog structure, category/product presentation, shop pages, WooCommerce blocks/templates, store UX, responsive design, product content, merchandising/presentation, and relevant non-sensitive configuration as supported site-building work.
