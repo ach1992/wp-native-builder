@@ -82,9 +82,9 @@ WooCommerce design/content/presentation is normal supported site-building work w
 
 ## Accepted persistent Workspace direction
 
-Post-v0.1 development now has an accepted architecture for **cross-chat site-project continuity** and a lightweight end-to-end site workflow. This is a development target, not a claim about the currently released `v0.1` package.
+Current post-v0.1 source now implements the Skill-side routing and lightweight project behavior for the accepted architecture for **cross-chat site-project continuity**. This is not a claim that the currently released `v0.1` package contains those changes or that connected Workspace E2E is complete.
 
-When the companion WordPress runtime later exposes the accepted Workspace contract, WP Native Builder should be able to recover a compact project orientation from WordPress, load only relevant durable documents/tasks, verify current live site state, and continue the next useful action without requiring the previous chat history.
+When the companion WordPress runtime exposes the accepted Workspace contract, the current Skill-side runtime is designed to recover a compact project orientation from WordPress, load only relevant durable documents/tasks, verify current live site state, and continue the next useful action without requiring the previous chat history.
 
 The Workspace is intentionally not a chat log or second CMS. It is for durable project intent, accepted decisions, unresolved progress, and only the tasks/documents that materially improve continuation. Live WordPress remains authoritative for current site content/configuration.
 
@@ -100,7 +100,7 @@ See [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](./docs/PROJECT-WORKSPACE-ARCHITEC
 | [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](./docs/PROJECT-WORKSPACE-ARCHITECTURE.md) | Detailed accepted architecture for persistent Workspace memory, recovery, lightweight tasks/documents, visual review, launch flow, and the logical companion-Bridge contract |
 | [`SKILL.md`](./SKILL.md) | Compact runtime control plane for behavior already implemented in current source |
 | [`references/`](./references/) | Shallow conditional runtime guidance loaded only when useful |
-| [Post-v0.1 Workspace program #13](https://github.com/ach1992/wp-native-builder/issues/13) | Current durable work/dependency/evaluation plan for implementing the accepted Workspace and full-site workflow |
+| [Post-v0.1 Workspace program #13](https://github.com/ach1992/wp-native-builder/issues/13) | Current post-v0.1 program and connected Workspace E2E dependency tracking |
 | [Release v0.1](https://github.com/ach1992/wp-native-builder/releases/tag/v0.1) | First validated public Skill release |
 | [`wp-native-builder-bridge`](https://github.com/ach1992/wp-native-builder-bridge) | Optional self-hosted WordPress MCP/Abilities bridge; its concrete Workspace implementation remains owned by that repository |
 
@@ -116,6 +116,6 @@ This project is licensed under the MIT License. See [`LICENSE`](./LICENSE).
 
 ## Current state
 
-`v0.1` remains the latest public release. Current source already includes post-v0.1 refinements for lower-friction approval behavior, native reuse, connected-write safety, custom-code hardening, stack-adaptive architecture, and stronger design-intent/question behavior.
+`v0.1` remains the latest public release. Current source contains post-v0.1 Skill-side refinements for lower-friction approval behavior, native reuse, connected-write safety, custom-code hardening, stack-adaptive architecture, stronger design-intent/question behavior, persistent-Workspace routing, lightweight multi-step project progression, visual review state, and proportional launch/maintenance behavior.
 
-The persistent Workspace, cross-chat recovery, lightweight project-task/document workflow, visual owner-review lifecycle, and complete-site continuation model are now **accepted and documented development requirements** under Issue #13, but are not yet claimed as implemented runtime functionality. Connected end-to-end Workspace validation additionally depends on the companion `wp-native-builder-bridge` later implementing the accepted Workspace capability contract in its own repository.
+The Skill-side Workspace/project runtime is integrated in current source, but connected cross-chat Workspace execution is not yet proven end-to-end because the companion `wp-native-builder-bridge` does not yet expose the accepted persistent Workspace capability contract. Issue #16 remains the connected E2E/package-validation owner once the separate Bridge implementation is available. This source state does not change the public release: `v0.1` remains the latest published package.

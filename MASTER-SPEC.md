@@ -243,7 +243,7 @@ The Skill itself must remain small and high-signal.
 - Do not depend on WPVibe or another paid/SaaS bridge.
 - Verify authoritative current documentation when version-sensitive WordPress/WooCommerce/theme/plugin/Abilities/MCP behavior materially affects implementation.
 
-Expected layout remains compact:
+The runtime layout must remain compact and may evolve when evaluation justifies a better progressive-loading architecture. The current integrated layout after the first-principles and Workspace/project-runtime work is:
 
 ```text
 wp-native-builder/
@@ -251,12 +251,13 @@ wp-native-builder/
 ├── agents/
 │   └── openai.yaml
 └── references/
-    ├── site-profile.md
+    ├── design-conventions.md
     ├── implementation-decisions.md
-    └── design-conventions.md
+    ├── project-workflow.md
+    └── workspace-memory.md
 ```
 
-Only retain references that prove useful during implementation/evaluation.
+Only retain references that prove useful during implementation/evaluation. Do not restore a removed reference merely to match a historical layout.
 
 ## 12. Representative evaluation scenarios
 
@@ -382,18 +383,17 @@ These are logical Skill-side requirements, not a claim that the current Bridge a
 
 ### 16.6 Skill implementation shape
 
-Keep `SKILL.md` compact. Implement the detailed runtime behavior through shallow conditional references when the work reaches implementation, expected to include:
+Keep `SKILL.md` compact. The current integrated shallow conditional reference set is:
 
 ```text
 references/
-├── site-profile.md
-├── implementation-decisions.md
 ├── design-conventions.md
-├── workspace-memory.md
-└── project-workflow.md
+├── implementation-decisions.md
+├── project-workflow.md
+└── workspace-memory.md
 ```
 
-`workspace-memory.md` should own retention/recovery/source-of-truth/concurrency rules; `project-workflow.md` should own lightweight task progression, visual review, approval/publish flow, launch completion, and maintenance behavior. Do not copy `github-project-orchestrator` wholesale into this Skill.
+The first-principles audit in #24 moved evidence-first scoping and Ask / Infer / Defer into `SKILL.md`, so no separate `site-profile.md` runtime hop is required. `workspace-memory.md` owns retention/recovery/source-of-truth/concurrency rules; `project-workflow.md` owns lightweight multi-step progression, visual review, approval/publish flow, launch completion, and maintenance behavior. Do not copy `github-project-orchestrator` wholesale into this Skill, and do not add a reference unless its conditional-loading reason earns the context cost.
 
 ### 16.7 Additional evaluation requirements
 
