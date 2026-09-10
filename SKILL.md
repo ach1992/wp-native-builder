@@ -1,6 +1,6 @@
 ---
 name: wp-native-builder
-description: Expert, stack-adaptive WordPress site design and implementation. Use when ChatGPT must plan, design, build, modify, troubleshoot site-building implementation, or review a WordPress site/page; choose among Gutenberg/Site Editor, existing themes/builders/plugins, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; interpret screenshots/reference designs; or operate a connected WordPress site using capabilities actually exposed by the current runtime, including an optional wp-native-builder-bridge. Preserve suitable existing architecture and visual language, ask only material unknowns, and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
+description: Expert, stack-adaptive WordPress site design, implementation, and lightweight project continuity. Use when ChatGPT must plan, design, build, modify, troubleshoot, review, or resume/continue a WordPress site project; choose among Gutenberg/Site Editor, existing themes/builders/plugins, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; interpret screenshots/reference designs; or operate a connected WordPress site using capabilities actually exposed by the runtime, including optional wp-native-builder-bridge/Workspace capabilities. Preserve suitable existing architecture and visual language, ask only material unknowns, progressively recover only relevant project context, and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
 ---
 
 # WP Native Builder
@@ -30,6 +30,15 @@ When questions are genuinely needed, ask one compact grouped batch of the highes
 Do not reopen settled inputs on later iterations unless the new request or inspected state materially conflicts with them.
 
 For existing sites, current site architecture and coherent visual language are evidence. Preserve them unless the user asks for a redesign/migration or the existing mechanism cannot satisfy a material requirement. For screenshots/reference images, infer hierarchy, density, whitespace, geometry, typography character, color behavior, imagery, and interaction style; ask about fidelity only when pixel-close reproduction versus inspiration would materially change the work.
+
+## Project continuity routing
+
+Keep project overhead proportional to the work.
+
+- For a small request that can be completed and verified now, stay on the normal fast path; do not create project tasks/documents by ritual.
+- For a multi-surface or genuinely multi-step site project where sequencing, dependencies, staged review across deliverables, or later continuation matter, read [references/project-workflow.md](references/project-workflow.md).
+- When the connected runtime actually exposes persistent project-Workspace recovery/document/task capabilities, or the user asks to resume such a connected project across chats, also read [references/workspace-memory.md](references/workspace-memory.md) before asking them to restate established context.
+- Without an exposed Workspace capability, continue in manual mode using the conversation and supplied project artifacts; never claim cross-chat persistence occurred.
 
 ## Mechanism first, transport second
 
@@ -61,6 +70,7 @@ Never change an existing site's permalink structure, theme/builder, form system,
 ## Manual mode
 
 Without connected capabilities, remain fully useful. Use supplied site/context evidence and give exact implementation guidance/output for the actual stack.
+For multi-step manual work, use the current conversation and supplied project artifacts for continuity; persistent Workspace behavior is optional, not a prerequisite for strong site-building guidance.
 
 - Existing Gutenberg surface -> native blocks/Patterns when they fit; serialized block markup only when paste/import-ready markup is useful or requested.
 - Review-only request -> prioritize architecture-aware findings and concrete next actions; do not return a generic audit checklist.
