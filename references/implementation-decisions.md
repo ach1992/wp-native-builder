@@ -9,7 +9,7 @@ Establish only facts that can change the chosen owner/mechanism:
 | Concern | Decision-relevant evidence |
 |---|---|
 | Theme / editing model | classic vs block theme; Site Editor; active child theme; page-builder ownership; template/global surface ownership |
-| Existing capability | relevant active theme/plugin feature that already satisfies the need |
+| Existing capability | relevant active theme/plugin feature that already satisfies the need; avoid overlapping dependencies |
 | Forms / commerce | existing form system; WooCommerce-owned templates/blocks/settings; current theme/builder integration |
 | Content/data model | CPT, taxonomy, ACF/fields, products/catalog, reusable/global content relationships |
 | Connected execution | native/plugin/theme/Bridge abilities actually exposed for the selected mechanism |
@@ -31,9 +31,25 @@ Do not inventory unrelated plugins or rebuild a site profile for a narrow change
 | Site media/content changes | WordPress Media Library plus normal content/revision APIs |
 | One-off presentation gap | Scoped HTML/CSS and only needed JS |
 | Shared reusable behavior | Smallest maintainable existing centralized mechanism |
-| New lifecycle/settings/data/API behavior | Small purpose-built plugin/extension only when simpler supported options fail materially |
+| Mature nontrivial capability missing from the site | Focused maintained plugin/theme capability when it provides lower lifecycle/risk burden than rebuilding it |
+| New site-specific lifecycle/settings/data/API behavior | Small purpose-built plugin/extension when a third-party dependency would be heavier, less fit, or worse-owned |
 
 Before moving to a more custom or replacement path, identify the material requirement the simpler existing path cannot meet: fidelity, editability, reuse, behavior, accessibility, performance, maintainability, compatibility, lifecycle, permissions, or data ownership. “I prefer another stack” is not enough on an existing site unless the user requested that change.
+
+## Capability gap: reuse, add a plugin, or build
+
+Do not wait for the user to name a plugin when the current stack is missing a capability that materially affects the requested outcome. Identify the capability first, then compare the smallest credible paths:
+
+1. configure/reuse WordPress core or an already-installed suitable theme/builder/plugin feature;
+2. add one focused maintained plugin/theme capability when it provides mature behavior with lower implementation and maintenance burden;
+3. use scoped custom HTML/CSS/JS for a presentation-only gap;
+4. use a small site-specific extension/plugin when ownership, lifecycle, permissions, data/API behavior, or unusual requirements make custom implementation the better long-term fit.
+
+Choose by total lifecycle cost, not by “fewer plugins” or “less code” in isolation. For a new dependency, evaluate only decision-relevant factors: exact feature fit, overlap with current plugins, current WordPress/PHP/theme/builder compatibility, maintenance activity/support, material security history, performance footprint, accessibility/UX quality, editability, data ownership/lock-in, licensing/cost, and uninstall/reversibility. Verify current official/product/security information when the recommendation materially depends on it.
+
+Keep the recommendation decision-ready: normally name one best-fit option and why; include one materially different alternative only when there is a real trade-off. Avoid generic “top plugins” lists, installing overlapping systems, or introducing a paid/external dependency whose benefit does not clearly repay its cost and maintenance.
+
+A recommendation is not automatic authorization to install/activate a new plugin/theme, change broad global settings, buy a license, or commit to a vendor. Prepare the best path and continue any independent safe work; apply the core approval boundary to the actual install/activation/global/external action. A current exact user instruction for that action can already satisfy the approval requirement when nothing material has drifted.
 
 ## Mechanism versus transport
 

@@ -10,11 +10,11 @@ Work like an experienced WordPress designer/developer: understand enough of the 
 ## Control loop
 
 1. **Understand the requested outcome and scope.** Distinguish a small targeted change from substantial new design, redesign, reusable/site-wide behavior, or multi-surface work. Do not expand a narrow request into a site audit.
-2. **Use evidence before questions.** Apply this precedence: current explicit user instruction -> supplied project/site context and visual evidence -> verified connected-site state -> Skill defaults.
+2. **Use evidence before questions and assign each source the right authority.** Current explicit user instruction controls the requested outcome/change; supplied project/brand/visual context controls intent and constraints; verified connected-site state controls what currently exists/is active; Skill defaults fill only unresolved choices.
 3. **Resolve only decision-relevant unknowns.** Inspect or ask only for facts that can change content hierarchy, design direction, architecture/ownership, compatibility, implementation mechanism, or a consequential boundary.
-4. **Choose the site mechanism first.** Decide what should own the behavior in WordPress; only then choose an execution transport/tool if connected.
-5. **Build or modify narrowly.** Preserve unrelated content, configuration, data, and ownership. Prefer reversible/draft/preview work while iterating.
-6. **Review what matters.** Verify the result against the requested outcome and applicable visual, responsive, accessibility, performance, maintainability, security, and architecture concerns.
+4. **Choose the site mechanism and useful enablers first.** Decide what should own the behavior in WordPress. If a real capability gap would materially limit quality, speed, editability, reliability, or maintainability, compare a focused existing/new capability with scoped custom code before choosing an execution transport/tool.
+5. **Build or modify narrowly.** Preserve unrelated content, configuration, data, and ownership. Prefer reversible/draft/preview work while iterating, and continue into the next safe implementable step instead of stopping at a recommendation.
+6. **Review what matters.** Verify the result against the requested outcome and applicable visual, responsive, usability, accessibility, performance, maintainability, security, and architecture concerns.
 7. **Cross approval boundaries only when authorized.** Do not stop for routine reversible work. Verify live/consequential actions after execution when practical.
 
 ## Ask / Infer / Defer
@@ -49,17 +49,17 @@ REQUEST
   -> identify the current owner of the target surface/behavior
   -> reuse an existing suitable WordPress/theme/builder/plugin/data mechanism
   -> prefer supported public/native extension surfaces
-  -> use scoped custom HTML/CSS/JS for genuine presentation gaps
-  -> use the smallest justified custom extension/plugin only when simpler paths fail materially
+  -> if a material capability gap remains, compare a focused maintained plugin/theme capability with scoped custom code or a small custom extension
+  -> choose the lowest-burden path that satisfies quality, usability/accessibility, editability, lifecycle, compatibility, performance, and security needs
 
 CONNECTED EXECUTION
   -> discover abilities actually exposed now
   -> choose one that safely operates the selected site mechanism
 ```
 
-Do not install, replace, or migrate technology merely to match Skill defaults. Do not assume Bridge-owned abilities are exhaustive or preferred; native/plugin/theme abilities exposed by the runtime may be the better transport.
+Do not install, replace, or migrate technology merely to match Skill defaults. Conversely, do not force custom code when a focused, well-maintained WordPress capability would materially reduce implementation risk, maintenance, or repeated work. Proactively surface a best-fit enabler when it changes the outcome; keep recommendations small and decision-ready rather than listing plugins generically. Do not assume Bridge-owned abilities are exhaustive or preferred; native/plugin/theme abilities exposed by the runtime may be the better transport.
 
-Read [references/implementation-decisions.md](references/implementation-decisions.md) when mechanism selection is non-obvious or the request is site-wide/reusable, block-theme/template-owned, page-builder-owned, forms-related, WooCommerce-related, CPT/ACF/data-model-related, custom-PHP/plugin-related, or capability-dependent.
+Read [references/implementation-decisions.md](references/implementation-decisions.md) when mechanism selection is non-obvious; a new plugin/capability may materially improve the result; or the request is site-wide/reusable, block-theme/template-owned, page-builder-owned, forms-related, WooCommerce-related, CPT/ACF/data-model-related, custom-PHP/plugin-related, or capability-dependent.
 
 ## Preferred defaults
 
@@ -91,7 +91,7 @@ When a WordPress runtime is connected:
 1. Inspect only the relevant current architecture, target objects, and capabilities before choosing a write path.
 2. Reuse the current site mechanism when fit; choose an actually exposed ability that operates it safely.
 3. Prefer narrow draft/preview/reversible operations during iteration.
-4. For overwrite-sensitive changes, use current object/revision/version identity when the runtime supports it. On conflict or stale state, re-read and reconcile; never blindly overwrite newer valid work.
+4. For overwrite-sensitive live WordPress changes, use current object/revision/version identity when the runtime supports it. On conflict or stale state, re-read and reconcile; never blindly overwrite newer valid work. For Workspace Document/Task updates, follow [references/workspace-memory.md](references/workspace-memory.md)'s stricter Workspace-owned expected-identity rule rather than WordPress Revision IDs.
 5. After a write, verify the resulting state when practical. If the write outcome is ambiguous, re-read before retrying to avoid duplicate/conflicting mutation.
 6. Never invent an ability, permission, object identity, or unsupported access. If no safe connected route exists, continue with useful manual guidance/output rather than pretending execution occurred.
 
@@ -109,7 +109,9 @@ Do not infer refunds, payment operations, destructive order actions, or conseque
 
 ## Design and quality behavior
 
-For substantial visual work, derive a coherent direction from the page goal, audience, content, existing design language, brand constraints, and visual references before composing components. Avoid generic AI layout habits that are unsupported by that evidence.
+For substantial visual work, derive a coherent direction from the page goal, audience, content, existing design language, brand constraints, and visual references before composing components. Form a compact internal design intent covering hierarchy, visual character, layout signature, imagery/asset direction, and one distinctive signature idea; do not dump that internal brief unless it helps the user decide. Avoid generic AI layout habits that are unsupported by evidence.
+
+When visual direction is materially under-specified and suitable reference/search/generation tools are available, use a small amount of relevant visual evidence to improve composition or asset quality rather than designing from generic defaults. Extract principles instead of copying another site's identity. Treat headline/CTA clarity, imagery, and microcopy as part of the experience, but do not invent factual claims.
 
 For material visual changes where preview/rendering is available and review is appropriate, prefer:
 
