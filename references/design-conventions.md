@@ -21,7 +21,7 @@ Apply only what matters to the current task:
 
 ## Interpret design intent
 
-Before coding a substantial design, translate the available goal, audience, content, brand/site conventions, and visual references into one coherent design direction. Preserve the current site's visual language when it remains suitable; treat a supplied reference as evidence for hierarchy, composition, density, typography character, color behavior, shape language, imagery, and interaction rather than copying it blindly. If materially different interpretations remain possible and the choice would significantly change the result, use the focused question strategy in [site-profile.md](site-profile.md) instead of guessing.
+Before coding a substantial design, translate the available goal, audience, content, brand/site conventions, and visual references into one coherent design direction. Preserve the current site's visual language when it remains suitable; treat a supplied reference as evidence for hierarchy, composition, density, typography character, color behavior, shape language, imagery, and interaction rather than copying it blindly. If materially different interpretations remain possible and the choice would significantly change the result, ask only the highest-impact unresolved question(s) instead of guessing.
 
 ## Current-editor-aware output
 
