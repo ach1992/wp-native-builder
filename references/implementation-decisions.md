@@ -1,87 +1,134 @@
-# Implementation Decisions
+# Implementation and Ownership Decisions
 
-Load this reference only when ownership/mechanism selection is not obvious or the work is reusable/site-wide, template/builder/plugin/data-model dependent, commerce/forms related, custom-PHP/plugin related, or connected-capability dependent.
+Load this reference when owner/mechanism selection is non-obvious; work is global/reusable/template/theme/builder/plugin/data-model dependent; or a new capability/custom-code decision could materially affect maintainability.
 
-## Discover the decision surface
+## 1. Discover only decision-relevant architecture
 
-Establish only facts that can change the chosen owner/mechanism:
+Establish enough evidence to answer:
 
-| Concern | Decision-relevant evidence |
-|---|---|
-| Theme / editing model | classic vs block theme; Site Editor; active child theme; page-builder ownership; template/global surface ownership |
-| Existing capability | relevant active theme/plugin feature that already satisfies the need; avoid overlapping dependencies |
-| Forms / commerce | existing form system; WooCommerce-owned templates/blocks/settings; current theme/builder integration |
-| Content/data model | CPT, taxonomy, ACF/fields, products/catalog, reusable/global content relationships |
-| Connected execution | native/plugin/theme/Bridge abilities actually exposed for the selected mechanism |
+- What theme/editing model is active: classic/hybrid/block theme?
+- Is a page builder or theme builder the owner of the target surface?
+- Which installed theme/plugin/Core capability already owns or can cleanly satisfy the requirement?
+- Is the target page-local, reusable, template/global, data-driven, form/commerce-owned, or behavior/lifecycle-owned?
+- Which connected abilities actually operate the chosen owner safely?
 
-Do not inventory unrelated plugins or rebuild a site profile for a narrow change.
+Do not inventory unrelated plugins for a narrow task.
 
-## Ownership choices
+For multi-step projects, record stable answers that will recur in the derived Site Architecture/Profile rather than rediscovering them from chat each time.
 
-| Situation | Prefer |
-|---|---|
-| Gutenberg-owned page content | Core blocks; Pattern/Synced Pattern according to reuse semantics |
-| Block-theme global/template concern | Site Editor, templates/template parts, Global Styles, Patterns, supported block mechanisms |
-| Existing page-builder-owned surface | Current builder's supported mechanism unless migration is explicit |
-| Theme-owned presentation/layout | Current theme facility when it cleanly owns the concern |
-| Existing suitable plugin capability | Reuse that plugin rather than add a second implementation |
-| Forms | Suitable installed form plugin; Gravity Forms only as applicable/default |
-| WooCommerce presentation | WooCommerce-supported blocks/templates/settings plus current theme/builder integration |
-| Existing CPT/taxonomy/ACF model | Preserve and use the established model/APIs when fit |
-| Site media/content changes | WordPress Media Library plus normal content/revision APIs |
-| One-off presentation gap | Scoped HTML/CSS and only needed JS |
-| Shared reusable behavior | Smallest maintainable existing centralized mechanism |
-| Mature nontrivial capability missing from the site | Focused maintained plugin/theme capability when it provides lower lifecycle/risk burden than rebuilding it |
-| New site-specific lifecycle/settings/data/API behavior | Small purpose-built plugin/extension when a third-party dependency would be heavier, less fit, or worse-owned |
+## 2. Resolve surface ownership before markup
 
-Before moving to a more custom or replacement path, identify the material requirement the simpler existing path cannot meet: fidelity, editability, reuse, behavior, accessibility, performance, maintainability, compatibility, lifecycle, permissions, or data ownership. “I prefer another stack” is not enough on an existing site unless the user requested that change.
+| Target surface / need | Preferred owner/mechanism | Avoid by default |
+|---|---|---|
+| Block-theme header/footer/site shell | Site Editor + template/template part + Global Styles/Patterns as appropriate | Page-local Custom HTML duplicating global shell |
+| Classic/theme-managed header/footer | Current theme's supported header/footer/layout facility; child-theme/public hook only when needed | Pasting a separate header/footer into every page |
+| Existing builder-owned global shell | Builder's Theme Builder/global template mechanism | Reimplementing the shell in Gutenberg/HTML without migration intent |
+| Gutenberg page content | Core blocks and supported block settings first | Handcrafted serialized Core-block HTML merely for convenience |
+| Reusable Gutenberg section | Pattern or Synced Pattern according to reuse/update semantics | Duplicated per-page HTML/CSS copies |
+| Reusable global template structure | Template/template part/theme or builder-global mechanism | Page-local duplication |
+| Navigation | Current theme/Site Editor/builder navigation mechanism | Static duplicated link markup in page sections |
+| Dynamic post/content listing | Query Loop/Core/theme/plugin/data mechanism appropriate to the model | Hard-coded repeated cards when content is dynamic |
+| Form | Suitable installed form system | Rebuilding validation, anti-spam, submission, storage, notifications manually |
+| WooCommerce presentation | WooCommerce-supported blocks/templates/settings + current theme/builder integration | Rebuilding commerce logic in custom frontend markup |
+| Existing CPT/taxonomy/ACF model | Existing model/APIs/blocks/templates | Parallel duplicate data model |
+| Media/content | Media Library + normal content APIs | Unmanaged duplicate assets or direct DB edits |
+| Presentation-only gap | Scoped CSS; scoped HTML/CSS and only needed JS when native mechanism cannot represent it cleanly | New plugin/PHP for a styling-only need |
+| Shared site-specific behavior/lifecycle/API/settings | Existing centralized safe mechanism or smallest purpose-built extension | Scattered page snippets/inline scripts |
+| Mature missing capability | Focused maintained plugin/theme capability when lifecycle/risk burden is lower | Rebuilding a mature subsystem without material reason |
 
-## Capability gap: reuse, add a plugin, or build
+Header/footer/global shell is a strong ownership signal. Never default to page HTML for a concern that the theme, Site Editor, template part, or builder-global system already owns.
 
-Do not wait for the user to name a plugin when the current stack is missing a capability that materially affects the requested outcome. Identify the capability first, then compare the smallest credible paths:
+## 3. Native/block capability check before Custom HTML
 
-1. configure/reuse WordPress core or an already-installed suitable theme/builder/plugin feature;
-2. add one focused maintained plugin/theme capability when it provides mature behavior with lower implementation and maintenance burden;
+Before choosing Custom HTML for a Gutenberg surface, ask in order:
+
+1. Can a Core block or existing installed block express the structure and behavior safely?
+2. Can block settings/styles, Group/Row/Stack/Cover/Columns/Grid, Buttons, Navigation, Query Loop, Details, Media & Text, or other appropriate native blocks satisfy it?
+3. Is the section reusable enough to be a Pattern/Synced Pattern?
+4. Is the concern actually template/global and therefore owned elsewhere?
+5. Does a focused existing plugin/theme block already own it?
+6. Only then: is a scoped Custom HTML/CSS/JS section genuinely the lower-burden, more maintainable solution?
+
+Do not choose Custom HTML simply because translating a design to HTML is easier for the model.
+
+If raw block markup is involved, also load `gutenberg-safety.md`.
+
+## 4. Capability gap: reuse, add, or build
+
+Compare the smallest credible paths:
+
+1. configure/reuse WordPress Core or an installed suitable theme/builder/plugin feature;
+2. add one focused maintained capability when it provides lower implementation/lifecycle burden;
 3. use scoped custom HTML/CSS/JS for a presentation-only gap;
-4. use a small site-specific extension/plugin when ownership, lifecycle, permissions, data/API behavior, or unusual requirements make custom implementation the better long-term fit.
+4. use a small purpose-built extension when ownership, lifecycle, permissions, data/API behavior, or unusual requirements make custom implementation better long term.
 
-Choose by total lifecycle cost, not by “fewer plugins” or “less code” in isolation. For a new dependency, evaluate only decision-relevant factors: exact feature fit, overlap with current plugins, current WordPress/PHP/theme/builder compatibility, maintenance activity/support, material security history, performance footprint, accessibility/UX quality, editability, data ownership/lock-in, licensing/cost, and uninstall/reversibility. Verify current official/product/security information when the recommendation materially depends on it.
+For a new dependency, evaluate only decision-relevant factors: exact fit, overlap, compatibility, maintenance/support, material security history, performance footprint, accessibility/UX, editability, data ownership/lock-in, licensing/cost, uninstall/reversibility.
 
-Keep the recommendation decision-ready: normally name one best-fit option and why; include one materially different alternative only when there is a real trade-off. Avoid generic “top plugins” lists, installing overlapping systems, or introducing a paid/external dependency whose benefit does not clearly repay its cost and maintenance.
+Normally recommend one best-fit option and one materially different alternative only when the trade-off is real.
 
-A recommendation is not automatic authorization to install/activate a new plugin/theme, change broad global settings, buy a license, or commit to a vendor. Prepare the best path and continue any independent safe work; apply the core approval boundary to the actual install/activation/global/external action. A current exact user instruction for that action can already satisfy the approval requirement when nothing material has drifted.
+## 5. Mechanism versus transport
 
-## Mechanism versus transport
+Do not choose architecture from whichever tool happens to be connected.
 
-Keep these decisions separate:
+```text
+MECHANISM = site owner of behavior
+TRANSPORT = currently exposed ability/tool that safely operates that owner
+```
 
-1. **Mechanism:** what should own the behavior on this WordPress site?
-2. **Transport:** which currently exposed capability can inspect/change that mechanism safely?
+Native/plugin/theme abilities may be preferable to Bridge-owned operations. If the correct mechanism has no safe connected write path, preserve the mechanism decision and continue with safe preparation/manual implementation rather than switching architecture merely to fit the connector.
 
-Do not choose architecture based on whichever tool happens to be connected. Do not assume a custom Bridge namespace is exhaustive. Prefer a supported native/plugin/theme ability when it better matches the chosen mechanism. If no safe connected write exists, preserve the mechanism choice and provide a manual implementation path.
+## 6. Existing-site impact
 
-## Existing-site changes
+- Read the current target before material modification when possible.
+- Preserve current theme/builder/editor ownership, design tokens, data models, plugin choices, and permalink structure unless accepted scope changes them.
+- Inspect reuse/impact before editing global/template/shared surfaces.
+- Explicit redesign/migration can replace prior ownership, but inspect dependencies and migration effect first.
 
-- Read/inspect the current target before a material modification when possible.
-- Preserve editor/builder ownership, design tokens, global configuration, data models, plugin/theme choices, and permalink structure unless the requested outcome requires changing them.
-- Prefer the smallest target-local change. Treat global/template/shared edits as broader-impact changes and inspect affected reuse before mutation.
-- When an explicit redesign/migration is requested, the new instruction can replace prior conventions, but inspect dependencies/impact before changing global ownership.
+## 7. Maintainability and naming
 
-## Forms
+Use names that tell a future human **what this is, where it belongs, and why it exists**.
 
-Use an existing suitable form system for submission handling, validation, anti-spam, notifications, storage, and integration. Custom layout/styling may frame a form; do not recreate a form engine without a material requirement.
+### Human-facing artifacts
 
-## WooCommerce and sensitive boundaries
+Prefer forms such as:
 
-Normal builder scope includes product/catalog/category/store presentation, shop/product/archive templates, WooCommerce blocks, responsive store UX, merchandising/presentation, product content, and relevant non-sensitive presentation/structure settings.
+- Page: `About`, `Pricing`, `Support`
+- Template: `Single — Knowledge Base Article`
+- Template part: `Header — Main`, `Footer — Primary`
+- Pattern: `Home — Hero`, `Global — Trust Bar`
+- Snippet: `Site — Mobile Navigation Enhancement`
+- Workspace doc: `Project Foundation`, `Site Architecture Profile`, `Design Direction`
+- Task: `Home — Rebuild posts pagination without page reload`
 
-Do not silently expand that scope into refunds, payment actions, destructive order mutation, or consequential customer/order/financial operations. Treat those as separate sensitive operations requiring the applicable capability and approval boundary.
+Avoid `Section 1`, `New Pattern`, `Custom CSS 2`, `Untitled`, random IDs, or internal tool labels as the main maintainer-facing name.
 
-## Custom code placement
+### Code-facing identifiers
 
-- Scope one-off CSS to a unique section ID or stable project prefix; avoid global selectors and unnecessary `!important`.
-- Add JavaScript only when current/native behavior is insufficient; do not assume inline `<script>` in content is supported or maintainable.
-- Centralize genuinely shared CSS/JS/PHP only when reuse justifies it.
-- Use an existing safe code-management mechanism when appropriate, or the smallest purpose-built plugin when lifecycle, permissions, data, API, or maintainability requires it.
-- Never edit WordPress core or third-party theme/plugin files directly.
-- For custom PHP/plugin code, enforce WordPress validation/sanitization/escaping/capability/nonce/REST permission/prepared-query rules from the core Skill.
+Choose one stable project/site prefix when custom identifiers are needed, e.g. `brand-` or a short domain-derived slug.
+
+- CSS: `.brand-home-hero`, `#brand-site-notice`
+- JS/PHP/custom block/plugin identifiers: consistent namespace/prefix
+- Snippet functions/hooks: stable purpose-based names
+
+Do not reuse WordPress/plugin namespaces. Avoid unnecessary global selectors and random hashes for identifiers humans are expected to maintain.
+
+### Ownership note
+
+For custom or non-obvious work, make edit ownership discoverable in the relevant durable project artifact/task: page editor, Site Editor/template part, theme facility, builder global template, Pattern, snippet, or custom extension.
+
+## 8. Forms and WooCommerce boundaries
+
+Reuse a suitable installed form system for submission handling, validation, anti-spam, notifications, storage, and integrations.
+
+Normal WooCommerce builder scope includes product/catalog/category/store presentation, blocks/templates, responsive store UX, merchandising presentation, product content, and relevant non-sensitive presentation/structure settings.
+
+Do not silently expand into refunds, payment actions, destructive order/customer mutation, or financial operations.
+
+## 9. Custom code placement
+
+- Scope one-off CSS beneath a stable project-prefixed owner/section selector.
+- Add JS only when current/native behavior is insufficient.
+- Do not assume inline `<script>` inside page content is supported or maintainable.
+- Centralize genuinely shared CSS/JS/PHP only when reuse/lifecycle justifies it.
+- Use a safe existing code-management mechanism when fit, or the smallest purpose-built extension when lifecycle/permissions/data/API needs require it.
+- Never edit WordPress Core or third-party plugin/theme files directly.

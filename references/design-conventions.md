@@ -1,72 +1,92 @@
 # Design and Visual Review Conventions
 
-Load this reference only for material UI creation/redesign/review, screenshot/reference-led work, custom sections, or presentation where responsive/RTL/accessibility/performance details materially affect quality.
+Load this reference for material UI creation/redesign/review, screenshot/reference-led work, custom sections, or presentation where responsive/RTL/accessibility/performance details materially affect quality.
 
-## Establish a design direction before components
+## 1. Establish direction before components
 
-For substantial design work, infer a compact internal direction from available evidence before composing the page:
+For substantial visual work, derive a compact internal direction from available evidence:
 
-1. **Outcome and hierarchy:** what must be understood, noticed, trusted, and acted on first?
-2. **Visual character:** e.g. restrained/editorial, technical/precise, warm/human, premium/minimal, dense/utility-led — derived from the subject, brand, existing site, or reference rather than chosen generically.
-3. **Layout signature:** the recurring geometry/spacing/component behavior that makes the result coherent rather than a collection of unrelated cards.
-4. **Asset direction:** how photography, illustration, icons, texture, or deliberate absence of imagery should support the concept.
-5. **Signature idea:** one memorable but useful visual/compositional move that gives the page character without turning every section into a gimmick.
+1. outcome and hierarchy;
+2. visual character appropriate to brand/audience/content;
+3. layout signature and spacing/density behavior;
+4. asset/imagery direction;
+5. one useful distinctive idea that gives the design character without gimmicks.
 
-Use existing approved site language as the default for modifications. An explicit redesign/rebrand can replace it. Reference screenshots/images are evidence for hierarchy, composition, density, whitespace, shape language, typography character, color behavior, imagery, and interaction; reproduce literally only when the user requests that fidelity.
+Use existing approved site language as the default for modifications. Explicit redesign/rebrand may replace it. References are evidence for hierarchy, density, geometry, typography character, color behavior, imagery, and interaction; reproduce literally only when the user requests high fidelity.
 
-Avoid unsupported generic-AI habits such as gratuitous gradients, excessive rounded cards/pills, decorative floating blobs, identical three-card rows everywhere, or a stock “hero + cards + CTA” structure when the content/site evidence calls for another composition.
+Avoid unsupported generic-AI habits such as gratuitous gradients, excessive pills/cards, decorative blobs, identical card rows everywhere, or a stock hero/cards/CTA structure when the content calls for another composition.
 
-## Compose for the user journey, not for a component inventory
+## 2. Be an advisor, not a passive copier
 
-Let content importance determine composition. Build a clear path through orientation -> understanding/trust -> action when that matches the page goal; do not force this sequence where another information structure is better. Use contrast, scale, whitespace, grouping, repetition, and deliberate breaks in rhythm to guide attention.
+If a user-suggested design pattern is clearly weak for the stated goal, outdated, confusing, inaccessible, excessively complex, inconsistent with the existing design system, or likely to create maintenance/responsive problems:
 
-For a new visual system, establish only the reusable decisions that will actually recur: container behavior, spacing rhythm, type scale, color roles, radius/border/depth language, imagery treatment, and interaction states. Use theme/global tokens or CSS custom properties when the selected mechanism supports them instead of scattering near-duplicate values.
+1. identify the concrete problem briefly;
+2. recommend one better direction and why it better serves the goal;
+3. implement the better direction when the user has delegated ordinary design judgment;
+4. if the user explicitly insists on the original preference and it remains safe/valid, respect it without misrepresenting it as best practice.
 
-Prefer one strong primary direction. Generate or present alternatives only when a genuinely material visual choice remains unresolved or comparison would help the user decide. Do not make the user choose between cosmetic variants the model can resolve professionally.
+Do not escalate cosmetic preferences into unnecessary decision gates. Do not override explicit brand/fidelity requirements merely because another style is fashionable.
 
-## Use references, content, and assets deliberately
+## 3. Compose for the user journey
 
-If the user supplies references, identify why they work rather than copying surface decoration. If visual direction is weak and browsing/reference tools are available, inspect only a small set of relevant, high-quality examples when that can materially improve the result; extract layout, hierarchy, interaction, and art-direction principles without copying branding, protected artwork, or another site's identity.
+Let content importance determine composition. Build a clear path through orientation, understanding/trust, and action where appropriate; do not force a template sequence.
 
-Treat imagery and content as design inputs, not placeholders. Reuse suitable site assets first. When missing imagery materially limits the result and an allowed image-search/generation path is available, propose or create a coherent asset direction with appropriate crop/aspect/focal behavior and mobile treatment. Respect licensing/source constraints for externally sourced assets.
+For a recurring visual system, establish only reusable decisions that actually recur: container behavior, spacing rhythm, type scale, color roles, radius/border/depth language, imagery treatment, interaction states. Use theme/global tokens or CSS variables supported by the selected mechanism rather than scattering near-duplicate values.
 
-Improve headings, labels, CTA wording, section order, and supporting microcopy when doing so clearly improves comprehension or conversion and remains within the user's facts. Never invent testimonials, statistics, guarantees, product claims, certifications, or other factual marketing evidence.
+Prefer one strong primary direction. Show alternatives only when a material choice remains unresolved.
 
-## Make the system intentional
+## 4. Use references/content/assets deliberately
 
-Apply only the dimensions that affect the current result:
+If references exist, identify why they work rather than copying surface decoration. If direction is weak and allowed search/reference tools are available, inspect a small set of relevant high-quality examples when it materially improves the result; extract principles without copying identity/protected artwork.
 
-- **Hierarchy/content:** create a dominant reading/action path where the goal calls for one; section order should support the user's task, not a template sequence.
-- **Layout:** use coherent container logic, alignment, spacing rhythm, density, and intentional asymmetry/symmetry; avoid arbitrary per-section values or repetitive card grids.
-- **Typography:** inherit site/theme fonts by default; use a small coherent type scale/weight/line-height system, respect the active script/language, and do not assume unavailable weights.
-- **Color/depth:** reuse established tokens where present; create restrained roles (background/surface/text/muted/accent/state) plus a consistent border/shadow/depth language rather than unrelated hex values/effects; maintain sufficient contrast.
-- **Responsive behavior:** recompose order, grouping, emphasis, crop, touch targets, and spacing for desktop/tablet/mobile instead of merely stacking everything or shrinking font sizes at one breakpoint.
-- **RTL/LTR:** verify logical alignment, directional spacing, icon/arrow meaning, control order, mixed-direction content, and mirrored assumptions rather than adding only `direction: rtl`.
-- **Interaction/UX:** make controls, navigation, forms, and primary actions obvious and predictable; include useful hover/focus/active/loading/success/error/empty states only when the interface actually needs them.
-- **Accessibility:** semantic structure, valid heading order, keyboard/focus visibility, meaningful alternatives/labels, appropriate ARIA only when native semantics are insufficient, no hover-only essential interaction.
-- **Motion:** keep purposeful and restrained; support `prefers-reduced-motion` when motion exists.
-- **Performance:** avoid duplicate fonts/icon libraries/frameworks; protect hero/LCP imagery; lazy-load only non-critical media; do not add JS for CSS/native behavior.
+Treat real content and imagery as design inputs. Improve headings, labels, CTA wording, section order, and microcopy when that clearly improves comprehension and stays within known facts. Never invent testimonials, statistics, certifications, guarantees, or product claims.
 
-## Existing site versus redesign
+## 5. Quality dimensions
 
-For a targeted modification, preserve established tokens, component geometry, typography, spacing conventions, and builder/theme ownership unless the requested change specifically targets them. Do not “improve” an unrelated design system during a small edit.
+Apply only what affects the current result:
 
-For an explicit redesign, preserve only constraints that remain requirements (brand/content/data/technical compatibility); do not let old aesthetics silently constrain the new direction.
+- **Hierarchy/content:** dominant reading/action path where appropriate.
+- **Layout:** coherent container/alignment/spacing/density; intentional symmetry/asymmetry.
+- **Typography:** inherit site/theme fonts by default; coherent scale/weight/line-height; respect active script/language.
+- **Color/depth:** established tokens where available; restrained semantic roles; sufficient contrast.
+- **Responsive:** recompose order/grouping/emphasis/crop/touch targets/spacing rather than merely shrinking.
+- **RTL/LTR:** logical alignment/spacing, icon/arrow meaning, control order, mixed-direction content, mirrored assumptions.
+- **Interaction/UX:** obvious/predictable controls and primary actions; states only when needed.
+- **Accessibility:** semantic structure, heading order, keyboard/focus visibility, meaningful alternatives/labels, ARIA only when native semantics are insufficient.
+- **Motion:** purposeful/restrained; support `prefers-reduced-motion` when motion exists.
+- **Performance:** avoid duplicate fonts/icon libraries/frameworks; protect hero/LCP media; lazy-load only non-critical media; avoid JS for CSS/native behavior.
+- **Maintainability:** owner/mechanism and edit location remain understandable.
 
-## Custom sections
+## 6. Existing site versus redesign
 
-When Custom HTML/CSS is the justified mechanism:
+For targeted modification, preserve established tokens, geometry, typography, spacing conventions, and builder/theme ownership unless the requested change targets them.
+
+For explicit redesign, preserve only constraints that remain requirements. Do not let old aesthetics silently constrain the new direction.
+
+## 7. Custom sections
+
+When Custom HTML/CSS is justified:
 
 - keep logical sections independently editable when practical;
-- use a unique ID/stable project prefix and scope selectors beneath it;
+- use a stable project-prefixed ID/class and scope selectors beneath it;
 - use semantic HTML and logical headings;
-- inherit current typography and reuse existing tokens/assets where possible;
+- inherit current typography/tokens/assets where possible;
 - avoid unnecessary `!important`, global selectors, duplicate libraries, and JS;
-- add interaction states, focus behavior, mobile/tablet treatment, and RTL/LTR handling when applicable;
-- centralize shared code only when it is genuinely reused.
+- implement focus/interaction/mobile/tablet/RTL behavior when applicable;
+- centralize shared code only when genuinely reused.
 
-## Visual self-review
+## 8. Mandatory pre-user self-review for material UI
 
-When a preview/render is available for material UI, inspect the actual result rather than trusting markup/configuration. Review at two levels: first-impression quality (clarity, balance, visual character, credibility, focal path, obvious generic/template feel) and task-level quality (spacing/alignment, overflow/reflow, typography/contrast, content/CTA clarity, target fidelity, interaction/focus, RTL issues, broken/missing assets, and any performance-heavy choice introduced by the change).
+When preview/render is available, inspect the actual result before asking the user to review it.
 
-Correct clear defects and weak generic-looking choices before showing the preview when safe. A polished result should feel intentional in both still-image inspection and real use: readable, usable, responsive, coherent, and visually distinctive enough for its context without sacrificing accessibility or performance. Surface only material residual choices/findings to the user; do not dump this section as a checklist.
+### First-impression review
+
+Check clarity, balance, credibility, visual character, focal path, and whether the result feels generic/template-like relative to the project.
+
+### Task-level review
+
+Check spacing/alignment, overflow/reflow, typography/contrast, content/CTA clarity, target/reference fidelity, interaction/focus, RTL issues, broken/missing assets, performance-heavy choices, editability/ownership, and any obvious architecture misuse.
+
+When Gutenberg is involved, also follow `gutenberg-safety.md` and explicitly look for invalid/recovery warnings before user review.
+
+Correct clear defects and weak generic choices before showing the result when safe. Surface only material residual choices/findings to the user; do not dump the entire checklist.

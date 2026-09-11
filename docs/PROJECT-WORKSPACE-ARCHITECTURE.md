@@ -1,273 +1,221 @@
 # WP Native Builder — Project Workspace Architecture
 
-This document defines the stable detailed architecture for lightweight WordPress-hosted project continuity used by WP Native Builder. It complements [`MASTER-SPEC.md`](../MASTER-SPEC.md) and the concise [`docs/architecture.md`](architecture.md).
+This document defines the durable architecture for lightweight WordPress-hosted project continuity used by WP Native Builder. It complements [`MASTER-SPEC.md`](../MASTER-SPEC.md) and [`architecture.md`](architecture.md).
 
-It is not a session log, release history, or manager checkpoint. Git/GitHub own implementation history; this document owns the durable Workspace behavior and boundaries.
+It is not a chat archive, session log, release history, or second CMS.
 
 ## 1. Goals
 
-Persistent Workspace support lets a later ChatGPT conversation continue a connected WordPress site project without requiring the previous chat, while keeping context small and preserving live WordPress as the authority for actual site state.
+Persistent Workspace support lets a later ChatGPT conversation continue a connected WordPress site project without old chat history while keeping context small and live WordPress authoritative for current site state.
 
-The architecture must:
+It must:
 
+- preserve one stable project-level foundation when the project requires it;
 - retain only future-useful project context;
-- recover progressively rather than loading all stored material;
+- recover progressively instead of loading all stored material;
 - keep small one-off work lightweight;
-- distinguish project intent from current live WordPress truth;
+- distinguish durable intent, current execution state, and live WordPress truth;
 - protect Workspace writes with optimistic concurrency independent of WordPress Revisions;
-- support multi-step design/build/review/publish/maintenance work without becoming a general project-management system;
-- preserve strong manual behavior when Workspace capabilities are unavailable.
+- support design/build/review/publish/maintenance continuity without becoming a general project-management system;
+- degrade gracefully when the connector/Workspace is temporarily or permanently unavailable.
 
-## 2. System boundaries
-
-There are three distinct layers:
+## 2. Layers and ownership
 
 | Layer | Owns |
 |---|---|
-| **WP Native Builder Skill** | Model behavior, retention/recovery rules, task/document semantics, source-of-truth policy, mechanism selection, approval behavior |
-| **Persistent Workspace** | Durable project intent, accepted decisions, unresolved progress, lightweight documents/tasks and useful references |
-| **Live WordPress** | Current pages/posts/products/media/settings/theme/plugin state and other actual site objects/configuration |
+| **WP Native Builder Skill** | model behavior, intake/readiness rules, retention/recovery, ownership/mechanism selection, approval and review behavior |
+| **Project Foundation** | accepted durable project-level purpose, audience, scope, constraints, non-goals, success criteria |
+| **Derived Workspace Documents** | specialized durable architecture/design/IA/content-data/decision context |
+| **Workspace Tasks** | unresolved execution, dependency/blocker, review, and delivery state |
+| **Live WordPress** | current pages/posts/products/media/settings/theme/plugin/templates and other actual site objects/configuration |
 
-The companion `wp-native-builder-bridge` owns the concrete WordPress storage, permissions, Ability implementation, and admin UI for its Workspace surface. A maintained Bridge implementation can provide the accepted contract for a supported direct connected setup; the Skill remains capability-driven and must discover what the current runtime actually exposes.
-
-A connector, MCP transport, or Bridge namespace is an execution transport. It does not replace WordPress architecture ownership.
+The companion `wp-native-builder-bridge` may provide the concrete Workspace storage/API/admin surface. The Skill remains capability-driven and must discover what is actually exposed.
 
 ## 3. One Workspace per site
 
-The initial product model is one persistent Workspace per WordPress site. The Workspace is a site-project continuity layer, not a second CMS.
+The initial product model remains one persistent Workspace per WordPress site. Multiple Documents and Tasks may exist, but normal recovery foregrounds only current/relevant state.
 
-It may contain multiple durable documents and tasks, but normal recovery should foreground only current/relevant state.
+## 4. Canonical Project Foundation
 
-## 4. Documents
+For project classes requiring Project Foundation, persist exactly one canonical Foundation document when a suitable Workspace document capability exists.
 
-Workspace Documents are Markdown-oriented durable project artifacts. Create one only when future continuation materially benefits.
+Reuse an existing equivalent project brief/specification instead of creating a competing master document.
 
-Useful examples include:
+Foundation owns only stable project-level truth:
 
-- concise project brief;
-- durable site/stack profile when not cheaply discoverable each time;
-- sitemap/information architecture decision;
-- approved design-system or visual-direction notes;
-- content/data model decisions;
-- lasting implementation/architecture decisions;
-- unresolved QA findings that need later continuation.
+- purpose/outcomes;
+- intended audiences/needs;
+- scope/major deliverables;
+- required capabilities/critical interactions;
+- material brand/content direction;
+- durable technical/language/accessibility/RTL constraints;
+- important business/content/SEO/legal/privacy constraints;
+- non-goals;
+- success/completion criteria;
+- material owner decisions.
 
-Do not create all document types by default. A project may need only one or two.
+Foundation is not an active backlog, page mirror, current plugin inventory, implementation log, or live-site snapshot.
 
-Documents must not become mirrors of live page/post/product content when WordPress already owns that truth.
+After readiness it is not loaded/re-written for every task. Update only for accepted material project-level change, an unresolved material contradiction, or recovery/completion need.
 
-## 5. Tasks
+## 5. Derived Documents
 
-Workspace Tasks are lightweight execution-oriented state for work that benefits from explicit continuation, dependencies, review, or delivery state.
+Create only documents that reduce future rework or recovery cost.
 
-Useful fields are intentionally small:
+Common derived documents:
 
-- title;
-- concise goal;
-- acceptance criteria when completion would otherwise be ambiguous;
-- dependencies/blocker when real;
-- target references to relevant WordPress objects/surfaces;
-- concise durable notes;
-- progress, review, and delivery dimensions.
+- **Site Architecture Profile** — active theme/editing model, builder ownership, global header/footer/navigation/template ownership, page-content ownership, reusable mechanisms, forms/commerce/data ownership, custom-code placement/prefix;
+- **Information Architecture / Sitemap** — when page hierarchy/navigation relationships matter;
+- **Design Direction/System** — recurring visual tokens/rules/asset/interaction/responsive/RTL direction;
+- **Content/Data Model** — recurring CPT/taxonomy/ACF/product/content relationships;
+- **Decision/QA notes** — only when lasting rationale or unresolved material findings need later continuation.
 
-Keep these dimensions independent:
+Never mirror live page/product content solely to make Workspace look complete.
 
-| Dimension | Values | Meaning |
-|---|---|---|
-| Progress | `todo` / `in_progress` / `blocked` / `done` | Implementation progress |
-| Review | `not_required` / `pending` / `changes_requested` / `approved` | Human/visual review state |
-| Delivery | `not_applicable` / `draft_preview` / `live` | Where the intended result actually exists |
+## 6. Tasks
 
-`done` does not imply `approved`. `approved` does not imply `live`. `live` should reflect actual publication/delivery, preferably after verification.
+Tasks are lightweight execution state for work that benefits from explicit continuation, acceptance, dependencies, review, or delivery.
 
-Small changes completed and verified in the current interaction should not create a permanent task merely because Workspace exists.
+Useful fields: title, concise goal, acceptance when needed, dependencies/blocker, WordPress target references, short durable notes.
 
-## 6. Compact resume and progressive loading
+Keep dimensions independent:
 
-On a fresh or resumed connected project:
+| Dimension | Values |
+|---|---|
+| Progress | `todo` / `in_progress` / `blocked` / `done` |
+| Review | `not_required` / `pending` / `changes_requested` / `approved` |
+| Delivery | `not_applicable` / `draft_preview` / `live` |
 
-1. Discover a suitable Workspace resume capability that actually exists.
-2. Request a compact orientation packet before broad project/site rediscovery.
-3. Use only decision-relevant orientation: site/project identity, current focus, active or review-blocked work, blockers, and a small index/reference to potentially useful documents.
-4. Fetch only the task/document details needed for the current decision or next action.
-5. Reuse settled durable context instead of asking the user to repeat it unless current instruction/evidence materially conflicts.
-6. Before modifying an existing WordPress target, verify its current live state when that state matters.
-7. Continue the next useful project action instead of stopping after a recovery summary.
+`done` != `approved`; `approved` != `live`; `live` reflects actual intended delivery, preferably verified.
 
-A resume packet must not dump full document bodies or a historical list of every completed task into model context by default.
+Small changes completed/verified in one interaction should not create permanent tasks merely because Workspace exists.
 
-## 7. Retention test
+## 7. Compact resume and progressive loading
 
-Persist an item only when all applicable conditions make retention worthwhile:
+On fresh/resumed connected work:
 
-1. a future session materially needs it to decide or continue correctly;
-2. it is not better recovered from a stronger/current source such as live WordPress;
-3. retaining it reduces repeated briefing, ambiguity, rework, or lost progress;
-4. the information is safe and appropriate to store.
+1. discover a suitable Workspace resume capability;
+2. request compact orientation before broad rediscovery/questioning;
+3. use project identity/current focus, active/review-blocked work, blockers, durable decisions, and references to potentially useful documents;
+4. fetch only the task/document details needed for the next decision/action;
+5. do **not** automatically load Project Foundation when a nearer current source is sufficient;
+6. load Foundation only for project-level intent/change/recovery/completion need;
+7. before modifying a current WordPress target, verify live state when it matters;
+8. continue the next useful action instead of stopping at a recovery summary.
 
-Do not persist:
+A resume packet must not dump full Document bodies or all historical/completed tasks by default.
 
-- full chat transcripts;
-- hidden reasoning or chain-of-thought;
-- routine worklogs or repeated session checkpoints;
-- every micro-edit;
-- copied live content solely to mirror WordPress;
-- credentials, application passwords, tokens, auth headers, salts, private keys, or secrets;
-- unnecessary customer/order/payment/financial payloads;
-- broad plugin/database dumps unrelated to a durable project decision.
+## 8. Source-of-truth reconciliation
 
-Archive completed temporary/test/project items when keeping them active would clutter normal resume state.
+- Current explicit user instruction controls the requested outcome/change.
+- Project Foundation controls accepted durable project-level intent.
+- Derived Workspace docs control their specialized durable domain.
+- Tasks control current unresolved execution/review/delivery state.
+- Live WordPress controls actual current site objects/configuration.
 
-## 8. Source-of-truth model
+When Workspace and live state disagree, re-read the live target, preserve newer valid work, reconcile current intent, apply only the still-correct change, and update durable context only if the new fact matters later.
 
-Use different sources for different questions:
+## 9. Retention test
 
-- **Current explicit user instruction** controls the requested outcome/change.
-- **Workspace** controls retained project intent, accepted decisions, unresolved progress, and useful project references.
-- **Live WordPress** controls what content/configuration/objects actually exist now.
+Persist an item only when:
 
-Workspace must never be used as proof that a live target has not changed.
+1. a future session materially needs it;
+2. a stronger/current source does not already own it;
+3. retaining it reduces repeated briefing/ambiguity/rework/lost progress;
+4. it is safe to store.
 
-If Workspace and live state disagree:
+Do not persist full chats, hidden reasoning, routine worklogs, repeated checkpoints, every micro-edit, copied live content, credentials/secrets, unnecessary customer/order/payment/financial payloads, or broad database/plugin dumps.
 
-1. re-read the live target;
-2. determine whether the live change is newer/valid or whether current user instruction supersedes retained intent;
-3. preserve newer valid work;
-4. apply only the still-correct intended change;
-5. update durable Workspace context only if the new fact will matter later.
+## 10. Workspace-owned optimistic concurrency
 
-## 9. Workspace-owned optimistic concurrency
+Workspace current state/write safety must not depend on WordPress Revision IDs.
 
-Workspace current state and write safety must not depend on WordPress Revision IDs.
+Each overwrite-sensitive Document/Task should expose Workspace-owned identity such as `version` + `state_hash`.
 
-Each overwrite-sensitive Document/Task operation should expose a Workspace-owned current-state identity, such as:
+For updates:
 
-- `version` — monotonically changing logical version;
-- `state_hash` — digest representing current Workspace object state.
+1. read current object + identity;
+2. require update to accept expected identity;
+3. if no guard exists, do not blind-overwrite;
+4. submit with expected identity;
+5. verify resulting state when practical;
+6. on stale/mismatch/conflict, re-read and reconcile newer valid work before retry;
+7. on ambiguous write outcome, re-read authoritative current state before any retry.
 
-For an overwrite-sensitive update:
-
-1. read the current Workspace object and capture its current Workspace-owned identity;
-2. require the update operation to accept that expected identity;
-3. if the capability cannot expose/accept a suitable guard, do not perform a blind overwrite;
-4. submit the intended update with the expected identity;
-5. if accepted, verify resulting state when practical;
-6. if stale/mismatched/conflicted, do not overwrite—re-read current primary state, reconcile newer valid work, then retry only if still correct;
-7. if the write outcome is ambiguous, re-read authoritative current state before any retry.
-
-A transport-level error after submission is not proof that the mutation failed. Re-reading current state prevents duplicate or contradictory retries.
-
-## 10. Revision independence
-
-`workspace-resume`, Workspace current state, and stale-write protection must remain functional when WordPress Revisions are disabled, limited, cleaned, or pruned.
-
-WordPress Revisions may remain useful for ordinary Posts/Pages/live content and may be available as optional secondary history, but they are not the Workspace current-state or concurrency dependency.
-
-If the Bridge maintains private Workspace history/snapshots for its own admin UX or recovery, that is an implementation detail. The Skill should use only behavior actually exposed by the runtime rather than assuming hidden storage internals.
-
-Site/database disaster recovery remains the normal WordPress hosting/backup boundary; Workspace does not replace backups.
+Workspace resume/current state/stale-write protection must continue when WordPress Revisions are disabled/limited/pruned.
 
 ## 11. Logical capability roles
 
-The initial logical roles are:
-
 | Role | Expected behavior |
 |---|---|
-| `workspace-resume` | Return compact active orientation without full Workspace dump |
-| `workspace-document` | List/get/create/update/archive durable Markdown-oriented documents |
-| `workspace-task` | List/get/create/update/transition/archive lightweight tasks |
+| `workspace-resume` | compact active orientation without full Workspace dump |
+| `workspace-document` | list/get/create/update/archive durable Markdown-oriented Documents |
+| `workspace-task` | list/get/create/update/transition/archive lightweight Tasks |
 
-These are logical role names from the Skill contract. The model must discover the current runtime and use only actual exposed capabilities whose documented schema/permissions safely match the required operation.
+These are logical roles, not tool names to invent. Use only current runtime capabilities whose schema/permissions safely match the operation.
 
-If suitable Workspace capabilities are absent, continue in manual mode. Do not fabricate persistence or make the Bridge a prerequisite for useful WordPress work.
+## 12. Transient capability loss
 
-## 12. Project progression
+A single timeout/unavailable/transport failure is not evidence that a logical Workspace capability no longer exists.
 
-For genuinely multi-step site work, use a proportional loop:
+- Preserve recovered orientation/current state.
+- Continue independent work.
+- Re-discover/retry once when transient semantics or changed runtime evidence make recovery plausible.
+- Never blind-loop identical failures.
+- If the route remains unavailable, continue manual/non-overwrite work and report a capability blocker only when required semantics truly prevent further outcome-linked progress.
 
-```text
-RESUME / DISCOVER
-  -> UNDERSTAND
-  -> PLAN ENOUGH TO ACT
-  -> BUILD
-  -> VERIFY
-  -> REVIEW WHEN MATERIAL
-  -> REVISE / APPROVE
-  -> PUBLISH WHEN AUTHORIZED
-  -> VERIFY LIVE
-  -> UPDATE FUTURE-USEFUL WORKSPACE STATE
-  -> NEXT USEFUL WORK
-```
+A clear permission denial, unsupported schema, or absent required semantic after authoritative discovery is different from a transient transport failure and should not be disguised by repeated retries.
 
-This is a control model, not mandatory ceremony. Skip irrelevant phases and do not create project documents/tasks merely to satisfy the diagram.
+## 13. Continuity reconciliation
 
-## 13. Visual review and approval
+After a material multi-step workflow step, ask internally whether a fresh chat could continue correctly without the current conversation.
 
-For material visual work where preview/rendering is available:
+If not, update the smallest authoritative Workspace object that owns the changed future-useful truth:
 
-1. build a draft/preview;
-2. inspect the actual result and correct obvious visual/technical defects;
-3. when user review is part of the requested workflow, surface the current preview and keep review state distinct from progress/delivery;
-4. requested changes -> revise and preview again;
-5. clear approval of the current reviewed result -> review can become approved;
-6. publish only when the applicable approval rule authorizes the exact action;
-7. mark delivery `live` only after the intended live result is established/verified.
+- project-level scope/constraint/success change -> Project Foundation;
+- header/footer/global architecture ownership -> Site Architecture Profile;
+- recurring accepted design direction -> Design Document;
+- active implementation/review/delivery/blocker -> Task;
+- unresolved material QA finding -> QA Document/Task as appropriate.
 
-If the user established “show me first and publish after I approve,” clear approval of that current preview satisfies the condition while target/scope/material effect remain unchanged. Do not ask for duplicate confirmation.
+Do not create a session log.
 
-Generic positive feedback does not silently authorize unrelated publication when no such condition or exact publish instruction exists.
+## 14. Visual review and delivery
 
-## 14. Complete-site launch behavior
+For material visual work when preview exists:
 
-For a complete/launch-ready site, individual page/task completion is not enough by itself. Synthesize only launch concerns that materially apply to the actual site and requested scope, such as:
+1. build draft/preview;
+2. AI self-review and fix clear visual/technical defects, including Gutenberg invalid/recovery warnings when applicable;
+3. surface to user when human review is part of workflow;
+4. requested changes -> revise/preview;
+5. clear approval of current reviewed result -> review=`approved`;
+6. publish only when the applicable approval rule authorizes it;
+7. delivery=`live` only after intended live result is established/verified.
 
-- navigation/content completeness;
-- responsive and RTL/LTR behavior;
-- accessibility of key flows;
-- forms/interactions;
-- broken/missing links or media;
-- material performance effects introduced by the build;
-- important site-building/indexing-facing presentation/configuration;
-- intended publication and live verification.
+## 15. Complete-site launch
 
-Do not impose a fixed giant checklist. External business operations, fulfillment, refunds, payments, and destructive order/customer operations are outside ordinary site-building launch QA unless separately requested.
+For complete/launch-ready projects, individual task completion alone is not overall completion. Synthesize only applicable launch concerns: navigation/content completeness, responsive/RTL, accessibility of key flows, forms/interactions, links/media, material performance effects introduced by the build, important indexing-facing presentation/configuration, intended publication, and live verification.
 
-After verified launch, keep normal resume state focused on still-relevant durable context and unresolved/relevant work rather than completed-session history.
+External business operations, refunds, payments, fulfillment, and destructive customer/order work remain outside ordinary site-building launch QA unless separately requested.
 
-## 15. Maintenance behavior
+## 16. Manual fallback
 
-Later maintenance should reuse durable approved architecture/design decisions without reopening settled intake questions. Re-read live WordPress state when modifying a current target.
+Persistent Workspace is an enhancement, not a prerequisite. Without it, the Skill still performs exact stack-aware WordPress work and uses user-supplied durable project artifacts when available.
 
-A current explicit redesign, rebrand, architecture change, or new requirement can supersede stored conventions. Update retained context when the new direction becomes durable.
+Manual mode must never claim connected persistence or mutation occurred when no suitable capability exists.
 
-## 16. Security and privacy boundaries
+## 17. Validation invariants
 
-- Workspace abilities must remain permission/capability checked by their concrete runtime.
-- Workspace objects should remain private/internal rather than public content surfaces.
-- Generic page/post/content/block operations must not accidentally treat Workspace Documents/Tasks as ordinary live content.
-- Do not store secrets or unnecessary sensitive operational/customer data in Workspace.
-- Do not infer destructive or financial operations from ordinary site-building work.
-- Preserve explicit user approval semantics independently from technical capability/permission.
+A release-quality implementation should demonstrate:
 
-## 17. Manual fallback
-
-Persistent Workspace is an enhancement, not a core dependency. Without it, the Skill still uses the current conversation and supplied project artifacts to provide exact stack-aware site-building guidance.
-
-Manual mode must never claim that cross-chat persistence or connected mutation occurred when no suitable capability exists.
-
-## 18. Validation invariants
-
-A release-quality implementation of this architecture should demonstrate, through the smallest useful combination of model evaluation, source validation, and connected runtime evidence:
-
-- compact resume rather than full Workspace loading;
+- one canonical Foundation for foundation-required projects;
+- staged novice-friendly intake until material readiness coverage is complete;
+- no Foundation ceremony for bounded fast-path edits;
+- nearest-source resume without automatic full Foundation load;
 - selective Document/Task fetch;
-- guarded Workspace updates using current Workspace-owned identity;
-- deterministic stale-write rejection followed by re-read/reconciliation behavior;
-- ambiguous write outcome handling by authoritative re-read before retry;
-- revision-independent Workspace current state/concurrency;
-- preservation of normal live WordPress object/revision handling where applicable;
-- active resume state that does not remain cluttered with archived/completed disposable fixtures;
+- continuity reconciliation of future-useful state;
+- guarded Workspace writes using current Workspace-owned identity;
+- stale/ambiguous write reconciliation;
+- bounded transient-route recovery without blind retry loops;
 - manual fallback without false persistence claims;
-- no secret/hidden-reasoning/live-content duplication introduced by Workspace behavior.
-
-Implementation/release history belongs in GitHub, not in this document.
+- no chat/secret/live-content duplication introduced by Workspace behavior.

@@ -1,58 +1,90 @@
 # Workspace Memory and Recovery
 
-Load this reference only when the current runtime exposes persistent WordPress project-Workspace capabilities or when resuming a project that is expected to use them.
+Load this reference only when the current runtime exposes persistent WordPress project-Workspace capabilities or when resuming a project expected to use them.
 
-## Use capabilities that actually exist
+## 1. Use only capabilities that exist
 
-Treat `workspace-resume`, `workspace-document`, and `workspace-task` as logical capability roles from the product contract, not names to invent. Discover the current runtime surface and use only exposed capabilities whose documented behavior safely matches the needed resume/document/task operation.
+Treat `workspace-resume`, `workspace-document`, and `workspace-task` as logical capability roles, not names to invent. Discover the current runtime and use only exposed capabilities whose documented behavior safely matches the needed operation.
 
-If no suitable Workspace capability is exposed, fall back to normal manual continuity. Do not claim persistence, fabricate an object, or require the Bridge merely to continue useful WordPress work.
+If no suitable Workspace capability is exposed, continue in manual mode. Do not claim persistence or fabricate objects.
 
-## Resume progressively
+## 2. Canonical Project Foundation in Workspace
 
-On a fresh or resumed connected project:
+For a project class that requires Project Foundation, persist exactly one canonical durable Project Foundation document when Workspace provides a suitable document capability.
 
-1. Request a compact orientation/resume packet before broad site rediscovery or project questioning.
-2. Orient from only what is useful now: project identity/goal, current focus, active or review-blocked work, blockers, relevant durable decisions, and a small index/reference to potentially relevant documents.
-3. Fetch only the task/document details needed for the current decision or next action. Do not load the full Workspace merely because it exists.
-4. Reuse settled project intent and design constraints instead of asking the user to repeat them, unless current instruction or evidence materially conflicts.
-5. Before changing an existing WordPress target, read/verify its current live state when that state matters.
-6. Continue the next useful project action rather than stopping after producing a recovery summary.
+- Reuse an existing equivalent foundation/project brief when it already owns accepted project-level truth.
+- Do not create competing master/project-spec documents.
+- Keep specialized architecture/design/content/task state in derived documents/tasks, not duplicated into the Foundation.
+- Do not rewrite Foundation for implementation progress.
+- Update it only under the project-level change rules in `project-workflow.md`.
 
-## Keep intent and live reality separate
+The Project Foundation is discoverable durable context, not the default document loaded on every resume.
 
-Use the sources for different questions:
+## 3. Resume progressively
 
-- **Current explicit user instruction** controls the requested outcome/change.
-- **Workspace** preserves durable project intent, accepted decisions, unresolved progress, and useful references.
-- **Live WordPress** controls what content/configuration/objects actually exist now.
+On a fresh/resumed connected project:
 
-A Workspace note that says a page, design, or task was completed is not proof that the live object is unchanged. When Workspace and live state disagree, reconcile the actual target before mutation and update durable context only when useful. A clear current redesign or architecture instruction can supersede older stored conventions.
+1. Request compact orientation/resume before broad site rediscovery or questioning.
+2. Orient from project identity, current focus, active/review-blocked work, blockers, relevant durable decisions, and references to potentially relevant documents.
+3. Fetch only task/document details needed for the next decision/action.
+4. Prefer nearer current sources over automatically loading Project Foundation.
+5. Load Foundation only when project-level intent is unresolved/changed or recovery/completion requires it.
+6. Reuse settled project intent and design constraints instead of asking the user to repeat them.
+7. Before changing a current WordPress target, read/verify live state when it matters.
+8. Continue the next useful action rather than stopping after a recovery summary.
 
-## Persist only future-useful context
+## 4. Keep intent and live reality separate
 
-Persist something only when all applicable conditions make it worthwhile: a future session materially needs it; it is not better recovered from current WordPress/source state; retaining it reduces repeated briefing, ambiguity, or lost progress; and it is safe to store.
+- Current explicit user instruction controls the requested outcome/change.
+- Project Foundation controls accepted durable project-level intent.
+- Derived Workspace docs/tasks control their specialized durable intent/current execution state.
+- Live WordPress controls actual current site objects/configuration.
 
-Useful examples can include a concise project brief, durable site/stack profile, sitemap/IA decision, accepted design system/direction, content/data model, lasting decision, unresolved QA finding, or active task. Create only the artifacts the actual project needs.
+A Workspace note that says a page/task is complete is not proof that the live object is unchanged.
 
-Do not persist:
+## 5. Persist only future-useful context
 
-- full chats, hidden reasoning/chain-of-thought, routine worklogs, or repeated handoff/checkpoint prose;
-- copied live page/product content merely to mirror WordPress;
-- credentials, application passwords, tokens, auth headers, salts, private keys, or secrets;
-- unnecessary customer/order/payment/financial payloads or broad plugin/database dumps.
+Persist when later continuation materially benefits and a stronger current source does not already own the fact.
 
-## Safe Workspace writes
+Useful examples:
 
-Keep Workspace writes as narrow as live-site writes, and never use WordPress Revision IDs as the authority for Workspace continuity or optimistic concurrency. For an overwrite-sensitive Workspace Document/Task update:
+- Project Foundation;
+- Site Architecture/Profile;
+- sitemap/IA decision;
+- accepted design direction/system;
+- content/data model;
+- lasting decision;
+- unresolved QA finding;
+- active task/review/delivery state.
 
-1. Read the current Workspace object and its current **Workspace-owned identity** (for example `version + state_hash`).
-2. If the capability does not expose a current Workspace-owned identity and accept that expected identity with the update, do not perform a blind connected overwrite; treat the write path as a capability gap while continuing safe reads and useful manual/non-overwrite work.
-3. Submit the update with the expected Workspace identity.
-4. If the update is accepted, verify the resulting current state when practical.
-5. If the identity is stale, mismatched, or conflicted, do not overwrite. Re-read current primary Workspace state, reconcile the intended update with newer valid work, and only then retry.
-6. If the write outcome is ambiguous, re-read current state before any retry; never retry blindly in a way that can duplicate or erase newer context.
+Do not persist full chats, hidden reasoning, routine worklogs, repeated checkpoints, copied live content, credentials/secrets, or unnecessary customer/order/payment/financial data.
 
-`workspace-resume`, current Workspace state, and stale-write protection must remain usable when WordPress Revisions are disabled, limited, or pruned. WordPress Revisions may be useful optional secondary history for ordinary WordPress content or for Workspace inspection when available, but they are not the Workspace's current-state or concurrency dependency. Any Bridge-managed durable snapshot/history mechanism is an implementation detail; use it only if the connected runtime actually exposes relevant behavior.
+## 6. Continuity reconciliation
 
-Update durable context when a meaningful project decision, task state, blocker, review state, or delivery fact changes and future continuation benefits. Do not update memory merely to record that another conversational step occurred.
+After a material multi-step workflow change, update the smallest Workspace object that owns the changed future-useful truth before yielding when practical.
+
+Do not update Workspace merely because another conversational step occurred. Do not leave non-obvious active project state understandable only from the current chat when a suitable persistent capability exists.
+
+## 7. Safe Workspace writes
+
+Workspace current-state/concurrency identity is independent of WordPress Revision IDs. For an overwrite-sensitive Document/Task update:
+
+1. read the current Workspace object and current Workspace-owned identity such as `version + state_hash`;
+2. require the update capability to accept expected identity;
+3. if no guard exists, do not perform a blind overwrite;
+4. submit with expected identity;
+5. verify accepted resulting state when practical;
+6. on stale/mismatch/conflict, re-read, reconcile newer valid work, then retry only if still correct;
+7. on ambiguous write outcome, re-read authoritative state before any retry.
+
+Workspace continuity and stale-write protection must remain usable even if WordPress Revisions are disabled/limited/pruned.
+
+## 8. Transient Workspace/connector failure
+
+One timeout/unavailable/transport failure is not proof the logical capability has disappeared.
+
+- Preserve recovered orientation/current state.
+- Continue independent work.
+- Re-discover/retry once when failure semantics or changed runtime evidence make a transient recovery plausible.
+- Do not blind-loop identical failures.
+- If still unavailable, continue manual/non-overwrite work and report a capability blocker only when required work truly cannot progress.
