@@ -55,7 +55,7 @@ When existing content is already valid:
 
 ## 5. Mandatory pre-user self-review for block changes
 
-Before telling the user a Gutenberg block change is ready, perform every available relevant check:
+Before telling the user a Gutenberg block change is ready, always perform the static ownership/structure checks and every additional relevant check the runtime exposes. Parser/serializer/editor checks are additive when available; their absence does not justify claiming validation.
 
 1. **Ownership check:** confirm Gutenberg/raw serialization was actually the right mechanism.
 2. **Structure check:** block comments are balanced/nested and expected block types are available.

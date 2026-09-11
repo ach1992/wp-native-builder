@@ -77,16 +77,18 @@ When Custom HTML/CSS is justified:
 
 ## 8. Mandatory pre-user self-review for material UI
 
-When preview/render is available, inspect the actual result before asking the user to review it.
+Always perform a static review of the proposed content, hierarchy, semantics, mechanism/ownership, responsive assumptions, RTL/LTR logic, accessibility basics, and obvious performance/maintainability risks before user handoff. Static review does not prove rendered correctness.
+
+When preview/render is available, also inspect the actual result before asking the user to review it.
 
 ### First-impression review
 
 Check clarity, balance, credibility, visual character, focal path, and whether the result feels generic/template-like relative to the project.
 
-### Task-level review
+### Task-level rendered review
 
 Check spacing/alignment, overflow/reflow, typography/contrast, content/CTA clarity, target/reference fidelity, interaction/focus, RTL issues, broken/missing assets, performance-heavy choices, editability/ownership, and any obvious architecture misuse.
 
-When Gutenberg is involved, also follow `gutenberg-safety.md` and explicitly look for invalid/recovery warnings before user review.
+When Gutenberg is involved, the Gutenberg safety rules also apply; if an editor/preview is available, explicitly look for invalid/recovery warnings before user review.
 
 Correct clear defects and weak generic choices before showing the result when safe. Surface only material residual choices/findings to the user; do not dump the entire checklist.

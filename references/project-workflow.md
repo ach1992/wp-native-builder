@@ -2,6 +2,8 @@
 
 Load this reference for a new site, substantial redesign, multi-page/multi-surface build, or any project where durable project-level decisions will materially drive later work or continuation.
 
+**Contents:** [Foundation gate](#1-do-not-design-before-the-project-is-foundation-ready) · [Project Foundation](#2-canonical-project-foundation) · [Readiness](#3-foundation-readiness-coverage) · [Stability](#4-foundation-stability-and-change-control) · [Derived artifacts](#5-derive-specialized-documents-instead-of-overloading-the-foundation) · [Task state](#6-task-state) · [Execution](#7-plan-enough-to-act) · [Recovery](#8-resume-and-recovery) · [Continuity](#9-continuity-reconciliation-before-yielding) · [Launch](#10-complete-site-launch)
+
 ## 1. Do not design before the project is foundation-ready
 
 For this class of work, use:
@@ -47,19 +49,21 @@ Use one existing equivalent durable project brief/spec if it already owns these 
 
 Before declaring the Project Foundation ready, resolve every materially applicable domain below as **known**, **user delegated**, **safely inferred**, or **not applicable**:
 
+When creating a new Project Foundation document, use these domain labels as the default section headings. Merge adjacent headings only when their meaning remains explicit. Readiness comes from resolved coverage below; do not create a separate Foundation lifecycle/status enum merely to restate that coverage.
+
 | Domain | Examples of material questions |
 |---|---|
-| Purpose/outcomes | What is the site for? What must improve or become possible? |
+| Purpose & Outcomes | What is the site for? What must improve or become possible? |
 | Audience | Who uses it? What do they need/trust/understand/do? |
-| Scope | New site vs redesign; required pages/surfaces; launch boundary; excluded work |
-| Content | Existing vs new content; content owners; key messages/CTA; multilingual/RTL needs |
-| Brand/design | Existing identity; references; desired character; fidelity vs inspiration; prohibited styles |
-| Functional needs | Forms, search, memberships, booking, ecommerce, filtering, accounts, integrations, interactions |
-| Site architecture | Existing site vs new; theme/editing model/builder; reusable/global ownership; data models |
-| Technical constraints | hosting/runtime constraints when relevant; plugin/license restrictions; browser/device requirements |
-| Quality constraints | accessibility target/needs; responsive behavior; performance-sensitive surfaces; SEO/indexing-facing needs |
-| Governance/delivery | who reviews content/design; draft vs live workflow; launch/publish constraints; future maintainability expectations |
-| Success | observable acceptance/completion criteria |
+| Scope & Non-goals | New site vs redesign; required pages/surfaces; launch boundary; excluded work |
+| Content & Primary Actions | Existing vs new content; content owners; key messages/CTA; multilingual/RTL needs |
+| Brand & Design | Existing identity; references; desired character; fidelity vs inspiration; prohibited styles |
+| Functional Requirements | Forms, search, memberships, booking, ecommerce, filtering, accounts, integrations, interactions |
+| Site Architecture | Existing site vs new; theme/editing model/builder; reusable/global ownership; data models |
+| Technical Constraints | hosting/runtime constraints when relevant; plugin/license restrictions; browser/device requirements |
+| Quality Constraints | accessibility target/needs; responsive behavior; performance-sensitive surfaces; SEO/indexing-facing needs |
+| Governance & Delivery | who reviews content/design; draft vs live workflow; launch/publish constraints; future maintainability expectations |
+| Success Criteria | observable acceptance/completion criteria |
 
 Do not ask every example literally. Discover what is already knowable from the live site/project context first, then ask only unresolved material items.
 
@@ -91,7 +95,7 @@ A change to Project Foundation is a material project-level change. Explain the i
 
 Create only artifacts that pay for themselves. Typical derived artifacts may include:
 
-### Site Architecture/Profile
+### Site Architecture Profile
 
 Record durable ownership/mechanism facts needed repeatedly, such as:
 
@@ -106,15 +110,15 @@ Record durable ownership/mechanism facts needed repeatedly, such as:
 
 Do not use it as a complete plugin inventory or a replacement for live discovery. Reverify live state when current configuration matters.
 
-### Information architecture / sitemap
+### Information Architecture
 
 Create when page hierarchy/navigation/content relationships matter across multiple tasks.
 
-### Design direction/system
+### Design Direction
 
 Create when recurring visual decisions materially affect multiple surfaces: typography, tokens, spacing/layout language, imagery, interaction/motion, responsive/RTL principles.
 
-### Content/data model
+### Content/Data Model
 
 Create when CPT/taxonomy/ACF/product/content relationships affect implementation repeatedly.
 
@@ -134,11 +138,13 @@ Keep task state compact and independent:
 
 `done` does not imply `approved`; `approved` does not imply `live`; `live` requires actual intended delivery, preferably verified.
 
+`Delivery=not_applicable` means no draft/live delivery state is currently established for that task; it may still be intended for later publication. Put intended delivery/launch requirements in the task goal, acceptance, target references, or notes. Use `draft_preview` only after a real draft/preview exists and `live` only after the intended live result is established/verified.
+
 Useful task fields: title, concise goal, acceptance when needed, dependencies/blocker, target references, and short durable notes.
 
 ### Visual review inside a project
 
-For material visual work when preview/rendering is available:
+Before user review, always perform the applicable static content/structure/ownership/accessibility review. When preview/rendering is available, add rendered review:
 
 1. build to a draft/preview when the mechanism supports it;
 2. inspect the rendered result and correct clear visual/technical defects before user review when safe;
@@ -192,7 +198,7 @@ If no and persistent capability exists, update the smallest authoritative artifa
 Examples:
 
 - project-level scope changed -> Project Foundation;
-- header/footer ownership discovered/changed -> Site Architecture/Profile;
+- header/footer ownership discovered/changed -> Site Architecture Profile;
 - design system choice accepted -> design doc;
 - task implemented but awaiting user visual review -> task Progress=`done`, Review=`pending`, Delivery=`draft_preview` as applicable;
 - user approved and live publish verified -> update Review/Delivery accordingly;
