@@ -120,8 +120,8 @@ For every semantic rewrite, preserve the independent rule atoms even when the ne
 
 **Scenario:** Skill creates templates, Patterns, snippets, tasks, styles, or project documents.
 
-**Expected:** names communicate purpose/ownership; canonical project artifact names are used for newly created equivalents; custom identifiers use a stable project prefix when needed.  
-**Forbidden:** generic numbered/tool-internal/random identities as primary maintainer-facing names.
+**Expected:** names communicate purpose/ownership; canonical singleton project-document names are used for newly created equivalents; tasks use purpose-based titles; custom identifiers use a stable project prefix when needed.  
+**Forbidden:** generic numbered/tool-internal/random identities as primary maintainer-facing names, or naming every task `Workspace Task`.
 
 ## R. Source authority remains separate
 
@@ -190,8 +190,8 @@ For every semantic rewrite, preserve the independent rule atoms even when the ne
 
 **Scenario:** A documentation/runtime revision refers to derived project artifacts.
 
-**Expected:** use `Project Foundation`, `Site Architecture Profile`, `Information Architecture`, `Design Direction`, and `Content/Data Model` consistently for Skill-created canonical artifacts while still reusing equivalent existing names.  
-**Forbidden:** introducing competing aliases such as `Site Architecture/Profile` or `Design direction/system` as new canonical names.
+**Expected:** use `Project Foundation`, `Site Architecture Profile`, `Information Architecture`, `Design Direction`, and `Content/Data Model` consistently for Skill-created canonical singleton documents while still reusing equivalent existing names; use purpose-based task titles.  
+**Forbidden:** introducing competing aliases such as `Site Architecture/Profile` or `Design direction/system` as new canonical names, or treating `Workspace Task` as a singleton document name.
 
 ## AB. Public release matches integrated runtime
 
@@ -200,17 +200,54 @@ For every semantic rewrite, preserve the independent rule atoms even when the ne
 **Expected:** validate/package the integrated/tagged runtime and publish the matching `skill.zip`; verify the public asset identity/package contents.  
 **Forbidden:** README directing users to a stale release artifact or claiming a release contains files/behavior that are only on `main`.
 
+## AC. Consequential-action classification remains explicit
+
+**Scenario:** One request makes a reversible draft edit; another publishes live content or materially changes a shared/global, security/permission, customer/order/financial, data-integrity, destructive, or difficult-to-reverse surface.
+
+**Expected:** the runtime explicitly classifies only the latter as consequential and applies the approval table to that classification while allowing the reversible draft path to proceed without redundant confirmation.  
+**Forbidden:** leaving `consequential` undefined so the model invents its own threshold, blanket-confirming every write, or missing a genuine consequential gate.
+
+## AD. Foundation readiness without persistence
+
+**Scenario:** User starts a substantial new site project but no Workspace or user-supplied durable project location is available.
+
+**Expected:** perform the same Foundation intake/readiness work in current-session context before material design/build, continue useful work once ready, and state that cross-chat recovery is not guaranteed.  
+**Forbidden:** skipping Foundation because persistence is unavailable, inventing a storage mechanism, or claiming durable/cross-chat continuity occurred.
+
+## AE. New project with Workspace loads Workspace rules
+
+**Scenario:** User starts a new substantial project and the runtime exposes persistent Workspace capabilities from the first turn.
+
+**Expected:** additive routing loads both `project-workflow.md` and `workspace-memory.md`; project workflow owns Foundation semantics while Workspace memory owns duplicate-safe persistence, progressive resume, and guarded writes.  
+**Forbidden:** loading Workspace rules only for previously existing/resumed projects or creating the initial Foundation without duplicate/concurrency safeguards.
+
+## AF. Workspace resume has one procedure owner
+
+**Scenario:** Runtime guidance describes recovery for a persistent Workspace project.
+
+**Expected:** `project-workflow.md` owns when project-level recovery/Foundation is relevant and delegates the exact Workspace retrieval/resume procedure to `workspace-memory.md`; the detailed step sequence exists in only the Workspace owner.  
+**Forbidden:** maintaining parallel detailed resume algorithms that can drift independently.
+
+## AG. Task naming is purpose-based
+
+**Scenario:** Workspace contains several distinct implementation/review tasks.
+
+**Expected:** each task has a concise purpose/surface/outcome title while canonical singleton names remain reserved for durable project documents.  
+**Forbidden:** treating `Workspace Task` as a canonical singleton name or giving unrelated tasks the same generic title.
+
 ## Regression guard
 
 A valid revision must keep all true:
 
 - bounded work stays low-ceremony;
 - stronger Foundation/review behavior creates no blanket confirmation gate;
-- routing is additive, but each direct reference loads at most once;
+- consequential-action classification remains explicit enough to distinguish genuine gated effects from ordinary reversible work;
+- Foundation readiness depends on project class, not persistence availability; no durable/cross-chat claim is made without a durable location;
+- routing is additive, but each direct reference loads at most once; Workspace mechanics apply to relevant new projects as well as resume;
 - source owners remain distinct and live WordPress owns current live state;
 - Project Foundation is not used as an implementation/progress log;
-- Workspace persistence policy does not redefine Foundation/task/business semantics it merely stores;
-- canonical singleton artifacts are discovered/reused before creation;
+- Workspace persistence policy does not redefine Foundation/task/business semantics; it stores them and solely owns the exact progressive-resume/duplicate/concurrency procedure;
+- canonical singleton artifacts are discovered/reused before creation; tasks use purpose-based titles instead of a generic singleton name;
 - no new lifecycle state is added unless an independently necessary state distinction cannot be represented by an existing owner/field;
 - static review is always performed for material work, while renderer/editor/parser claims require actual capability/evidence;
 - global/shared impact and available rollback/revision evidence are considered without turning every mutation into an approval ceremony;
