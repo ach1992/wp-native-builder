@@ -6,7 +6,7 @@ It is not a session log, release history, or manager checkpoint. Git/GitHub own 
 
 ## 1. Goals
 
-Persistent Workspace support should let a later ChatGPT conversation continue a connected WordPress site project without requiring the previous chat, while keeping context small and preserving live WordPress as the authority for actual site state.
+Persistent Workspace support lets a later ChatGPT conversation continue a connected WordPress site project without requiring the previous chat, while keeping context small and preserving live WordPress as the authority for actual site state.
 
 The architecture must:
 
@@ -28,7 +28,7 @@ There are three distinct layers:
 | **Persistent Workspace** | Durable project intent, accepted decisions, unresolved progress, lightweight documents/tasks and useful references |
 | **Live WordPress** | Current pages/posts/products/media/settings/theme/plugin state and other actual site objects/configuration |
 
-The companion `wp-native-builder-bridge` owns the concrete WordPress storage, permissions, Ability implementation, and admin UI for its Workspace surface. The Skill repository owns only the logical contract and behavior expected by the model.
+The companion `wp-native-builder-bridge` owns the concrete WordPress storage, permissions, Ability implementation, and admin UI for its Workspace surface. The maintained Bridge provides this accepted contract for the supported direct connected setup. The Skill remains capability-driven and must still discover what the current runtime actually exposes.
 
 A connector, MCP transport, or Bridge namespace is an execution transport. It does not replace WordPress architecture ownership.
 
