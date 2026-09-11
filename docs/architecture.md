@@ -73,7 +73,7 @@ If no safe connected route exists, the Skill remains useful in manual mode.
 
 ## Persistent Workspace contract
 
-Persistent project context is optional and capability-driven. The maintained companion Bridge provides the accepted Workspace surface for the supported direct connected setup; the Skill still discovers capabilities at runtime and falls back cleanly when that surface is unavailable.
+Persistent project context is optional and capability-driven. A compatible companion Bridge can provide the accepted Workspace surface for a direct connected setup; the Skill discovers capabilities at runtime and falls back cleanly when that surface is unavailable.
 
 When Workspace support is exposed:
 
