@@ -24,11 +24,11 @@ wp-native-builder/
 | Runtime source | Owns |
 |---|---|
 | `SKILL.md` | trigger/routing, universal control loop, source authority, universal review/approval/safety invariants |
-| `references/project-workflow.md` | Project Foundation, canonical project artifacts, task semantics, multi-step progression/recovery |
+| `references/project-workflow.md` | Project Foundation, canonical project artifacts, task semantics, multi-step progression, and project-level recovery triggers |
 | `references/implementation-decisions.md` | WordPress owner/mechanism selection, native-vs-custom decisions, placement/naming, shared/global impact and rollback awareness |
 | `references/gutenberg-safety.md` | Gutenberg serialization contract, invalid-block diagnosis, block-specific validation |
 | `references/design-conventions.md` | UI/UX/design judgment, responsive/RTL/accessibility/performance and rendered visual review |
-| `references/workspace-memory.md` | Workspace persistence, progressive resume, duplicate avoidance, optimistic concurrency, transient Workspace failure |
+| `references/workspace-memory.md` | Workspace persistence, exact progressive-resume procedure, duplicate avoidance, optimistic concurrency, transient Workspace failure |
 | `agents/openai.yaml` | ChatGPT-facing metadata |
 
 References may state that another domain also applies, but they do not become a second owner of that domain's policy.
@@ -43,7 +43,7 @@ Project Foundation
   -> Live WordPress remains authoritative for current site state
 ```
 
-Project Foundation is required only for substantial project classes. Readiness comes from resolved material coverage, not from a separate Foundation lifecycle enum. Once ready, it leaves the normal hot path.
+Project Foundation is required only for substantial project classes. Readiness comes from resolved material coverage, not from a separate Foundation lifecycle enum, and does not depend on persistence availability; persistence only determines whether that context survives across chats. Once ready, Foundation leaves the normal hot path.
 
 ## Mechanism-first architecture
 
@@ -69,7 +69,7 @@ Global/template/shared work inspects reuse/impact before mutation and captures c
 
 ## Workspace architecture
 
-Workspace is optional and capability-driven. It stores future-useful durable context, resumes progressively, reuses canonical singleton documents before create, guards overwrite-sensitive writes with Workspace-owned expected identity, and never replaces live WordPress as current-state authority.
+Workspace is optional and capability-driven. When it is relevant to substantial/multi-step work, including a new project, it stores future-useful durable context, resumes progressively, reuses canonical singleton documents before create, guards overwrite-sensitive writes with Workspace-owned expected identity, and never replaces live WordPress as current-state authority. The exact Workspace resume/retrieval procedure is owned only by `references/workspace-memory.md`.
 
 Task delivery retains the current Bridge-compatible enum: `not_applicable`, `draft_preview`, `live`. `not_applicable` means no draft/live state is currently established; intended later publication is represented by task goal/acceptance/targets/notes rather than a new lifecycle value.
 

@@ -15,7 +15,7 @@ Classify the current request:
 |---|---|
 | Small bounded change that can be understood, implemented, and verified now | Use the fast path. Do not create project artifacts by ritual. |
 | New site, substantial redesign, multi-page/multi-surface build, or work whose architecture/content/design decisions will drive later tasks | Read `references/project-workflow.md` and complete its Project Foundation phase before material design/build. |
-| Existing multi-step project with durable Workspace support | Read `references/project-workflow.md` plus `references/workspace-memory.md`; resume from current authoritative project state before asking the user to restate it. |
+| Persistent Workspace capabilities are relevant to a substantial/multi-step project, whether starting new work or resuming existing work | Also read `references/workspace-memory.md` for persistence, progressive resume, duplicate avoidance, and guarded Workspace writes. |
 | Ownership/mechanism is non-obvious or global/reusable/theme/builder/plugin/data-model behavior is involved | Read `references/implementation-decisions.md`. |
 | Gutenberg/Core blocks, Patterns, raw `post_content`, serialized block markup, or an invalid-block symptom is involved | Read `references/gutenberg-safety.md`. |
 | Material UI creation/redesign/review, screenshot-led work, responsive/RTL/accessibility/performance-sensitive presentation | Read `references/design-conventions.md`. |
@@ -113,7 +113,7 @@ Core rules:
 
 ### Manual mode
 
-Remain fully useful without a connector. Give exact implementation guidance/output for the actual stack and maintain the same mechanism/ownership decisions. For multi-step work without persistent Workspace, keep a concise current Project Foundation and derived project artifacts in the user-supplied durable project location when one exists; otherwise be explicit that cross-chat persistence cannot be guaranteed.
+Remain fully useful without a connector. Give exact implementation guidance/output for the actual stack and maintain the same mechanism/ownership decisions. Foundation readiness depends on the project class, not on persistence availability: for foundation-required work, establish the same Project Foundation context in the current session even when no durable location exists. Persist it and derived project artifacts in a user-supplied durable project location when one exists; otherwise do not claim cross-chat durability and be explicit that later recovery may require the user to resupply context.
 
 ### Connected mode
 
@@ -179,7 +179,7 @@ Do not create worklogs or copy the conversation. Follow `references/project-work
 
 ## 12. Approval boundary
 
-Capability/permission is not user approval, but neither is every write consequential.
+Capability/permission is not user approval, but neither is every write consequential. Treat an action as consequential when it actually publishes live content or materially affects shared/global behavior, security/permissions, customer/order/financial state, data integrity, destructive or difficult-to-reverse state, or a comparable surface.
 
 | Current condition | Action |
 |---|---|

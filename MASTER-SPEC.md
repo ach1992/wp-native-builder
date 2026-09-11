@@ -22,7 +22,7 @@ The Skill is not a CMS, page builder, connector architecture, or general project
 ## 2. Stable product invariants
 
 1. **Proportional process.** Small bounded changes remain fast and do not gain project ceremony merely because Workspace exists.
-2. **Foundation before substantial build.** New sites, substantial redesigns, and genuinely multi-step/multi-surface projects establish sufficient durable project-level intent before material design/build.
+2. **Foundation before substantial build.** New sites, substantial redesigns, and genuinely multi-step/multi-surface projects establish sufficient project-level intent before material design/build whether or not persistence is available; persistence determines durability, not Foundation readiness.
 3. **No intake quota.** Foundation discovery continues in compact staged batches until every material domain is known, explicitly delegated, safely inferred, or not applicable.
 4. **Evidence before questions.** Discover decision-relevant live/project facts when possible; ask only unresolved material questions in language the user can answer.
 5. **Stack-adaptive, not stack-forcing.** Existing suitable site architecture, editor, theme, builder, plugin, form, commerce, and data ownership outrank preferred defaults.
@@ -54,7 +54,7 @@ One visually large page is not automatically a project if current durable contex
 
 ### 3.3 Foundation semantics
 
-A project that needs Project Foundation keeps **one** canonical durable project-level brief when a suitable durable location exists. Reuse an existing equivalent brief/specification rather than creating a competing “master” document.
+A project that needs Project Foundation establishes the same logical project-level brief regardless of whether persistence is available. When a suitable durable location exists, keep **one** canonical durable Project Foundation there and reuse an existing equivalent brief/specification rather than creating a competing “master” document. Without a durable location, keep the Foundation coherent in current-session context and never claim automatic cross-chat recovery.
 
 The Foundation owns accepted purpose/outcomes, audience, scope/non-goals, content/primary actions, functional requirements, brand/design constraints, durable technical/quality constraints, governance/delivery expectations, success criteria, and material owner decisions.
 
@@ -64,21 +64,20 @@ After readiness, Foundation leaves the routine hot path. Reopen it only for acce
 
 ## 4. Canonical project sources
 
-Use these canonical names when the artifact is created by the Skill:
+Use these canonical names when a singleton project document is created by the Skill:
 
 - `Project Foundation`
 - `Site Architecture Profile`
 - `Information Architecture`
 - `Design Direction`
 - `Content/Data Model`
-- `Workspace Task`
 
-Equivalent existing project artifacts may retain their established names when they already own the same truth. Canonical names are defaults, not a reason to duplicate documents.
+Equivalent existing project artifacts may retain their established names when they already own the same truth. Canonical names are defaults, not a reason to duplicate documents. Workspace tasks are work items, not singleton canonical documents; title them by purpose/surface/outcome rather than giving every task the same `Workspace Task` name.
 
 Source authority remains separated:
 
 1. current explicit user instruction — requested outcome/change;
-2. Project Foundation — accepted durable project-level intent;
+2. Project Foundation — accepted durable project-level intent when persisted, or current-session project-level intent when no durable location exists;
 3. derived project documents — their specialized durable domain;
 4. Workspace tasks — unresolved execution/review/delivery state when persistent Workspace exists;
 5. verified live WordPress — current site objects/configuration;
@@ -121,7 +120,7 @@ Static review never substitutes for rendered evidence, and lack of a renderer/va
 
 ### Manual
 
-Without connected capabilities, provide exact stack-aware implementation guidance/output. Multi-step continuity may use a user-supplied durable location when one exists; otherwise cross-chat persistence is not guaranteed.
+Without connected capabilities, provide exact stack-aware implementation guidance/output. Foundation-required work still establishes Foundation context; a user-supplied durable location may provide cross-chat continuity, otherwise persistence is not guaranteed.
 
 ### Connected
 
@@ -131,7 +130,7 @@ Capability/permission never proves user approval or successful execution.
 
 ### Workspace
 
-Persistent Workspace is optional and capability-driven. Its runtime contract owns persistence/recovery mechanics, not project semantics. The Skill must:
+Persistent Workspace is optional and capability-driven. Its runtime contract owns persistence/recovery mechanics, not project semantics. Whenever Workspace is relevant to substantial/multi-step work—including starting a new project as well as resuming one—the Skill must load the Workspace-specific procedure and:
 
 - resume progressively rather than dump all history;
 - persist only future-useful context;
@@ -175,11 +174,11 @@ The distributable Skill remains shallow and progressively loaded:
 | Runtime source | Canonical responsibility |
 |---|---|
 | `SKILL.md` | trigger/routing, universal control loop, source authority, universal review/approval/safety invariants |
-| `references/project-workflow.md` | Project Foundation, canonical project artifacts, task semantics, multi-step progression/recovery |
+| `references/project-workflow.md` | Project Foundation, canonical project artifacts, task semantics, multi-step progression, and project-level recovery triggers |
 | `references/implementation-decisions.md` | WordPress surface ownership, native-vs-custom decisions, placement/naming, shared/global impact/rollback awareness |
 | `references/gutenberg-safety.md` | Gutenberg serialization, invalid-block diagnosis, block-specific validation |
 | `references/design-conventions.md` | UI/UX/design judgment and visual review |
-| `references/workspace-memory.md` | Workspace persistence, progressive resume, duplicate avoidance, optimistic concurrency, transient Workspace failure |
+| `references/workspace-memory.md` | Workspace persistence, exact progressive-resume procedure, duplicate avoidance, optimistic concurrency, transient Workspace failure |
 | `agents/openai.yaml` | ChatGPT-facing metadata |
 
 Reference files may point to another domain whose rule also applies, but they must not become a second owner of that domain's policy. All runtime references remain directly reachable from `SKILL.md`.
@@ -206,11 +205,11 @@ A release-quality revision must preserve these outcomes:
 
 - standard Skill validation and packaging pass;
 - small bounded work remains fast;
-- substantial projects resolve material Foundation gaps before major build;
+- substantial projects resolve material Foundation gaps before major build even when no persistence location is available;
 - novice intake does not require WordPress terminology;
-- one canonical Foundation stays stable and leaves the hot path after readiness;
-- additive routing can load every applicable direct reference without duplicate loading;
-- canonical project artifacts are reused before new copies are created;
+- one canonical durable Foundation is used when persistence exists, while current-session Foundation semantics remain valid without persistence;
+- additive routing can load every applicable direct reference without duplicate loading, including Workspace mechanics for new as well as resumed projects;
+- canonical singleton project documents are reused before new copies are created, while tasks use purpose-based titles;
 - global/template/shared changes inspect impact and preserve practical revision/rollback evidence when available;
 - Core blocks/Patterns/native mechanisms remain preferred when fit;
 - Gutenberg raw serialization is validated proportionally and invalid blocks are repaired narrowly;
@@ -218,8 +217,8 @@ A release-quality revision must preserve these outcomes:
 - naming/ownership remain understandable to future humans;
 - connected mode reconciles stale/ambiguous writes and bounded transient route failure;
 - live WordPress remains authoritative for current site state;
-- manual mode remains useful without Bridge/Workspace;
-- approval behavior remains low-friction and evidence-backed;
+- manual mode remains useful without Bridge/Workspace and never claims unavailable persistence;
+- consequential-action classification remains explicit enough to avoid both blanket confirmation and missed gates;
 - public `skill.zip` contains exactly the intended runtime files from the tagged/integrated revision.
 
 Behavioral regression scenarios live in `docs/BEHAVIOR-EVALS.md`.

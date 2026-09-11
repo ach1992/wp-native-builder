@@ -25,7 +25,7 @@ Small bounded edits stay on the fast path and do not require this ceremony.
 
 ## 2. Canonical Project Foundation
 
-Maintain one canonical durable **Project Foundation** for the site project when persistent project storage exists or the user has supplied another durable project location.
+Foundation readiness is required by the project class, not by persistence availability. Establish the same logical **Project Foundation** before material design/build even when no durable location exists. When persistent project storage or another user-supplied durable project location exists, keep one canonical durable Foundation there; otherwise keep the Foundation coherent in the current session and do not claim cross-chat durability. If persistence becomes available later, reconcile into one canonical durable Foundation rather than creating competing copies.
 
 It owns only stable project-level truth:
 
@@ -177,15 +177,7 @@ Do not turn project setup into weeks of speculative documentation.
 
 ## 8. Resume and recovery
 
-On a fresh chat with persistent Workspace:
-
-1. Request compact resume/orientation.
-2. Identify project identity/current focus, active or review-blocked work, blockers, and references to relevant durable docs.
-3. Fetch only the task/document details needed for the next decision/action.
-4. Do **not** automatically load Project Foundation if a nearer current source is sufficient.
-5. Load Project Foundation only under the stability/change triggers above.
-6. Re-read live WordPress targets before overwrite-sensitive/current-state-dependent work.
-7. Continue the next useful action; do not stop at a recovery summary.
+Project-level recovery uses the nearest current authoritative sources and reopens Project Foundation only under the stability/change triggers above. When persistent Workspace capabilities are relevant, load `workspace-memory.md` and follow its single canonical progressive-resume procedure; this file does not redefine Workspace retrieval/concurrency mechanics. Re-read live WordPress targets before overwrite-sensitive/current-state-dependent work, then continue the next useful action instead of stopping at a recovery summary.
 
 ## 9. Continuity reconciliation before yielding
 
@@ -193,7 +185,7 @@ After a material project step, before yielding control, ask internally:
 
 > Could a fresh chat continue correctly from durable sources without this conversation?
 
-If no and persistent capability exists, update the smallest authoritative artifact that owns the changed truth.
+If no and a durable project location is writable, update the smallest authoritative artifact that owns the changed truth. If no durable location exists, keep the current-session project context coherent and do not imply that a future chat can recover it automatically.
 
 Examples:
 
