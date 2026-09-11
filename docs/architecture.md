@@ -1,12 +1,8 @@
 # WP Native Builder architecture
 
-This document is the concise maintained architecture overview of the public Skill. It is implementation documentation, not a project log or release-history archive.
-
-For durable product requirements, see [`MASTER-SPEC.md`](../MASTER-SPEC.md). For the detailed persistent Workspace/cross-chat contract, see [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md).
+This is the concise maintained runtime architecture overview. Durable product requirements live in [`MASTER-SPEC.md`](../MASTER-SPEC.md); detailed persistent Workspace behavior lives in [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md); behavioral regression scenarios live in [`BEHAVIOR-EVALS.md`](BEHAVIOR-EVALS.md).
 
 ## Runtime structure
-
-The distributable is intentionally small and progressively loaded:
 
 ```text
 wp-native-builder/
@@ -15,88 +11,87 @@ wp-native-builder/
 │   └── openai.yaml
 └── references/
     ├── design-conventions.md
+    ├── gutenberg-safety.md
     ├── implementation-decisions.md
     ├── project-workflow.md
     └── workspace-memory.md
 ```
 
-`SKILL.md` is the control plane. It owns the core operating loop, source authority, question/inference behavior, mechanism selection, manual/connected routing, approval boundaries, and direct links to conditional references.
+`SKILL.md` is the compact control plane. It routes request class, source authority, question behavior, Project Foundation requirements, mechanism selection, manual/connected execution, transient-failure behavior, continuity reconciliation, and approval boundaries.
 
-The files under `references/` are loaded only when the current task makes their domain relevant. This keeps routine WordPress requests from paying the context cost of unrelated guidance.
-
-## Repository source responsibilities
+References are shallow and conditionally loaded:
 
 | Source | Responsibility |
 |---|---|
-| `README.md` | User-facing installation, usage, capabilities, and operating model |
-| `SKILL.md` | Runtime routing and model behavior that applies broadly |
-| `references/design-conventions.md` | Material UI/design, visual references, responsive behavior, RTL, accessibility, presentation quality |
-| `references/implementation-decisions.md` | Non-obvious mechanism and architecture selection across WordPress/theme/builder/plugin/custom-code surfaces |
-| `references/project-workflow.md` | Proportional multi-step project progression and review/launch handling |
-| `references/workspace-memory.md` | Persistent Workspace recovery, retention, write identity, stale/conflict handling |
+| `references/project-workflow.md` | Project Foundation intake/readiness/stability, derived docs/tasks, multi-step progression, recovery and continuity reconciliation |
+| `references/implementation-decisions.md` | WordPress surface ownership, native-vs-custom mechanism selection, header/footer/global routing, maintainable placement/naming |
+| `references/gutenberg-safety.md` | Gutenberg serialization contract, native-first block writes, invalid-block diagnosis, mandatory pre-user block self-review |
+| `references/design-conventions.md` | UI/UX design judgment, visual quality, responsive/RTL/accessibility/performance, pre-user visual review |
+| `references/workspace-memory.md` | Persistent Workspace Foundation/docs/tasks, progressive recovery, retention, concurrency, transient Workspace failure |
 | `agents/openai.yaml` | ChatGPT-facing Skill metadata |
-| `MASTER-SPEC.md` | Canonical durable product/project requirements and non-goals |
-| `docs/architecture.md` | Concise maintained implementation architecture overview |
-| `docs/PROJECT-WORKSPACE-ARCHITECTURE.md` | Detailed persistent Workspace and cross-chat site-project architecture |
 
-Git history, Issues, Pull Requests, Actions, and Releases own implementation and delivery history. Historical planning, transient recovery checkpoints, and release coordination do not belong in runtime instructions or permanent architecture documents.
+Repository-only files are not bundled into the Skill.
 
-## Mechanism-first design
+## Project state architecture
 
-The Skill keeps two decisions separate:
+The project model deliberately separates stable project truth from current work/live state:
 
-1. **Implementation mechanism** — which current WordPress/theme/builder/plugin/data surface should own the requested behavior?
-2. **Execution transport** — when connected, which actually exposed Ability/tool can safely operate that mechanism?
+```text
+Project Foundation
+  -> Site Architecture/Profile
+  -> IA / Design / Content-Data docs when useful
+  -> Tasks / review / delivery state
+  -> Live WordPress objects remain authoritative for current site state
+```
 
-This prevents the connector from becoming the architecture. A native or plugin-owned Ability can be preferable to a Bridge-owned operation if it exposes the better supported path.
+Project Foundation is required only for substantial project classes. Once ready, it leaves the normal hot path. Routine work uses the nearest current authoritative source and reopens Foundation only for material project-level change, contradiction, or recovery/completion need.
 
-## Stack adaptation
+## Mechanism-first architecture
 
-The Skill has preferred defaults for otherwise unspecified/new projects, but the current site's suitable architecture outranks those defaults. It must not convert an Elementor, Kadence, block-theme, WooCommerce, ACF, or other established site merely to match the preferred stack.
+Every implementation has two separate decisions:
 
-The runtime discovers or asks only for state that can materially change the implementation or approval decision.
+1. **Owner/mechanism** — WordPress Core, Site Editor/template part, theme, page builder, plugin, Pattern, form/commerce/data model, scoped frontend code, or custom extension.
+2. **Transport** — which actually exposed connected capability safely operates that owner.
 
-## Connected execution contract
+A connector never becomes the architecture merely because it exposes an operation.
 
-Connected work follows a narrow read/reconcile/write/verify model:
+Global shell/header/footer/template/navigation/reusable surfaces must resolve ownership before page-local markup is considered. Gutenberg surfaces check Core blocks/settings/Patterns/template ownership before Custom HTML.
 
-1. inspect relevant current architecture, object identity, and exposed abilities;
-2. choose the existing suitable site mechanism;
-3. prefer draft/preview/reversible changes during iteration;
-4. include current identity on overwrite-sensitive writes when supported;
-5. on stale/conflict state, re-read and reconcile rather than overwriting;
-6. on ambiguous write outcome, re-read before any retry;
-7. verify resulting state when practical;
-8. never invent an ability, permission, object identity, or write result.
+## Gutenberg safety architecture
 
-If no safe connected route exists, the Skill remains useful in manual mode.
+Raw serialized Gutenberg content is version/registration-sensitive and may become invalid when stored markup differs from the block's expected saved representation.
 
-## Persistent Workspace contract
+The runtime therefore prefers block-aware writes and requires proportional pre-user validation when raw serialization is used. It avoids reserializing unrelated blocks and repairs invalid blocks at the smallest affected representation.
 
-Persistent project context is optional and capability-driven. A compatible companion Bridge can provide the accepted Workspace surface for a direct connected setup; the Skill discovers capabilities at runtime and falls back cleanly when that surface is unavailable.
+## Connected execution
 
-When Workspace support is exposed:
+Connected mutation follows a narrow read/reconcile/write/verify model:
 
-- `workspace-resume` provides a compact orientation packet;
-- document/task details are fetched progressively only when relevant;
-- live WordPress content/configuration remains the source of truth for current site state;
-- Workspace Documents and Tasks store durable project context only when later continuation benefits;
-- overwrite-sensitive Workspace writes require Workspace-owned expected identity, such as `version + state_hash`;
-- stale writes must fail closed, followed by re-read, reconciliation, and only then a retry;
-- ambiguous write outcomes are re-read from authoritative state before retry;
-- Workspace continuity/concurrency must not depend on WordPress Revision IDs;
-- ordinary WordPress content can still use its normal object/revision/version mechanisms.
+1. inspect relevant architecture/target/capabilities;
+2. choose owner/mechanism;
+3. prefer reversible draft/preview writes;
+4. use current identity for overwrite-sensitive writes when supported;
+5. reconcile stale/conflicted state;
+6. re-read ambiguous write outcomes before retry;
+7. verify resulting state when practical.
 
-This supports cross-chat continuation without turning the Workspace into a transcript archive or second CMS. The complete behavioral/storage boundary is defined in [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md).
+One plausible transport/runtime failure does not erase the recovered plan. The runtime continues independent work and performs one bounded re-discovery/retry when transient recovery is plausible before concluding that required semantics are genuinely unavailable.
 
-## Approval model
+## Pre-user quality gate
 
-Permission/capability and user approval are independent. The runtime does not stop for every write.
+Material visual/block work follows:
 
-Non-consequential reversible edits, drafts, previews, reads, validation, and preparation may proceed within scope. Approval is required only at an actual consequential boundary. A current exact instruction can satisfy that boundary without duplicate confirmation while the target, scope, and material effect remain unchanged.
+```text
+BUILD -> PREVIEW/VALIDATE -> AI SELF-REVIEW -> FIX CLEAR DEFECTS
+      -> USER REVIEW WHEN NEEDED -> PUBLISH WHEN AUTHORIZED -> VERIFY
+```
+
+This is a quality loop, not an approval ceremony. Tiny reversible changes may skip irrelevant stages.
+
+## Maintainability
+
+Human-facing page/template/Pattern/snippet/doc/task names are semantic and purpose-based. Custom identifiers use a stable project prefix when appropriate. Edit ownership should be discoverable from durable project state for non-obvious custom/global work.
 
 ## Packaging boundary
 
-Only the six runtime files shown above are packaged as `skill.zip`. Repository-facing files such as `README.md`, `LICENSE`, `MASTER-SPEC.md`, and `docs/` are intentionally excluded.
-
-The package is validated with OpenAI's standard Skill validator and packager before release. The archive name remains exactly `skill.zip`.
+Only the seven runtime files under `SKILL.md`, `agents/`, and `references/` are packaged as `skill.zip`. `README.md`, `LICENSE`, `MASTER-SPEC.md`, and `docs/` remain repository documentation.
