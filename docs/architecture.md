@@ -1,6 +1,8 @@
 # WP Native Builder architecture
 
-This document describes the maintained architecture of the public Skill. It is implementation documentation, not a project log or release-history archive.
+This document is the concise maintained architecture overview of the public Skill. It is implementation documentation, not a project log or release-history archive.
+
+For durable product requirements, see [`MASTER-SPEC.md`](../MASTER-SPEC.md). For the detailed persistent Workspace/cross-chat contract, see [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md).
 
 ## Runtime structure
 
@@ -22,20 +24,22 @@ wp-native-builder/
 
 The files under `references/` are loaded only when the current task makes their domain relevant. This keeps routine WordPress requests from paying the context cost of unrelated guidance.
 
-## Source responsibilities
+## Repository source responsibilities
 
 | Source | Responsibility |
 |---|---|
+| `README.md` | User-facing installation, usage, capabilities, and operating model |
 | `SKILL.md` | Runtime routing and model behavior that applies broadly |
 | `references/design-conventions.md` | Material UI/design, visual references, responsive behavior, RTL, accessibility, presentation quality |
 | `references/implementation-decisions.md` | Non-obvious mechanism and architecture selection across WordPress/theme/builder/plugin/custom-code surfaces |
 | `references/project-workflow.md` | Proportional multi-step project progression and review/launch handling |
 | `references/workspace-memory.md` | Persistent Workspace recovery, retention, write identity, stale/conflict handling |
 | `agents/openai.yaml` | ChatGPT-facing Skill metadata |
-| `README.md` | User installation, usage, capabilities, and operating model |
-| `docs/architecture.md` | Repository-level architecture for maintainers/contributors |
+| `MASTER-SPEC.md` | Canonical durable product/project requirements and non-goals |
+| `docs/architecture.md` | Concise maintained implementation architecture overview |
+| `docs/PROJECT-WORKSPACE-ARCHITECTURE.md` | Detailed persistent Workspace and cross-chat site-project architecture |
 
-Historical project planning, transient recovery checkpoints, and release coordination belong in Git/GitHub history and Issues/PRs, not in runtime instructions or permanent manager-state documents.
+Git history, Issues, Pull Requests, Actions, and Releases own implementation and delivery history. Historical planning, transient recovery checkpoints, and release coordination do not belong in runtime instructions or permanent architecture documents.
 
 ## Mechanism-first design
 
@@ -77,10 +81,11 @@ Persistent project context is optional and capability-driven. When the connected
 - Workspace Documents and Tasks store durable project context only when later continuation benefits;
 - overwrite-sensitive Workspace writes require Workspace-owned expected identity, such as `version + state_hash`;
 - stale writes must fail closed, followed by re-read, reconciliation, and only then a retry;
+- ambiguous write outcomes are re-read from authoritative state before retry;
 - Workspace continuity/concurrency must not depend on WordPress Revision IDs;
 - ordinary WordPress content can still use its normal object/revision/version mechanisms.
 
-This supports cross-chat continuation without turning the Workspace into a transcript archive or second CMS.
+This supports cross-chat continuation without turning the Workspace into a transcript archive or second CMS. The complete behavioral/storage boundary is defined in [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md).
 
 ## Approval model
 
@@ -90,6 +95,6 @@ Non-consequential reversible edits, drafts, previews, reads, validation, and pre
 
 ## Packaging boundary
 
-Only the runtime directory is packaged as `skill.zip`. Repository-facing files such as `README.md`, `LICENSE`, and `docs/architecture.md` are intentionally excluded.
+Only the six runtime files shown above are packaged as `skill.zip`. Repository-facing files such as `README.md`, `LICENSE`, `MASTER-SPEC.md`, and `docs/` are intentionally excluded.
 
 The package is validated with OpenAI's standard Skill validator and packager before release. The archive name remains exactly `skill.zip`.
