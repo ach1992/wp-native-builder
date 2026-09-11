@@ -114,7 +114,15 @@ An explicit current instruction that already authorizes the exact consequential 
 - **`references/workspace-memory.md`** — persistent Workspace recovery, retention, and optimistic-concurrency rules.
 - **`agents/openai.yaml`** — ChatGPT UI metadata.
 
-For repository-level technical design, see [`docs/architecture.md`](docs/architecture.md).
+## Project documentation
+
+Repository documentation is kept separate from the installable Skill runtime:
+
+- [`MASTER-SPEC.md`](MASTER-SPEC.md) — canonical durable product/project specification.
+- [`docs/architecture.md`](docs/architecture.md) — concise maintained implementation architecture.
+- [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](docs/PROJECT-WORKSPACE-ARCHITECTURE.md) — detailed persistent Workspace and cross-chat project architecture.
+
+Implementation and release history belongs to Git/GitHub Issues, Pull Requests, Actions, and Releases rather than being duplicated in these documents.
 
 ## Validation and packaging
 
