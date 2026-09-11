@@ -1,6 +1,6 @@
 # Workspace Memory and Recovery
 
-Load this reference only when the current runtime exposes persistent WordPress project-Workspace capabilities or when resuming a project expected to use them. Project/Foundation/task semantics remain owned by `SKILL.md` and `project-workflow.md`; this file owns Workspace-specific persistence, recovery, duplicate avoidance, concurrency, and fallback behavior.
+Load this reference whenever the current runtime exposes persistent WordPress project-Workspace capabilities that are relevant to the current substantial/multi-step work, including both new project persistence and later resume. Project/Foundation/task semantics remain owned by `SKILL.md` and `project-workflow.md`; this file is the single owner of the exact Workspace persistence, progressive-resume, duplicate-avoidance, concurrency, and fallback procedure.
 
 ## 1. Use only capabilities that exist
 
@@ -10,7 +10,7 @@ If no suitable Workspace capability is exposed, continue in manual mode. Do not 
 
 ## 2. Resume progressively
 
-On a fresh/resumed connected project:
+When starting or resuming a connected multi-step project that uses Workspace:
 
 1. request compact orientation/resume before broad site rediscovery or questioning;
 2. orient from project identity, current focus, active/review-blocked work, blockers, and references to potentially relevant durable documents;
