@@ -28,7 +28,7 @@ There are three distinct layers:
 | **Persistent Workspace** | Durable project intent, accepted decisions, unresolved progress, lightweight documents/tasks and useful references |
 | **Live WordPress** | Current pages/posts/products/media/settings/theme/plugin state and other actual site objects/configuration |
 
-The companion `wp-native-builder-bridge` owns the concrete WordPress storage, permissions, Ability implementation, and admin UI for its Workspace surface. The maintained Bridge provides this accepted contract for the supported direct connected setup. The Skill remains capability-driven and must still discover what the current runtime actually exposes.
+The companion `wp-native-builder-bridge` owns the concrete WordPress storage, permissions, Ability implementation, and admin UI for its Workspace surface. A maintained Bridge implementation can provide the accepted contract for a supported direct connected setup; the Skill remains capability-driven and must discover what the current runtime actually exposes.
 
 A connector, MCP transport, or Bridge namespace is an execution transport. It does not replace WordPress architecture ownership.
 
