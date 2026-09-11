@@ -222,7 +222,7 @@ The logical Workspace capability roles are:
 - `workspace-document` — list/get/create/update/archive durable documents;
 - `workspace-task` — list/get/create/update/transition/archive lightweight tasks.
 
-Treat these as logical roles, not names to invent. Discover the current runtime and use only capabilities whose documented behavior safely matches the required operation. The maintained companion Bridge implements this contract for the supported direct connected setup, while the Skill remains capability-driven so absence or future transport differences degrade gracefully to manual continuity.
+Treat these as logical roles, not names to invent. Discover the current runtime and use only capabilities whose documented behavior safely matches the required operation. A compatible maintained Bridge can provide this contract for a direct connected setup; the Skill remains capability-driven so absence or future transport differences degrade gracefully to manual continuity.
 
 Detailed Workspace architecture is maintained in [`docs/PROJECT-WORKSPACE-ARCHITECTURE.md`](docs/PROJECT-WORKSPACE-ARCHITECTURE.md).
 
