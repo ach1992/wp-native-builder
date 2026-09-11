@@ -1,6 +1,6 @@
 # WP Native Builder architecture
 
-This is the concise maintained runtime architecture overview. Durable product requirements live in [`MASTER-SPEC.md`](../MASTER-SPEC.md); detailed persistent Workspace behavior lives in [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md); behavioral regression scenarios live in [`BEHAVIOR-EVALS.md`](BEHAVIOR-EVALS.md).
+This is the concise runtime and rule-ownership overview. Stable product requirements live in [`MASTER-SPEC.md`](../MASTER-SPEC.md); persistent Workspace architecture lives in [`PROJECT-WORKSPACE-ARCHITECTURE.md`](PROJECT-WORKSPACE-ARCHITECTURE.md); regression scenarios live in [`BEHAVIOR-EVALS.md`](BEHAVIOR-EVALS.md).
 
 ## Runtime structure
 
@@ -17,81 +17,62 @@ wp-native-builder/
     └── workspace-memory.md
 ```
 
-`SKILL.md` is the compact control plane. It routes request class, source authority, question behavior, Project Foundation requirements, mechanism selection, manual/connected execution, transient-failure behavior, continuity reconciliation, and approval boundaries.
+`SKILL.md` is the control plane. Request routing is additive rather than mutually exclusive; every applicable direct reference may be loaded once.
 
-References are shallow and conditionally loaded:
+## Rule ownership
 
-| Source | Responsibility |
+| Runtime source | Owns |
 |---|---|
-| `references/project-workflow.md` | Project Foundation intake/readiness/stability, derived docs/tasks, multi-step progression, recovery and continuity reconciliation |
-| `references/implementation-decisions.md` | WordPress surface ownership, native-vs-custom mechanism selection, header/footer/global routing, maintainable placement/naming |
-| `references/gutenberg-safety.md` | Gutenberg serialization contract, native-first block writes, invalid-block diagnosis, mandatory pre-user block self-review |
-| `references/design-conventions.md` | UI/UX design judgment, visual quality, responsive/RTL/accessibility/performance, pre-user visual review |
-| `references/workspace-memory.md` | Persistent Workspace Foundation/docs/tasks, progressive recovery, retention, concurrency, transient Workspace failure |
-| `agents/openai.yaml` | ChatGPT-facing Skill metadata |
+| `SKILL.md` | trigger/routing, universal control loop, source authority, universal review/approval/safety invariants |
+| `references/project-workflow.md` | Project Foundation, canonical project artifacts, task semantics, multi-step progression/recovery |
+| `references/implementation-decisions.md` | WordPress owner/mechanism selection, native-vs-custom decisions, placement/naming, shared/global impact and rollback awareness |
+| `references/gutenberg-safety.md` | Gutenberg serialization contract, invalid-block diagnosis, block-specific validation |
+| `references/design-conventions.md` | UI/UX/design judgment, responsive/RTL/accessibility/performance and rendered visual review |
+| `references/workspace-memory.md` | Workspace persistence, progressive resume, duplicate avoidance, optimistic concurrency, transient Workspace failure |
+| `agents/openai.yaml` | ChatGPT-facing metadata |
 
-Repository-only files are not bundled into the Skill.
+References may state that another domain also applies, but they do not become a second owner of that domain's policy.
 
-## Project state architecture
-
-The project model deliberately separates stable project truth from current work/live state:
+## Project truth model
 
 ```text
 Project Foundation
-  -> Site Architecture/Profile
-  -> IA / Design / Content-Data docs when useful
-  -> Tasks / review / delivery state
-  -> Live WordPress objects remain authoritative for current site state
+  -> Site Architecture Profile
+  -> Information Architecture / Design Direction / Content/Data Model when useful
+  -> Workspace Tasks for unresolved execution/review/delivery state
+  -> Live WordPress remains authoritative for current site state
 ```
 
-Project Foundation is required only for substantial project classes. Once ready, it leaves the normal hot path. Routine work uses the nearest current authoritative source and reopens Foundation only for material project-level change, contradiction, or recovery/completion need.
+Project Foundation is required only for substantial project classes. Readiness comes from resolved material coverage, not from a separate Foundation lifecycle enum. Once ready, it leaves the normal hot path.
 
 ## Mechanism-first architecture
 
-Every implementation has two separate decisions:
+Every implementation makes two independent decisions:
 
-1. **Owner/mechanism** — WordPress Core, Site Editor/template part, theme, page builder, plugin, Pattern, form/commerce/data model, scoped frontend code, or custom extension.
-2. **Transport** — which actually exposed connected capability safely operates that owner.
+1. **Owner/mechanism** — WordPress Core, Site Editor/template part, theme, builder, plugin, Pattern, form/commerce/data model, scoped frontend code, or custom extension.
+2. **Transport** — an actually exposed connected capability that can safely operate the selected owner.
 
-A connector never becomes the architecture merely because it exposes an operation.
+A connector does not become the architecture merely because it exposes an operation.
 
-Global shell/header/footer/template/navigation/reusable surfaces must resolve ownership before page-local markup is considered. Gutenberg surfaces check Core blocks/settings/Patterns/template ownership before Custom HTML.
+## Review architecture
 
-## Gutenberg safety architecture
+Pre-user review has two levels:
 
-Raw serialized Gutenberg content is version/registration-sensitive and may become invalid when stored markup differs from the block's expected saved representation.
+- **Static review — always:** content/structure, ownership, semantics, obvious accessibility/responsive/RTL/performance/maintainability risks.
+- **Runtime/rendered review — when available:** preview/editor/parser/live checks, Gutenberg invalid/recovery warnings, visual/functional verification and write-result verification.
 
-The runtime therefore prefers block-aware writes and requires proportional pre-user validation when raw serialization is used. It avoids reserializing unrelated blocks and repairs invalid blocks at the smallest affected representation.
+Static review must not be described as rendered validation.
 
-## Connected execution
+## Shared/global changes
 
-Connected mutation follows a narrow read/reconcile/write/verify model:
+Global/template/shared work inspects reuse/impact before mutation and captures current target identity plus a practical revision/rollback route when the runtime exposes one. This is evidence for safe recovery, not a new approval ceremony.
 
-1. inspect relevant architecture/target/capabilities;
-2. choose owner/mechanism;
-3. prefer reversible draft/preview writes;
-4. use current identity for overwrite-sensitive writes when supported;
-5. reconcile stale/conflicted state;
-6. re-read ambiguous write outcomes before retry;
-7. verify resulting state when practical.
+## Workspace architecture
 
-One plausible transport/runtime failure does not erase the recovered plan. The runtime continues independent work and performs one bounded re-discovery/retry when transient recovery is plausible before concluding that required semantics are genuinely unavailable.
+Workspace is optional and capability-driven. It stores future-useful durable context, resumes progressively, reuses canonical singleton documents before create, guards overwrite-sensitive writes with Workspace-owned expected identity, and never replaces live WordPress as current-state authority.
 
-## Pre-user quality gate
-
-Material visual/block work follows:
-
-```text
-BUILD -> PREVIEW/VALIDATE -> AI SELF-REVIEW -> FIX CLEAR DEFECTS
-      -> USER REVIEW WHEN NEEDED -> PUBLISH WHEN AUTHORIZED -> VERIFY
-```
-
-This is a quality loop, not an approval ceremony. Tiny reversible changes may skip irrelevant stages.
-
-## Maintainability
-
-Human-facing page/template/Pattern/snippet/doc/task names are semantic and purpose-based. Custom identifiers use a stable project prefix when appropriate. Edit ownership should be discoverable from durable project state for non-obvious custom/global work.
+Task delivery retains the current Bridge-compatible enum: `not_applicable`, `draft_preview`, `live`. `not_applicable` means no draft/live state is currently established; intended later publication is represented by task goal/acceptance/targets/notes rather than a new lifecycle value.
 
 ## Packaging boundary
 
-Only the seven runtime files under `SKILL.md`, `agents/`, and `references/` are packaged as `skill.zip`. `README.md`, `LICENSE`, `MASTER-SPEC.md`, and `docs/` remain repository documentation.
+Only the seven runtime files under `SKILL.md`, `agents/`, and `references/` are packaged as `skill.zip`. Repository docs remain outside the Skill package. The public release asset must correspond to the tagged/integrated runtime revision.

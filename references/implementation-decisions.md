@@ -2,6 +2,8 @@
 
 Load this reference when owner/mechanism selection is non-obvious; work is global/reusable/template/theme/builder/plugin/data-model dependent; or a new capability/custom-code decision could materially affect maintainability.
 
+**Contents:** [Discovery](#1-discover-only-decision-relevant-architecture) · [Surface ownership](#2-resolve-surface-ownership-before-markup) · [Native before HTML](#3-nativeblock-capability-check-before-custom-html) · [Capability gaps](#4-capability-gap-reuse-add-or-build) · [Mechanism vs transport](#5-mechanism-versus-transport) · [Existing-site impact](#6-existing-site-impact) · [Naming](#7-maintainability-and-naming) · [Forms/WooCommerce](#8-forms-and-woocommerce-boundaries) · [Custom code](#9-custom-code-placement)
+
 ## 1. Discover only decision-relevant architecture
 
 Establish enough evidence to answer:
@@ -14,7 +16,7 @@ Establish enough evidence to answer:
 
 Do not inventory unrelated plugins for a narrow task.
 
-For multi-step projects, record stable answers that will recur in the derived Site Architecture/Profile rather than rediscovering them from chat each time.
+For multi-step projects, record stable answers that will recur in the derived Site Architecture Profile rather than rediscovering them from chat each time.
 
 ## 2. Resolve surface ownership before markup
 
@@ -51,7 +53,7 @@ Before choosing Custom HTML for a Gutenberg surface, ask in order:
 
 Do not choose Custom HTML simply because translating a design to HTML is easier for the model.
 
-If raw block markup is involved, also load `gutenberg-safety.md`.
+If raw block markup is involved, the Gutenberg safety rules in `gutenberg-safety.md` also apply.
 
 ## 4. Capability gap: reuse, add, or build
 
@@ -84,6 +86,7 @@ Native/plugin/theme abilities may be preferable to Bridge-owned operations. If t
 - Read the current target before material modification when possible.
 - Preserve current theme/builder/editor ownership, design tokens, data models, plugin choices, and permalink structure unless accepted scope changes them.
 - Inspect reuse/impact before editing global/template/shared surfaces.
+- Before a global/template/shared mutation, capture the current target identity and the practical revision/rollback route when the runtime exposes one; use that evidence to preserve or restore shared state if the change regresses.
 - Explicit redesign/migration can replace prior ownership, but inspect dependencies and migration effect first.
 
 ## 7. Maintainability and naming
@@ -127,6 +130,8 @@ Normal WooCommerce builder scope includes product/catalog/category/store present
 Do not silently expand into refunds, payment actions, destructive order/customer mutation, or financial operations.
 
 ## 9. Custom code placement
+
+Place code at the narrowest owner that matches its scope and lifecycle: presentation belongs with the relevant block/theme/builder styling surface when possible; genuinely shared frontend behavior belongs in one central reusable location; privileged/server-side behavior belongs in an appropriate PHP/snippet/extension owner; data/API/permission lifecycle belongs in a purpose-built extension when no suitable existing owner exists.
 
 - Scope one-off CSS beneath a stable project-prefixed owner/section selector.
 - Add JS only when current/native behavior is insufficient.

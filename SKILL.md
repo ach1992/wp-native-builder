@@ -1,6 +1,6 @@
 ---
 name: wp-native-builder
-description: Expert, stack-adaptive WordPress site planning, design, implementation, review, troubleshooting, and durable project continuity. Use when ChatGPT must start, plan, design, build, modify, review, or resume a WordPress site project; establish a project foundation before substantial builds/redesigns; choose among Gutenberg/Block Editor, Site Editor/template parts, existing themes/builders/plugins, patterns, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; prevent invalid Gutenberg serialization; interpret visual references; or operate a connected WordPress site using capabilities exposed by the runtime, including optional wp-native-builder-bridge/Workspace capabilities. Preserve suitable architecture and visual language, collect material project inputs before major design, keep future sessions independent from chat history, and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
+description: Stack-adaptive WordPress site planning, design, implementation, review, troubleshooting, and project continuity. Use for new builds, redesigns, Gutenberg/Site Editor/theme/builder/plugin work, WooCommerce presentation, forms, CPT/ACF, visual references, connected WordPress execution, or cross-chat resume when persistent Workspace capabilities exist. Establish project-level foundations only for substantial multi-step work; preserve suitable existing ownership and visual language; choose the smallest supported WordPress-native mechanism before custom code; validate Gutenberg-sensitive changes; and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
 ---
 
 # WP Native Builder
@@ -19,6 +19,8 @@ Classify the current request:
 | Ownership/mechanism is non-obvious or global/reusable/theme/builder/plugin/data-model behavior is involved | Read `references/implementation-decisions.md`. |
 | Gutenberg/Core blocks, Patterns, raw `post_content`, serialized block markup, or an invalid-block symptom is involved | Read `references/gutenberg-safety.md`. |
 | Material UI creation/redesign/review, screenshot-led work, responsive/RTL/accessibility/performance-sensitive presentation | Read `references/design-conventions.md`. |
+
+Routing is additive, not exclusive. Apply every matching row and load each required direct reference at most once.
 
 A large visual request is not automatically a multi-step project. Use Project Foundation only when durable project-level decisions are needed to avoid material rework or support later continuation.
 
@@ -39,7 +41,7 @@ ROUTE
   -> CONTINUE NEXT USEFUL WORK
 ```
 
-Skip phases that do not apply. Do not skip Project Foundation when the project-workflow reference says it is required.
+Skip phases that do not apply. Do not skip Project Foundation when the project-workflow reference says it is required. Always perform a static pre-user self-review of the chosen mechanism/content/change; add rendered, editor, parser, or live checks when those capabilities exist.
 
 ## 3. Source authority
 
@@ -47,7 +49,7 @@ Use each source only for the truth it owns:
 
 1. Current explicit user instruction controls the requested outcome/change.
 2. Canonical Project Foundation controls accepted durable project-level intent, goals, audiences, scope, constraints, non-goals, and success criteria.
-3. Derived project documents control their specialized durable domain, such as Site Architecture/Profile, sitemap/IA, design direction/system, or content/data model.
+3. Derived project documents control their specialized durable domain, such as Site Architecture Profile, Information Architecture, Design Direction, or Content/Data Model.
 4. Current Workspace tasks control unresolved execution/review/delivery state when persistent Workspace exists.
 5. Verified live WordPress state controls what pages, templates, content, plugins, theme/builder configuration, and other site objects currently exist.
 6. Skill defaults fill only unresolved choices.
@@ -140,7 +142,7 @@ For material visual work, load `references/design-conventions.md`.
 
 Do not act like a passive layout copier. If a requested pattern is clearly outdated, confusing, inaccessible, inconsistent with the established design system, or predictably harmful to the user's goal, explain the issue briefly and recommend a better alternative. Proceed with the user's explicit preference when it remains safe and valid, but do not silently treat a weak idea as best practice.
 
-When a preview/render is available, prefer:
+Always do a static design/structure/ownership review before user handoff. When a preview/render is available, add rendered review and prefer:
 
 ```text
 BUILD -> PREVIEW/RENDER -> AI SELF-REVIEW -> FIX CLEAR DEFECTS
@@ -194,6 +196,6 @@ Do not infer refunds, payments, destructive customer/order changes, or financial
 ## 13. Non-negotiable WordPress safety
 
 - Prefer supported WordPress/public APIs and current theme/plugin extension surfaces over private internals, brittle admin/DOM automation, or direct third-party/core file edits.
-- For custom PHP/plugin work: validate expected input; sanitize where appropriate; escape at render time; enforce capabilities for privileged operations; use nonces for CSRF but never as authorization; require appropriate REST `permission_callback`; prefer WordPress APIs/prepared queries over raw SQL.
+- For custom PHP/plugin work: validate expected input; sanitize where appropriate; escape at render time; enforce capabilities for privileged operations; use nonces for CSRF but never as authorization; require appropriate REST `permission_callback`; prefer WordPress APIs/prepared queries over raw SQL; make user-facing strings translation-ready with the appropriate WordPress i18n functions/text domain.
 - Verify current official documentation when version-sensitive WordPress, WooCommerce, theme/plugin, Abilities API, block markup, or MCP behavior materially affects implementation.
 - Do not expose/store credentials or secrets in site code, content, logs, or project notes.
