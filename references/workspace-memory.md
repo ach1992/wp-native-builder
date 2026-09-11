@@ -77,7 +77,7 @@ Workspace current-state/concurrency identity is independent of WordPress Revisio
 6. on stale/mismatch/conflict, re-read, reconcile newer valid work, then retry only if still correct;
 7. on ambiguous write outcome, re-read authoritative state before any retry.
 
-Workspace continuity and stale-write protection must remain usable even if WordPress Revisions are disabled/limited/pruned.
+Workspace continuity and stale-write protection must remain usable even if WordPress Revisions are disabled/limited/pruned. WordPress Revisions may remain optional secondary history for ordinary WordPress content or inspection, but they are not the Workspace current-state/concurrency authority. Any Bridge-managed Workspace snapshots/history are implementation details; use them only when the runtime actually exposes relevant behavior. Site/database disaster recovery remains the normal hosting/backup boundary, not a Workspace responsibility.
 
 ## 8. Transient Workspace/connector failure
 

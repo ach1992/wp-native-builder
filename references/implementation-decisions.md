@@ -62,9 +62,11 @@ Compare the smallest credible paths:
 3. use scoped custom HTML/CSS/JS for a presentation-only gap;
 4. use a small purpose-built extension when ownership, lifecycle, permissions, data/API behavior, or unusual requirements make custom implementation better long term.
 
-For a new dependency, evaluate only decision-relevant factors: exact fit, overlap, compatibility, maintenance/support, material security history, performance footprint, accessibility/UX, editability, data ownership/lock-in, licensing/cost, uninstall/reversibility.
+For a new dependency, evaluate only decision-relevant factors: exact fit, overlap, current WordPress/PHP/theme/builder compatibility, maintenance/support, material security history, performance footprint, accessibility/UX, editability, data ownership/lock-in, licensing/cost, uninstall/reversibility. Verify current official/product/security information when the recommendation materially depends on it.
 
-Normally recommend one best-fit option and one materially different alternative only when the trade-off is real.
+Normally recommend one best-fit option and one materially different alternative only when the trade-off is real. Avoid generic “top plugins” lists, overlapping systems, or paid/external dependencies whose benefit does not clearly repay cost and maintenance.
+
+A recommendation is not authorization to install/activate a plugin/theme, change broad global settings, buy a license, or make a vendor commitment. Prepare the best path and continue independent safe work; apply the core approval boundary to the actual install/activation/global/external action. A current exact instruction can already satisfy that boundary when target/scope/effect remain unchanged.
 
 ## 5. Mechanism versus transport
 

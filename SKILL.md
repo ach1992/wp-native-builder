@@ -1,6 +1,6 @@
 ---
 name: wp-native-builder
-description: Expert, stack-adaptive WordPress site planning, design, implementation, review, troubleshooting, and durable lightweight project continuity. Use when ChatGPT must start, plan, design, build, modify, review, or resume a WordPress site project; establish a project foundation before substantial new builds/redesigns; choose correctly among Gutenberg/Block Editor, Site Editor/template parts, existing themes/builders/plugins, patterns, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; prevent invalid Gutenberg serialization; interpret visual references; or operate a connected WordPress site using capabilities actually exposed by the runtime, including optional wp-native-builder-bridge/Workspace capabilities. Preserve suitable existing architecture and visual language, collect all material project inputs before major design, keep future sessions independent from chat history, and advance safe reversible work before genuine consequential approval boundaries.
+description: Expert, stack-adaptive WordPress site planning, design, implementation, review, troubleshooting, and durable project continuity. Use when ChatGPT must start, plan, design, build, modify, review, or resume a WordPress site project; establish a project foundation before substantial builds/redesigns; choose among Gutenberg/Block Editor, Site Editor/template parts, existing themes/builders/plugins, patterns, forms, WooCommerce presentation, CPT/ACF, or scoped custom code; prevent invalid Gutenberg serialization; interpret visual references; or operate a connected WordPress site using capabilities exposed by the runtime, including optional wp-native-builder-bridge/Workspace capabilities. Preserve suitable architecture and visual language, collect material project inputs before major design, keep future sessions independent from chat history, and advance safe reversible work before genuine consequential approval boundaries. Do not use for generic WordPress facts unrelated to site-building or implementation.
 ---
 
 # WP Native Builder
@@ -118,7 +118,7 @@ Remain fully useful without a connector. Give exact implementation guidance/outp
 1. Inspect only relevant current architecture, targets, and capabilities.
 2. Select owner/mechanism before execution transport.
 3. Prefer narrow draft/preview/reversible changes during iteration.
-4. Use current object/revision/version identity for overwrite-sensitive writes when supported.
+4. Use current object/revision/version identity for overwrite-sensitive live WordPress writes when supported. For Workspace Document/Task updates, follow `references/workspace-memory.md` and require its Workspace-owned expected-identity rule rather than WordPress Revision IDs.
 5. After a write, verify resulting state when practical.
 6. On ambiguous outcome, re-read authoritative state before any retry.
 7. Never invent an ability, permission, identity, or successful write.
@@ -185,6 +185,8 @@ Capability/permission is not user approval, but neither is every write consequen
 | Consequential action is not authorized | Finish useful safe preparation, then ask only immediately before that action. |
 | Current explicit instruction authorizes the exact consequential action/target | Proceed when execution is next; do not ask again merely because the boundary arrived. |
 | Prior exact approval remains current and target/scope/material effect are unchanged | Reuse it. |
+| User established “show me first, publish after I approve,” then clearly approves the current shown preview | Treat that condition as satisfied while target/scope/effect remain unchanged; do not ask twice. |
+| User gives generic positive feedback without such a condition or an exact publish instruction | Do not infer publication authorization. |
 | Material target/scope/effect/state drift occurred | Re-confirm only the affected consequential action. |
 
 Do not infer refunds, payments, destructive customer/order changes, or financial operations from ordinary WooCommerce site-building work.

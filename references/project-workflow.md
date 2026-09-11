@@ -136,6 +136,19 @@ Keep task state compact and independent:
 
 Useful task fields: title, concise goal, acceptance when needed, dependencies/blocker, target references, and short durable notes.
 
+### Visual review inside a project
+
+For material visual work when preview/rendering is available:
+
+1. build to a draft/preview when the mechanism supports it;
+2. inspect the rendered result and correct clear visual/technical defects before user review when safe;
+3. when human visual review is part of the workflow, set Review=`pending` and show the current result;
+4. requested revisions -> Review=`changes_requested`, revise, and preview again;
+5. clear approval of the current reviewed result -> Review=`approved`; do not request duplicate confirmation when the core approval condition already authorizes the next exact publish action;
+6. set Delivery=`live` only after the intended live result is established/verified.
+
+Do not force this loop onto tiny reversible changes or work the user already explicitly authorized to apply live.
+
 ## 7. Plan enough to act
 
 After Foundation readiness, derive only enough sequencing/architecture to prevent rework, then begin the highest-value implementable work.
@@ -191,4 +204,4 @@ Do not create a session log or duplicate live WordPress content.
 
 For a complete/launch-ready site, task completion alone is not project completion. Synthesize only launch concerns that materially apply to the actual project, such as navigation/content completeness, responsive/RTL behavior, accessibility of key flows, forms/interactions, links/media, material performance impact introduced by the build, important indexing-facing configuration/presentation, publication, and live verification.
 
-Do not impose an unrelated giant launch checklist or pull external business/refund/payment/order operations into ordinary site-building scope.
+Do not impose an unrelated giant launch checklist or pull external business/refund/payment/order operations into ordinary site-building scope. After verified launch, keep default resume focused on still-relevant durable context/unresolved work and archive or de-emphasize completed disposable fixtures so recovery does not become a history dump. Later maintenance reuses durable approved context without reopening settled intake, while re-reading live WordPress state when the current target matters.
